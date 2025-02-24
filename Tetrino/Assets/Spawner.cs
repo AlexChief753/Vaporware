@@ -43,7 +43,7 @@ public class Spawner : MonoBehaviour
 
         int randomIndex = bag[0];
         bag.RemoveAt(0);
-
+                                                                                    //made the z position not 0 so it spawns above UI -Brandon
         GameObject newTetromino = Instantiate(tetrominoes[randomIndex], new Vector3(5, 22, 0), Quaternion.identity);
 
         // Ensure the Tetromino can fall even if it starts above the grid
