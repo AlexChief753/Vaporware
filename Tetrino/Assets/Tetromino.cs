@@ -20,17 +20,17 @@ public class Tetromino : MonoBehaviour
 
     void AssignRandomItemSlots()
     {
-    foreach (Transform block in transform)
-    {
-        ItemSlot itemSlot = block.gameObject.AddComponent<ItemSlot>();
-
-        // 25% chance to have an item slot
-        if (Random.value < 0.25f)
+        foreach (Transform block in transform)
         {
-            itemSlot.hasItem = true;
-            Debug.Log("Item slot added at " + block.position);
+            ItemSlot itemSlot = block.gameObject.AddComponent<ItemSlot>();
+
+            // 25% chance to have an item slot
+            if (Random.value < 0.25f)
+            {
+                itemSlot.hasItem = true;
+                Debug.Log("Item slot added at " + block.position);
+            }
         }
-    }
     }
 
     public void CreateGhostPiece()
@@ -362,5 +362,3 @@ public class Tetromino : MonoBehaviour
     }
 
 }
-
-

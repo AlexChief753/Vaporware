@@ -11,4 +11,3 @@ public class Item
     public float duration;
     public int rarity;
 }
-

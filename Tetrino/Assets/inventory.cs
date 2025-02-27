@@ -1,21 +1,29 @@
 using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 public class inventory : MonoBehaviour
 {
     [SerializeField] private ItemDatabase _itemDatebase;
     //Change number to change how many inventory slots does the character have
-    public Item[] inv = new Item[3]; 
+    public List<Item> inv = new List<Item> {null,null,null};
 
-    public void useItem()
+    public ItemDatabase itemDatabase { get; private set; }
+    public Item item { get; private set; }
+    public inventoryUI ui;
+    public itemEffects effects;
+
+    public void itemInv()
     {
         if (Input.GetKeyDown(KeyCode.Z))
         {
-            //Look into https://docs.unity.com/ugs/manual/economy/manual/SDK-player-inventory
-            //function to get itemId of this inventory slot
-            //if item exists
-                //execute function of item id
-            //if item don't exist
-                //nothing
+            if (itemExists(1))
+            {
+                //get the id of item and executes its specific effect
+                int id = item.itemId;
+                effects.executeEffect(id);
+                //removeItem();
+            }
         }
         if (Input.GetKeyDown(KeyCode.X))
         {
@@ -27,19 +35,46 @@ public class inventory : MonoBehaviour
         }
     }
 
-    public void getItemId()
+    public bool itemExists(int slotNumber)
     {
+        if (inv[slotNumber] != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public void addItem(int id)
+    {
+        //In the future when we implement the store, make it so this function activates from pressing a button
+        Item itemAdded = itemDatabase.GetItem(id);
+        //goes through each slot in inventory
+        foreach (var slot in inv)
+        {
+            for (int i = 0; i < inv.Count; i++)
+            {
+                if (inv[i] != null)
+                {
+                    continue;
+                }
+                else
+                {
+                    inv[i] = itemAdded;
+                    ui.UpdateInventory(itemAdded);
+                    break;
+                }
+
+            }
+        }
 
     }
 
-    public void addItem(int itemId, inventory inventory)
+    public void removeItem(int itemId)
     {
-        //In the future when we implement the store, make it so this function activates from pressing a button rather than a key
-
-    }
-
-    public void removeItem(int itemId, inventory inventory)
-    {
-
+        Item itemRemove = itemDatabase.GetItem(itemId);
+        inv.Remove(itemRemove);
     }
 }

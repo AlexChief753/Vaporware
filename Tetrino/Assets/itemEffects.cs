@@ -2,11 +2,18 @@ using UnityEngine;
 
 public class itemEffects : MonoBehaviour
 {
-    void executeEffect()
+    public void executeEffect(int itemId)
     {
-        //switch(itemId)
-            //case 1:
+        switch (itemId)
+        {
+            case 1:
                 //effect
-                //break;
+                break;
+            case 2:
+                //effect
+                break;
+            default:
+                break;
+        }
     }
 }
