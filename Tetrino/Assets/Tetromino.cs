@@ -46,7 +46,7 @@ public class Tetromino : MonoBehaviour
 
             SpriteRenderer sr = ghostBlock.AddComponent<SpriteRenderer>();
             sr.sprite = ghostSprite;
-            sr.color = new Color(1f, 1f, 1f, 0.3f);
+            sr.color = new Color(1f, 1f, 1f, 0.9f); //1f, 1f, 1f, 0.3f
             sr.sortingOrder = -1;
         }
 
@@ -100,7 +100,7 @@ public class Tetromino : MonoBehaviour
         // For each block in the *active* Tetromino, figure out where it would be if it had "ghostRotation" at "ghostPosition"
         foreach (Transform block in transform)
         {
-            // Rotate the block’s local position
+            // Rotate the blockï¿½s local position
             Vector3 rotatedLocalPos = ghostRotation * block.localPosition;
 
             Vector2 checkPos = new Vector2(
