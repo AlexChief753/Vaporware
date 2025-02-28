@@ -102,6 +102,19 @@ public class LevelManager : MonoBehaviour
     }
 
 
+    public void OpenItemShop()
+    {
+        // Hide the level complete menu.
+        levelCompleteMenu.SetActive(false);
+        // Find the ItemShopManager and open the shop.
+        ItemShopManager shopManager = FindFirstObjectByType<ItemShopManager>();
+        if (shopManager != null)
+        {
+            shopManager.OpenShop();
+        }
+    }
+
+
 
 
 

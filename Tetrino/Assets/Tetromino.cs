@@ -24,8 +24,8 @@ public class Tetromino : MonoBehaviour
     {
         ItemSlot itemSlot = block.gameObject.AddComponent<ItemSlot>();
 
-        // 25% chance to have an item slot
-        if (Random.value < 0.25f)
+        // 2% chance to have an item slot
+        if (Random.value < 0.2f)
         {
             itemSlot.hasItem = true;
             Debug.Log("Item slot added at " + block.position);
@@ -46,7 +46,7 @@ public class Tetromino : MonoBehaviour
 
             SpriteRenderer sr = ghostBlock.AddComponent<SpriteRenderer>();
             sr.sprite = ghostSprite;
-            sr.color = new Color(1f, 1f, 1f, 0.9f); //1f, 1f, 1f, 0.3f
+            sr.color = new Color(1f, 1f, 1f, 0.3f); //1f, 1f, 1f, 0.3f change 0.3f to higher for darker ghost pieces
             sr.sortingOrder = -1;
         }
 
