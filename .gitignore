@@ -18,6 +18,10 @@
 /Tetrino/[Bb]uilds/
 /Tetrino/[Ll]ogs/
 /Tetrino/[Uu]ser[Ss]ettings/
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+/Tetrino/Logs/
 >>>>>>> Stashed changes
 
 # MemoryCaptures can get excessive in size.
