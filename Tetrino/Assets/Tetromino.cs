@@ -9,6 +9,7 @@ public class Tetromino : MonoBehaviour
     private bool isLanded = false;
     private GameObject ghostPiece;
     public Sprite ghostSprite; // Assign the gray square sprite in the Inspector
+    //test line
 
 
     void Start()
