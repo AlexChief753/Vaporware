@@ -2,18 +2,19 @@ using UnityEngine;
 
 public class Tetromino : MonoBehaviour
 {
-    private static float baseFallTime = 0.8f;
-    private static float fallTime = baseFallTime;
-    private float minFallTime = 0.2f; // Prevents the game from becoming too fast
-    private float previousTime;
-    private bool isLanded = false;
-    private GameObject ghostPiece;
+    //changed the variables to be public, so it could be accessed in itemEffects.cs 3/2/2025
+    public static float baseFallTime = 0.8f;
+    public static float fallTime = baseFallTime;
+    public float minFallTime = 0.2f; // Prevents the game from becoming too fast
+    public float previousTime;
+    public bool isLanded = false;
+    public GameObject ghostPiece;
     public Sprite ghostSprite; // Assign the gray square sprite in the Inspector
 
 
     void Start()
     {
-        AssignRandomItemSlots();
+        //AssignRandomItemSlots();
         CreateGhostPiece();
         Invoke("UpdateGhostPiece", 0.05f);
     }
@@ -22,12 +23,12 @@ public class Tetromino : MonoBehaviour
     {
         foreach (Transform block in transform)
         {
-            ItemSlot itemSlot = block.gameObject.AddComponent<ItemSlot>();
+            //ItemSlot itemSlot = block.gameObject.AddComponent<ItemSlot>();
 
             // 25% chance to have an item slot
             if (Random.value < 0.25f)
             {
-                itemSlot.hasItem = true;
+                //itemSlot.hasItem = true;
                 Debug.Log("Item slot added at " + block.position);
             }
         }
@@ -91,7 +92,6 @@ public class Tetromino : MonoBehaviour
             HandleMovement();
             HandleFalling();
             UpdateGhostPiece(); // Refresh ghost position every frame
-
         }
     }
 
