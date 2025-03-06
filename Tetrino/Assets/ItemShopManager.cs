@@ -48,7 +48,7 @@ public class ItemShopManager : MonoBehaviour
         foreach (Item item in availableItems)
         {
             Button newButton = Instantiate(itemButtonPrefab, itemsParent);
-            // Set the button’s image to the item’s sprite
+            // Set the buttonï¿½s image to the itemï¿½s sprite
             Image img = newButton.GetComponent<Image>();
             if (img != null)
             {
@@ -68,13 +68,19 @@ public class ItemShopManager : MonoBehaviour
     // Attempt to add the item to the inventory
     void PurchaseItem(Item item)
     {
-        if (InventoryManager.instance.AddItem(item))
+        if (InventoryManager.instance.AddItem(item) && GameGrid.currency >= 100) // Checks if enough (100) to buy item
         {
             Debug.Log("Purchased: " + item.itemName);
+            GameGrid.currency -= 100;
             // You could remove or disable the button if the item is meant to be one-time only.
             FindFirstObjectByType<InventoryUI>().RefreshSlots();
+            // Maybe try this ----- Spawner.currencyText.text = "Currency: " + GameGrid.currency.ToString();
         }
-        else
+        else if (GameGrid.currency < 100) // Can't purchase because not enough currency
+        {
+            Debug.Log("Cannot purchase, not enough currency!");
+        } 
+        else // Can't purhcase because invetory is full
         {
             Debug.Log("Cannot purchase, inventory full!");
         }

@@ -82,6 +82,7 @@ public class GameGrid : MonoBehaviour
     }
     public static int score = 0; // Track player score
     public static int level = 1; // Start at level 1
+    public static int currency = 0; // Track player currency
     public static void CheckAndClearLines()
     {
         int linesCleared = 0; // Track how many lines were cleared
@@ -102,6 +103,7 @@ public class GameGrid : MonoBehaviour
         {
             int points = linesCleared * 100; // 100 points per line
             score += points;
+            currency += points; // Make currency equal to points
             UpdateLevel(); //  Check if level should increase
             
         }
@@ -129,7 +131,7 @@ public class GameGrid : MonoBehaviour
 
     public static void UpdateLevel()
     {
-        int requiredScore = GameGrid.level * 1000; // 1000 points per level
+        int requiredScore = GameGrid.level * 100; // 1000 points per level
         if (!levelUpTriggered && score >= requiredScore)
         {
             levelUpTriggered = true; // Prevent multiple triggers

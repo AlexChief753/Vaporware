@@ -31,5 +31,8 @@ public class InventoryManager : MonoBehaviour
         Debug.Log("Item added: " + newItem.itemName);
         return true;
     }
+
+    
+
 }
 
