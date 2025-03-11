@@ -13,13 +13,35 @@ public class inventory : MonoBehaviour
     public Image itemimg;
     public Item item;
 
+    /*
+        FUTURE CONSIDERATIONS
+        tldr; lots of hard coding
+
+        The way I implemented the inventory makes it hard to easily scale
+        i.e. the number of inventory slots- you need to change how many is in the list
+        and then add an extra slot into the game scene itself
+
+        but at least there's a kinda bad foundation for the item/inventory system
+        :) -Brandon
+    */
+
     public void Start()
     {
+        //create the inventory
         inv = new List<Item> { null, null, null };
+
+        //initialize the images in the inventory slots to be invisible
+        foreach(inventorySlot slot in slots)
+        {
+            slot.removeItem();
+        }
+
+        //initialize the 
         itemInv();
+
         AddItem(1);
         AddItem(2);
-        AddItem(3);
+        AddItem(1);
 
     }
 

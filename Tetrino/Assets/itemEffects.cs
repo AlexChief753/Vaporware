@@ -3,31 +3,48 @@ using UnityEngine;
 public class itemEffects : MonoBehaviour
 {
     public GameGrid grid;
-    public Tetromino tetromino;
     public Item item;
+    public itemTimer timer;
+    public ItemDatabase itemDB;
+    public Tetromino tetromino;
+
+    public void Start()
+    {
+        tetromino = FindObjectOfType<Tetromino>();
+    }
+
     public void executeEffect(int itemId)
     {
         switch (itemId)
         {
             case 1:
-                //effect
-                Debug.Log("Item Id 1 Executed");
+                Debug.Log("Coffee(Id 1) Executed: Increase fall speed of tetromino");
+                //get item duration
+                Item item = itemDB.GetItem(1);
+                float duration = item.duration;
 
-                //float baseSpeed = Tetromino.fallTime;
-                //Debug.Log(baseSpeed);
+                //get base speed
+                float baseSpeed = Tetromino.fallTime;
+                Debug.Log("Base Speed: " + baseSpeed);
 
-                //the falltime isn't being updated constantly, fix that
-                //Tetromino.fallTime /= 12;
-                //Debug.Log(Tetromino.fallTime);
-                //after time is up, tetromino.baseFallTime = baseSpeed;
+                //calculate new speed
+                float itemSpeed = Tetromino.fallTime /= 5;
+                Debug.Log("Effect Speed: " + itemSpeed);
+
+                //change to new speed
+                tetromino.UpdateFallSpeed(itemSpeed);
+
+                //create timer coroutine. When done do function to go back to default speed
+                //Without the lambda (()=>), you get a "can't convert a void into System.Action" error
+                StartCoroutine(timer.timer(duration, () => tetromino.UpdateFallSpeed(baseSpeed)));
                 break;
             case 2:
-                //effect
-                Debug.Log("Item Id 2 Executed");
-                //for (int i = 0; i <2; i++){
-                    //grid.ClearRow();
-                    //grid.MoveRowsDown();
-                //}
+                Debug.Log("Shredder(Id 2) Executed: Clears 3 lines");
+                for (int i = 0; i < 3; i++)
+                {
+                    GameGrid.ClearRow(0);
+                    GameGrid.MoveRowsDown(0);
+                }
                 break;
             case 3:
                 Debug.Log("Item Id 3 Executed");
@@ -37,3 +54,4 @@ public class itemEffects : MonoBehaviour
         }
     }
 }
+

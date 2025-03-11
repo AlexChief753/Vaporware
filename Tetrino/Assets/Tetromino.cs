@@ -19,6 +19,17 @@ public class Tetromino : MonoBehaviour
         Invoke("UpdateGhostPiece", 0.05f);
     }
 
+    void Update()
+    {
+        if (!isLanded) // Only allow movement if the piece hasn't landed yet
+        {
+            //AdjustFallSpeed(); //  Adjust speed based on score
+            HandleMovement();
+            HandleFalling();
+            UpdateGhostPiece(); // Refresh ghost position every frame
+        }
+    }
+
     void AssignRandomItemSlots()
     {
         foreach (Transform block in transform)
@@ -81,20 +92,6 @@ public class Tetromino : MonoBehaviour
         ghostPiece.transform.position = finalPos;
     }
 
-
-
-
-    void Update()
-    {
-        if (!isLanded) // Only allow movement if the piece hasn't landed yet
-        {
-            AdjustFallSpeed(); //  Adjust speed based on score
-            HandleMovement();
-            HandleFalling();
-            UpdateGhostPiece(); // Refresh ghost position every frame
-        }
-    }
-
     bool CheckCollisionAtGhostPosition(Vector3 ghostPosition, Quaternion ghostRotation)
     {
         // For each block in the *active* Tetromino, figure out where it would be if it had "ghostRotation" at "ghostPosition"
@@ -124,7 +121,11 @@ public class Tetromino : MonoBehaviour
     }
 
 
-
+    public void UpdateFallSpeed(float newSpeed)
+    {
+        fallTime = newSpeed;
+        Debug.Log("Updated Speed: " + fallTime);
+    }
 
 
     void AdjustFallSpeed()
@@ -132,7 +133,6 @@ public class Tetromino : MonoBehaviour
         float speedIncrease = GameGrid.level * 0.1f; // Increase speed per level
         fallTime = Mathf.Max(0.8f - speedIncrease, minFallTime);
     }
-
 
     public static void UpdateGlobalSpeed()
     {
