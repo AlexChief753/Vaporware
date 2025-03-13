@@ -13,6 +13,9 @@ public class ItemShopManager : MonoBehaviour
     // Back button to return to the previous menu
     public Button backButton;
 
+    //public Spawner currencyText;
+    public TextMeshProUGUI currencyText;
+
     // Array of available items in the shop (set these in the Inspector)
     public Item[] availableItems;
 
@@ -48,7 +51,7 @@ public class ItemShopManager : MonoBehaviour
         foreach (Item item in availableItems)
         {
             Button newButton = Instantiate(itemButtonPrefab, itemsParent);
-            // Set the button�s image to the item�s sprite
+            // Set the button's image to the item's sprite
             Image img = newButton.GetComponent<Image>();
             if (img != null)
             {
@@ -68,22 +71,24 @@ public class ItemShopManager : MonoBehaviour
     // Attempt to add the item to the inventory
     void PurchaseItem(Item item)
     {
-        if (InventoryManager.instance.AddItem(item) && GameGrid.currency >= 100) // Checks if enough (100) to buy item
-        {
-            Debug.Log("Purchased: " + item.itemName);
-            GameGrid.currency -= 100;
-            // You could remove or disable the button if the item is meant to be one-time only.
-            FindFirstObjectByType<InventoryUI>().RefreshSlots();
-            // Maybe try this ----- Spawner.currencyText.text = "Currency: " + GameGrid.currency.ToString();
-        }
-        else if (GameGrid.currency < 100) // Can't purchase because not enough currency
+        // Check if the player has enough currency first
+        if (GameGrid.currency < 100)
         {
             Debug.Log("Cannot purchase, not enough currency!");
-        } 
-        else // Can't purhcase because invetory is full
+            return;
+        }
+    
+        // IF not enough currency
+        if (!InventoryManager.instance.AddItem(item))
         {
             Debug.Log("Cannot purchase, inventory full!");
+            return;
         }
+    
+        // If have enough currency and a free inventory slot
+        Debug.Log("Purchased: " + item.itemName);
+        GameGrid.currency -= 100;
+        FindFirstObjectByType<InventoryUI>().RefreshSlots();
     }
 
     // Called when the Back button is pressed to close the shop
