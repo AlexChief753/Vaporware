@@ -477,7 +477,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &261978603
 RectTransform:
   m_ObjectHideFlags: 0
@@ -491,11 +491,11 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1677534618}
-  - {fileID: 1609284500}
   - {fileID: 680928483}
   - {fileID: 492371282}
   - {fileID: 1492256028}
   - {fileID: 1194895129}
+  - {fileID: 1609284500}
   - {fileID: 502336084}
   m_Father: {fileID: 1621702841}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -5451,12 +5451,9 @@ MonoBehaviour:
   backButton: {fileID: 1677534619}
   currencyText: {fileID: 502336082}
   availableItems:
-  - itemName: Coffee
-    itemSprite: {fileID: 6188221051300514874, guid: 49b28a128515970448a16961174a63b5, type: 3}
-  - itemName: Files
-    itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
-  - itemName: Shredder
-    itemSprite: {fileID: 8653081822583779529, guid: ed271c362f957314c8bfee1e08ae8191, type: 3}
+  - {fileID: 11400000, guid: a0ad491efc1e707469299527fd8f7957, type: 2}
+  - {fileID: 11400000, guid: 77b30d9d24620c04888e1eb8fb081eda, type: 2}
+  - {fileID: 11400000, guid: bdf054cb75f714648b89629942907419, type: 2}
 --- !u!4 &2094344244
 Transform:
   m_ObjectHideFlags: 0
