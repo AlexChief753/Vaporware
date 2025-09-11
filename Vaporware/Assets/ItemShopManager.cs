@@ -30,6 +30,7 @@ public class ItemShopManager : MonoBehaviour
     public void OpenShop()
     {
         itemShopPanel.SetActive(true);
+        UpdateCurrencyUI();
         PopulateShop();
     }
 
@@ -89,6 +90,7 @@ public class ItemShopManager : MonoBehaviour
         Debug.Log("Purchased: " + item.itemName);
         GameGrid.currency -= 100;
         FindFirstObjectByType<InventoryUI>().RefreshSlots();
+        UpdateCurrencyUI();
     }
 
     // Called when the Back button is pressed to close the shop
@@ -100,5 +102,14 @@ public class ItemShopManager : MonoBehaviour
             LevelManager.instance.levelCompleteMenu.SetActive(true);
         }
     }
+
+    void UpdateCurrencyUI()
+    {
+        if (currencyText != null)
+        {
+            currencyText.text = "Currency: " + GameGrid.currency.ToString();
+        }
+    }
+
 }
 
