@@ -12,7 +12,7 @@ public class Player : MonoBehaviour
         playerBag.Clear();
         for (int i = 0; i < 7; i++) //settinng to 7 initializes it with one of each piece
         {
-            playerBag.Add(i);
+            playerBag.Add(1);
         }
     }
 

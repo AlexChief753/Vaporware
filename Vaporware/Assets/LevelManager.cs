@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
     public GameObject levelCompleteMenu;
     public TextMeshProUGUI levelCompleteText;
 
-    public float levelTime = 300f; // 5 minutes per level
+    private float levelTime = 300f; // 5 minutes per level
     private int scoreRequirement = 1000;
     private float currentTime;
     private bool levelPaused = false;
@@ -98,6 +98,19 @@ public class LevelManager : MonoBehaviour
             }
 
             levelCompleteMenu.SetActive(false); // Hide the menu
+        }
+    }
+
+
+    public void OpenItemShop()
+    {
+        // Hide the level complete menu.
+        levelCompleteMenu.SetActive(false);
+        // Find the ItemShopManager and open the shop.
+        ItemShopManager shopManager = FindFirstObjectByType<ItemShopManager>();
+        if (shopManager != null)
+        {
+            shopManager.OpenShop();
         }
     }
 

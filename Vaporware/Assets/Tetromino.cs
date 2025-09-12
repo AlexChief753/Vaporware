@@ -2,38 +2,36 @@ using UnityEngine;
 
 public class Tetromino : MonoBehaviour
 {
-    //changed the variables to be public, so it could be accessed in itemEffects.cs 3/2/2025
-    public static float baseFallTime = 0.8f;
-    public static float fallTime = baseFallTime;
-    public float minFallTime = 0.2f; // Prevents the game from becoming too fast
-    public float previousTime;
-    public bool isLanded = false;
-    public GameObject ghostPiece;
+    private static float baseFallTime = 0.8f;
+    private static float fallTime = baseFallTime;
+    private float minFallTime = 0.2f; // Prevents the game from becoming too fast
+    private float previousTime;
+    private bool isLanded = false;
+    private GameObject ghostPiece;
     public Sprite ghostSprite; // Assign the gray square sprite in the Inspector
-    public LevelManager levelmananager;
+    //test line
 
 
     void Start()
     {
-        //AssignRandomItemSlots();
+        AssignRandomItemSlots();
         CreateGhostPiece();
         Invoke("UpdateGhostPiece", 0.05f);
-        //LevelManager.GetComponent<LevelManager>().levelTime;
     }
 
     void AssignRandomItemSlots()
     {
-        foreach (Transform block in transform)
-        {
-            //ItemSlot itemSlot = block.gameObject.AddComponent<ItemSlot>();
+    foreach (Transform block in transform)
+    {
+        ItemSlot itemSlot = block.gameObject.AddComponent<ItemSlot>();
 
-            // 25% chance to have an item slot
-            if (Random.value < 0.25f)
-            {
-                //itemSlot.hasItem = true;
-                Debug.Log("Item slot added at " + block.position);
-            }
+        // 2% chance to have an item slot
+        if (Random.value < 0.2f)
+        {
+            itemSlot.hasItem = true;
+            Debug.Log("Item slot added at " + block.position);
         }
+    }
     }
 
     public void CreateGhostPiece()
@@ -49,7 +47,7 @@ public class Tetromino : MonoBehaviour
 
             SpriteRenderer sr = ghostBlock.AddComponent<SpriteRenderer>();
             sr.sprite = ghostSprite;
-            sr.color = new Color(1f, 1f, 1f, 0.3f);
+            sr.color = new Color(1f, 1f, 1f, 0.3f); //1f, 1f, 1f, 0.3f change 0.3f to higher for darker ghost pieces
             sr.sortingOrder = -1;
         }
 
@@ -94,6 +92,7 @@ public class Tetromino : MonoBehaviour
             HandleMovement();
             HandleFalling();
             UpdateGhostPiece(); // Refresh ghost position every frame
+
         }
     }
 
@@ -102,7 +101,7 @@ public class Tetromino : MonoBehaviour
         // For each block in the *active* Tetromino, figure out where it would be if it had "ghostRotation" at "ghostPosition"
         foreach (Transform block in transform)
         {
-            // Rotate the block’s local position
+            // Rotate the block's local position
             Vector3 rotatedLocalPos = ghostRotation * block.localPosition;
 
             Vector2 checkPos = new Vector2(
@@ -127,12 +126,11 @@ public class Tetromino : MonoBehaviour
 
 
 
-
+    //
 
     void AdjustFallSpeed()
     {
-        //float penaltySpeed = 5 - (LevelManager.level
-        float speedIncrease = GameGrid.level * 0.1f; //+ penaltySpeed * 0.1f; // Increase speed per level
+        float speedIncrease = GameGrid.level * 0.1f; // Increase speed per level
         fallTime = Mathf.Max(0.8f - speedIncrease, minFallTime);
     }
 
@@ -365,3 +363,5 @@ public class Tetromino : MonoBehaviour
     }
 
 }
+
+

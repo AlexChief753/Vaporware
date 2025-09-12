@@ -8,6 +8,7 @@ public class Spawner : MonoBehaviour
     public TextMeshProUGUI gameOverText;
     public TextMeshProUGUI speedText;
     public TextMeshProUGUI levelText;
+    public TextMeshProUGUI currencyText;
     public GameObject[] tetrominoes;
     public Player playerBag;
     private List<int> bag = new List<int>();
@@ -27,6 +28,7 @@ public class Spawner : MonoBehaviour
             // Reset static game state
             GameGrid.score = 0;
             GameGrid.level = 1;
+            GameGrid.currency = 0;
             Tetromino.UpdateGlobalSpeed(); // This recalculates fallTime based on level 1
 
             Time.timeScale = 0;
@@ -45,7 +47,7 @@ public class Spawner : MonoBehaviour
 
         int randomIndex = bag[0];
         bag.RemoveAt(0);
-                                                                                    //made the z position not 0 so it spawns above UI -Brandon
+
         GameObject newTetromino = Instantiate(tetrominoes[randomIndex], new Vector3(5, 22, 0), Quaternion.identity);
 
         // Ensure the Tetromino can fall even if it starts above the grid
@@ -60,6 +62,12 @@ public class Spawner : MonoBehaviour
         if (scoreText != null)
         {
             scoreText.text = "Score: " + GameGrid.score.ToString();
+        }
+
+        // Update Currency UI
+        if (currencyText != null)
+        {
+            currencyText.text = "Currency: " + GameGrid.currency.ToString();
         }
 
         // Update Speed UI (now based on Level, not score)
@@ -92,7 +100,7 @@ public class Spawner : MonoBehaviour
         bag.Clear();
         for (int i = 0; i < playerBag.playerBag.Count; i++)
         {
-            bag.Add(playerBag.playerBag[i]);
+            bag.Add(playerBag.playerBag[1]);
         }
 
         // Shuffle the bag to prevent predictable patterns
@@ -105,35 +113,37 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
+
+        void Update()
         {
-            RestartGame();
-        }
-    }
-
-    void RestartGame()
-    {
-        // Reset game state for a new run
-        GameGrid.score = 0;
-        GameGrid.level = 1;
-        Tetromino.UpdateGlobalSpeed();
-
-        Time.timeScale = 1; // Resume the game
-        GameGrid.ClearGrid(); // Clear the grid
-
-        // Hide the Game Over UI
-        if (gameOverText != null)
-        {
-            gameOverText.gameObject.SetActive(false);
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                RestartGame();
+            }
         }
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-    }
+        void RestartGame()
+        {
+            // Reset game state for a new run
+            GameGrid.score = 0;
+            GameGrid.level = 1;
+            Tetromino.UpdateGlobalSpeed();
+
+            Time.timeScale = 1; // Resume the game
+            GameGrid.ClearGrid(); // Clear the grid
+
+            // Hide the Game Over UI
+            if (gameOverText != null)
+            {
+                gameOverText.gameObject.SetActive(false);
+            }
+
+            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        }
+    
 
 
-    public void UpdateUI()
+    public void UpdateUI() // Needed for new level to be updated
     {
         if (levelText != null)
         {

@@ -1,13 +1,17 @@
-using System.Collections.Generic;
 using UnityEngine;
 
-[System.Serializable]
-public class Item
+[CreateAssetMenu(fileName = "NewItem", menuName = "Game/Item", order = 0)]
+public class Item : ScriptableObject
 {
-    public int itemId;
+    [Header("Display")]
     public string itemName;
+    public Sprite itemSprite;
+
+    [Header("Shop")]
+    public int price = 100;
+
+    [TextArea]
     public string description;
-    public Sprite icon;
-    public float duration;
-    public int rarity;
+
+    // public ItemEffectSO effect;
 }

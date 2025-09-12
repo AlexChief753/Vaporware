@@ -3,10 +3,10 @@ using UnityEngine;
 public class GameGrid : MonoBehaviour
 {
     public static int width = 10;
-    public static int height = 20;
+    public static int height = 21; // 10x20 is copyrighted
     public static Transform[,] grid = new Transform[width, height];
     public static int comboCount = 0;
-    
+
     public static bool IsInsideGrid(Vector2 pos)
     {
         return pos.x >= 0 && pos.x < width && pos.y >= 0;
@@ -59,27 +59,24 @@ public class GameGrid : MonoBehaviour
             }
         }
         return true;
-
     }
-
-
     public static void ClearRow(int y)
     {
-        for (int x = 0; x < width; x++)
+    for (int x = 0; x < width; x++)
+    {
+        if (grid[x, y] != null)
         {
-            if (grid[x, y] != null)
+            // Check if the block has an item
+            ItemSlot itemSlot = grid[x, y].GetComponent<ItemSlot>();
+            if (itemSlot != null)
             {
-                // Check if the block has an item
-                ItemSlot itemSlot = grid[x, y].GetComponent<ItemSlot>();
-                if (itemSlot != null)
-                {
-                    itemSlot.ActivateItem(); // Activate item before removing block
-                }
-
-                Destroy(grid[x, y].gameObject); // Remove the block
-                grid[x, y] = null;
+                itemSlot.ActivateItem(); // Activate item before removing block
             }
+
+            Destroy(grid[x, y].gameObject); // Remove the block
+            grid[x, y] = null;
         }
+    }
     }
 
 
@@ -100,6 +97,7 @@ public class GameGrid : MonoBehaviour
     }
     public static int score = 0; // Track player score
     public static int level = 1; // Start at level 1
+    public static int currency = 0; // Track player currency
     public static void CheckAndClearLines()
     {
         double linesCleared = 0; // Track how many lines were cleared
@@ -119,7 +117,7 @@ public class GameGrid : MonoBehaviour
 
         if (linesCleared > 0) // Handles incrementing and resetting line combo
             comboCount++;
-        else 
+        else
             comboCount = 0;
 
 
@@ -143,12 +141,12 @@ public class GameGrid : MonoBehaviour
             }
             if (IsBoardClear())
                 fullClearBonus = 1000; // Additional 1000 base points for a full clear
-                
-            int points = (int) (((linesCleared * 100) + fullClearBonus) * 
-                lineClearMult * (0.5 + (0.5 * comboCount))) ; // 100 points per line
+
+            int points = (int)(((linesCleared * 100) + fullClearBonus) *
+                lineClearMult * (0.5 + (0.5 * comboCount))); // 100 points per line
             score += points;
+            currency += points; // Make currency equal to points
             UpdateLevel(); //  Check if level should increase
-            
         }
     }
 
@@ -174,7 +172,7 @@ public class GameGrid : MonoBehaviour
 
     public static void UpdateLevel()
     {
-        int requiredScore = GameGrid.level * 1000; // 1000 points per level
+        int requiredScore = GameGrid.level * 100; // 1000 points per level ***************************
         if (!levelUpTriggered && score >= requiredScore)
         {
             levelUpTriggered = true; // Prevent multiple triggers
