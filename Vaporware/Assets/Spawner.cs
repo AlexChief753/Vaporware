@@ -100,7 +100,7 @@ public class Spawner : MonoBehaviour
         bag.Clear();
         for (int i = 0; i < playerBag.playerBag.Count; i++)
         {
-            bag.Add(playerBag.playerBag[1]);
+            bag.Add(playerBag.playerBag[i]);
         }
 
         // Shuffle the bag to prevent predictable patterns
