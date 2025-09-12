@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 1038
   m_ShowMode: 4
-  m_Title: Inspector
+  m_Title: Game
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -318,9 +318,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 30ae0000
-      m_LastClickedID: 44592
-      m_ExpandedIDs: 98ecffff0cfbffff30ae000030af0000
+      m_SelectedIDs: 9eaf0000
+      m_LastClickedID: 44958
+      m_ExpandedIDs: 0cfbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -912,7 +912,7 @@ MonoBehaviour:
   m_Position:
     m_Target: {x: 4.085748, y: 10.991205, z: -0.6316434}
     speed: 2
-    m_Value: {x: 79.205956, y: 682.5759, z: 35749.01}
+    m_Value: {x: 4.085748, y: 10.991205, z: -0.6316434}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -964,7 +964,7 @@ MonoBehaviour:
   m_Size:
     m_Target: 14.548422
     speed: 2
-    m_Value: 807.9471
+    m_Value: 14.548422
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -1057,14 +1057,14 @@ MonoBehaviour:
   m_LastFolders:
   - Assets
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Users\drago\Desktop\Vaporware
+  m_LastProjectPath: C:\Users\drago\Documents\GitHub\Tetris-Roguelike\Vaporware
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 82b30000
-    m_LastClickedID: 45954
-    m_ExpandedIDs: 000000002eb3000082b3000000ca9a3b
+    m_SelectedIDs: 98b30000
+    m_LastClickedID: 45976
+    m_ExpandedIDs: 0000000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1093,7 +1093,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 000000002eb30000
+    m_ExpandedIDs: 00000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1121,7 +1121,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000b40c010098b3000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
