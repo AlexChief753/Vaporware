@@ -5,6 +5,7 @@ public class GameGrid : MonoBehaviour
     public static int width = 10;
     public static int height = 21; // 10x20 is copyrighted
     public static Transform[,] grid = new Transform[width, height];
+    public static int comboCount = 0;
 
     public static bool IsInsideGrid(Vector2 pos)
     {
@@ -45,6 +46,20 @@ public class GameGrid : MonoBehaviour
         return true; // Row is full
     }
 
+    public static bool IsBoardClear()
+    {
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if (grid[x, y] != null)
+                {
+                    return false; // Board is not clear
+                }
+            }
+        }
+        return true;
+    }
     public static void ClearRow(int y)
     {
     for (int x = 0; x < width; x++)
@@ -85,7 +100,9 @@ public class GameGrid : MonoBehaviour
     public static int currency = 0; // Track player currency
     public static void CheckAndClearLines()
     {
-        int linesCleared = 0; // Track how many lines were cleared
+        double linesCleared = 0; // Track how many lines were cleared
+        double lineClearMult = 1; // Multiplier from line clear amount
+        double fullClearBonus = 0;
 
         for (int y = 0; y < height; y++)
         {
@@ -98,14 +115,38 @@ public class GameGrid : MonoBehaviour
             }
         }
 
+        if (linesCleared > 0) // Handles incrementing and resetting line combo
+            comboCount++;
+        else
+            comboCount = 0;
+
+
         //  Award points and check for level-up
         if (linesCleared > 0)
         {
-            int points = linesCleared * 100; // 100 points per line
+            switch (linesCleared) //  Check for point multiplier to apply
+            {
+                case 1:
+                    lineClearMult = 1;
+                    break;
+                case 2:
+                    lineClearMult = 1.25;
+                    break;
+                case 3:
+                    lineClearMult = 1.5;
+                    break;
+                default:
+                    lineClearMult = 2.5;
+                    break;
+            }
+            if (IsBoardClear())
+                fullClearBonus = 1000; // Additional 1000 base points for a full clear
+
+            int points = (int)(((linesCleared * 100) + fullClearBonus) *
+                lineClearMult * (0.5 + (0.5 * comboCount))); // 100 points per line
             score += points;
             currency += points; // Make currency equal to points
             UpdateLevel(); //  Check if level should increase
-            
         }
     }
 

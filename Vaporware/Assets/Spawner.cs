@@ -10,10 +10,12 @@ public class Spawner : MonoBehaviour
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI currencyText;
     public GameObject[] tetrominoes;
+    public Player playerBag;
     private List<int> bag = new List<int>();
 
     void Start()
     {
+        playerBag.InitBag();
         SpawnTetromino();
     }
 
@@ -96,9 +98,9 @@ public class Spawner : MonoBehaviour
     {
         // Fill the bag with all possible tetromino indices
         bag.Clear();
-        for (int i = 0; i < tetrominoes.Length; i++)
+        for (int i = 0; i < playerBag.playerBag.Count; i++)
         {
-            bag.Add(i);
+            bag.Add(playerBag.playerBag[1]);
         }
 
         // Shuffle the bag to prevent predictable patterns
@@ -111,32 +113,34 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
+
+        void Update()
         {
-            RestartGame();
-        }
-    }
-
-    void RestartGame()
-    {
-        // Reset game state for a new run
-        GameGrid.score = 0;
-        GameGrid.level = 1;
-        Tetromino.UpdateGlobalSpeed();
-
-        Time.timeScale = 1; // Resume the game
-        GameGrid.ClearGrid(); // Clear the grid
-
-        // Hide the Game Over UI
-        if (gameOverText != null)
-        {
-            gameOverText.gameObject.SetActive(false);
+            if (Input.GetKeyDown(KeyCode.R))
+            {
+                RestartGame();
+            }
         }
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-    }
+        void RestartGame()
+        {
+            // Reset game state for a new run
+            GameGrid.score = 0;
+            GameGrid.level = 1;
+            Tetromino.UpdateGlobalSpeed();
+
+            Time.timeScale = 1; // Resume the game
+            GameGrid.ClearGrid(); // Clear the grid
+
+            // Hide the Game Over UI
+            if (gameOverText != null)
+            {
+                gameOverText.gameObject.SetActive(false);
+            }
+
+            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
+        }
+    
 
 
     public void UpdateUI() // Needed for new level to be updated

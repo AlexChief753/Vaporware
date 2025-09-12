@@ -353,6 +353,7 @@ GameObject:
   m_Component:
   - component: {fileID: 152083658}
   - component: {fileID: 152083657}
+  - component: {fileID: 152083659}
   m_Layer: 0
   m_Name: Spawner
   m_TagString: Untagged
@@ -385,6 +386,7 @@ MonoBehaviour:
   - {fileID: 7175070229562263550, guid: 195eabc01ade1ad47a414c50d5b31a92, type: 3}
   - {fileID: 4508977494700247668, guid: e79795fa9dca8b5439db4974ae626b4a, type: 3}
   - {fileID: 4508977494700247668, guid: 4224bf10af63a5a4a9176f132e0f92c6, type: 3}
+  playerBag: {fileID: 152083659}
 --- !u!4 &152083658
 Transform:
   m_ObjectHideFlags: 0
@@ -400,6 +402,19 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &152083659
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 152083656}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50a78f0cb649cf548a9cac88cca95275, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerBag: 
 --- !u!1 &252707597
 GameObject:
   m_ObjectHideFlags: 0
