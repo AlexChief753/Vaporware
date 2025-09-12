@@ -10,6 +10,7 @@ public class Tetromino : MonoBehaviour
     public bool isLanded = false;
     public GameObject ghostPiece;
     public Sprite ghostSprite; // Assign the gray square sprite in the Inspector
+    public LevelManager levelmananager;
 
 
     void Start()
@@ -17,17 +18,7 @@ public class Tetromino : MonoBehaviour
         //AssignRandomItemSlots();
         CreateGhostPiece();
         Invoke("UpdateGhostPiece", 0.05f);
-    }
-
-    void Update()
-    {
-        if (!isLanded) // Only allow movement if the piece hasn't landed yet
-        {
-            //AdjustFallSpeed(); //  Adjust speed based on score
-            HandleMovement();
-            HandleFalling();
-            UpdateGhostPiece(); // Refresh ghost position every frame
-        }
+        //LevelManager.GetComponent<LevelManager>().levelTime;
     }
 
     void AssignRandomItemSlots()
@@ -92,6 +83,20 @@ public class Tetromino : MonoBehaviour
         ghostPiece.transform.position = finalPos;
     }
 
+
+
+
+    void Update()
+    {
+        if (!isLanded) // Only allow movement if the piece hasn't landed yet
+        {
+            AdjustFallSpeed(); //  Adjust speed based on score
+            HandleMovement();
+            HandleFalling();
+            UpdateGhostPiece(); // Refresh ghost position every frame
+        }
+    }
+
     bool CheckCollisionAtGhostPosition(Vector3 ghostPosition, Quaternion ghostRotation)
     {
         // For each block in the *active* Tetromino, figure out where it would be if it had "ghostRotation" at "ghostPosition"
@@ -121,18 +126,16 @@ public class Tetromino : MonoBehaviour
     }
 
 
-    public void UpdateFallSpeed(float newSpeed)
-    {
-        fallTime = newSpeed;
-        Debug.Log("Updated Speed: " + fallTime);
-    }
+
 
 
     void AdjustFallSpeed()
     {
-        float speedIncrease = GameGrid.level * 0.1f; // Increase speed per level
+        //float penaltySpeed = 5 - (LevelManager.level
+        float speedIncrease = GameGrid.level * 0.1f; //+ penaltySpeed * 0.1f; // Increase speed per level
         fallTime = Mathf.Max(0.8f - speedIncrease, minFallTime);
     }
+
 
     public static void UpdateGlobalSpeed()
     {

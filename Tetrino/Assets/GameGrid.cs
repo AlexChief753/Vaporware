@@ -5,7 +5,8 @@ public class GameGrid : MonoBehaviour
     public static int width = 10;
     public static int height = 20;
     public static Transform[,] grid = new Transform[width, height];
-
+    public static int comboCount = 0;
+    
     public static bool IsInsideGrid(Vector2 pos)
     {
         return pos.x >= 0 && pos.x < width && pos.y >= 0;
@@ -45,23 +46,40 @@ public class GameGrid : MonoBehaviour
         return true; // Row is full
     }
 
+    public static bool IsBoardClear()
+    {
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if (grid[x, y] != null)
+                {
+                    return false; // Board is not clear
+                }
+            }
+        }
+        return true;
+
+    }
+
+
     public static void ClearRow(int y)
     {
-    for (int x = 0; x < width; x++)
-    {
-        if (grid[x, y] != null)
+        for (int x = 0; x < width; x++)
         {
-            // Check if the block has an item
-            ItemSlot itemSlot = grid[x, y].GetComponent<ItemSlot>();
-            if (itemSlot != null)
+            if (grid[x, y] != null)
             {
-                itemSlot.ActivateItem(); // Activate item before removing block
-            }
+                // Check if the block has an item
+                ItemSlot itemSlot = grid[x, y].GetComponent<ItemSlot>();
+                if (itemSlot != null)
+                {
+                    itemSlot.ActivateItem(); // Activate item before removing block
+                }
 
-            Destroy(grid[x, y].gameObject); // Remove the block
-            grid[x, y] = null;
+                Destroy(grid[x, y].gameObject); // Remove the block
+                grid[x, y] = null;
+            }
         }
-    }
     }
 
 
@@ -84,7 +102,9 @@ public class GameGrid : MonoBehaviour
     public static int level = 1; // Start at level 1
     public static void CheckAndClearLines()
     {
-        int linesCleared = 0; // Track how many lines were cleared
+        double linesCleared = 0; // Track how many lines were cleared
+        double lineClearMult = 1; // Multiplier from line clear amount
+        double fullClearBonus = 0;
 
         for (int y = 0; y < height; y++)
         {
@@ -97,10 +117,35 @@ public class GameGrid : MonoBehaviour
             }
         }
 
+        if (linesCleared > 0) // Handles incrementing and resetting line combo
+            comboCount++;
+        else 
+            comboCount = 0;
+
+
         //  Award points and check for level-up
         if (linesCleared > 0)
         {
-            int points = linesCleared * 100; // 100 points per line
+            switch (linesCleared) //  Check for point multiplier to apply
+            {
+                case 1:
+                    lineClearMult = 1;
+                    break;
+                case 2:
+                    lineClearMult = 1.25;
+                    break;
+                case 3:
+                    lineClearMult = 1.5;
+                    break;
+                default:
+                    lineClearMult = 2.5;
+                    break;
+            }
+            if (IsBoardClear())
+                fullClearBonus = 1000; // Additional 1000 base points for a full clear
+                
+            int points = (int) (((linesCleared * 100) + fullClearBonus) * 
+                lineClearMult * (0.5 + (0.5 * comboCount))) ; // 100 points per line
             score += points;
             UpdateLevel(); //  Check if level should increase
             

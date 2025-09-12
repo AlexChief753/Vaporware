@@ -10,7 +10,7 @@ public class LevelManager : MonoBehaviour
     public GameObject levelCompleteMenu;
     public TextMeshProUGUI levelCompleteText;
 
-    private float levelTime = 300f; // 5 minutes per level
+    public float levelTime = 300f; // 5 minutes per level
     private int scoreRequirement = 1000;
     private float currentTime;
     private bool levelPaused = false;

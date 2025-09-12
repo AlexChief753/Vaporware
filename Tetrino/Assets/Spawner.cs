@@ -9,10 +9,12 @@ public class Spawner : MonoBehaviour
     public TextMeshProUGUI speedText;
     public TextMeshProUGUI levelText;
     public GameObject[] tetrominoes;
+    public Player playerBag;
     private List<int> bag = new List<int>();
 
     void Start()
     {
+        playerBag.InitBag();
         SpawnTetromino();
     }
 
@@ -88,9 +90,9 @@ public class Spawner : MonoBehaviour
     {
         // Fill the bag with all possible tetromino indices
         bag.Clear();
-        for (int i = 0; i < tetrominoes.Length; i++)
+        for (int i = 0; i < playerBag.playerBag.Count; i++)
         {
-            bag.Add(i);
+            bag.Add(playerBag.playerBag[i]);
         }
 
         // Shuffle the bag to prevent predictable patterns
