@@ -12,6 +12,8 @@ public class Spawner : MonoBehaviour
     public GameObject[] tetrominoes;
     public Player playerBag;
     private List<int> bag = new List<int>();
+    private Queue<int> forcedQueue = new Queue<int>();
+    private bool resetBagAfterForced = false;
 
     void Start()
     {
@@ -40,13 +42,28 @@ public class Spawner : MonoBehaviour
         }
 
 
-        if (bag.Count == 0)
+        int randomIndex;
+        // if the Forced Sequence (Files) item is used
+        if (forcedQueue.Count > 0)
         {
-            FillBag();
-        }
+            randomIndex = forcedQueue.Dequeue();
 
-        int randomIndex = bag[0];
-        bag.RemoveAt(0);
+            if (forcedQueue.Count == 0 && resetBagAfterForced)
+            {
+                resetBagAfterForced = false;
+                bag.Clear();
+                FillBag(); // reset bag after forced sequence
+            }
+        }
+        else // if Forced Sequence item is not used (most of the time it's not used so this activates)
+        {
+            if (bag.Count == 0)
+            {
+                FillBag();
+            }
+            randomIndex = bag[0];
+            bag.RemoveAt(0);
+        }
 
         GameObject newTetromino = Instantiate(tetrominoes[randomIndex], new Vector3(5, 22, 0), Quaternion.identity);
 
@@ -55,6 +72,7 @@ public class Spawner : MonoBehaviour
         if (tetrominoScript != null)
         {
             tetrominoScript.AllowInitialFall();
+            tetrominoScript.pieceIndex = randomIndex;
         }
 
 
@@ -100,7 +118,7 @@ public class Spawner : MonoBehaviour
         bag.Clear();
         for (int i = 0; i < playerBag.playerBag.Count; i++)
         {
-            bag.Add(playerBag.playerBag[1]);
+            bag.Add(playerBag.playerBag[i]); /////////////////////////////////////////////////////////
         }
 
         // Shuffle the bag to prevent predictable patterns
@@ -156,6 +174,14 @@ public class Spawner : MonoBehaviour
         }
     }
 
-
+    public void ForceSequence(int pieceIndex, int times)
+    {
+        forcedQueue.Clear();
+        for (int i = 0; i < times; i++)
+        {
+            forcedQueue.Enqueue(pieceIndex);
+        }
+        resetBagAfterForced = true;
+    }
 
 }

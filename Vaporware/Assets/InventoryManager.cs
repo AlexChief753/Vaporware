@@ -45,6 +45,22 @@ public class InventoryManager : MonoBehaviour
         // TODO: replace this with the real effect later
         Debug.Log("Using item: " + item.itemName);
 
+        // Force Sequence item (Files)
+        if (item.itemName == "Files")
+        {
+            // Find the currently falling Tetromino
+            Tetromino current = FindFirstObjectByType<Tetromino>();
+            if (current != null)
+            {
+                int type = current.pieceIndex;
+                Spawner spawner = FindFirstObjectByType<Spawner>();
+                if (spawner != null)
+                {
+                    spawner.ForceSequence(type, 3); // Number of times to force the same piece to spawn
+                }
+            }
+        }
+
         // Remove item from inventory
         items.RemoveAt(index);
 

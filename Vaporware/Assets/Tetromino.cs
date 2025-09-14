@@ -10,6 +10,7 @@ public class Tetromino : MonoBehaviour
     private GameObject ghostPiece;
     public Sprite ghostSprite; // Assign the gray square sprite in the Inspector
     //test line
+    public int pieceIndex; // set by Spawner when spawning
 
 
     void Start()

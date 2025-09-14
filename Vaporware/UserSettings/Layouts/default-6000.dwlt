@@ -318,8 +318,8 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 4aaf0000
-      m_LastClickedID: 44874
+      m_SelectedIDs: dc430000
+      m_LastClickedID: 0
       m_ExpandedIDs: 0cfbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
@@ -1057,13 +1057,13 @@ MonoBehaviour:
   m_LastFolders:
   - Assets
   m_LastFoldersGridSize: -1
-  m_LastProjectPath: C:\Users\drago\Documents\GitHub\Tetris-Roguelike\Vaporware
+  m_LastProjectPath: C:\Users\drago\Desktop\Spencer\Vaporware
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 98b30000
-    m_LastClickedID: 45976
+    m_SelectedIDs: 9eb30000
+    m_LastClickedID: 45982
     m_ExpandedIDs: 0000000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1121,7 +1121,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000b40c010098b3000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
