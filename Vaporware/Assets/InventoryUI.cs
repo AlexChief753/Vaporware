@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,12 +9,69 @@ public class InventoryUI : MonoBehaviour
     public Image slot2;
     public Image slot3;
 
+    [Header("Lock control")]
+    public CanvasGroup rootGroup;
+
+    // Remember each slot’s original Navigation so can restore it
+    private readonly Dictionary<Button, Navigation> _savedNav = new Dictionary<Button, Navigation>();
+
+    public void SetMenuLock(bool locked)
+    {
+        // Globally block all interactions/raycasts under the inventory
+        if (rootGroup != null)
+        {
+            rootGroup.interactable = !locked;
+            rootGroup.blocksRaycasts = !locked;
+        }
+
+        // Remove each slot Button from the navigation graph
+        foreach (var img in new[] { slot1, slot2, slot3 })
+        {
+            if (!img) continue;
+            var btn = img.GetComponent<Button>();
+            if (!btn) continue;
+
+            if (locked)
+            {
+                if (!_savedNav.ContainsKey(btn)) _savedNav[btn] = btn.navigation;
+                var nav = btn.navigation;
+                nav.mode = Navigation.Mode.None;
+                btn.navigation = nav;
+
+                // Ensure nothing can select/click it even if SetSlot runs later
+                btn.interactable = false;
+            }
+            else
+            {
+                // Restore nav and interactable according to whether a sprite is present
+                if (_savedNav.TryGetValue(btn, out var original))
+                    btn.navigation = original;
+
+                btn.interactable = (img.sprite != null);
+            }
+        }
+    }
+
+
+
     void Update()
     {
-        // Keyboard shortcuts
-        if (Input.GetKeyDown(KeyCode.Z)) TryUse(0);
-        if (Input.GetKeyDown(KeyCode.X)) TryUse(1);
-        if (Input.GetKeyDown(KeyCode.C)) TryUse(2);
+        // Don’t accept inventory input when the Level Complete menu is up
+        //if (LevelManager.instance != null &&
+        //    LevelManager.instance.levelCompleteMenu != null &&
+         //   LevelManager.instance.levelCompleteMenu.activeInHierarchy)
+         //   return;
+
+        if (LevelManager.instance && LevelManager.instance.levelCompleteMenu &&
+            LevelManager.instance.levelCompleteMenu.activeInHierarchy) return;
+
+            // Keyboard shortcuts
+        if (Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("UseSlot1")) 
+            TryUse(0);
+        if (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("UseSlot2")) 
+            TryUse(1);
+        if (Input.GetKeyDown(KeyCode.C) || Input.GetButtonDown("UseSlot3")) 
+            TryUse(2);
     }
 
     // Call this whenever the inventory changes
@@ -52,7 +110,13 @@ public class InventoryUI : MonoBehaviour
 
         // Enable clicking only if an item exists in the slot
         var btn = slotImage.GetComponent<Button>();
-        if (btn != null) btn.interactable = true;
+        //if (btn != null) btn.interactable = true;
+        if (btn != null)
+        {
+            // If locked, stay non-interactable no matter what
+            bool locked = rootGroup != null && !rootGroup.interactable;
+            btn.interactable = !locked;   
+        }
     }
 
     private void ClearSlot(Image slotImage)

@@ -134,11 +134,14 @@ public class Spawner : MonoBehaviour
 
         void Update()
         {
-            if (Input.GetKeyDown(KeyCode.R))
+            // Only allow R to restart when the Game Over text is actually shown
+            if (gameOverText != null &&
+                gameOverText.gameObject.activeInHierarchy &&
+                (Input.GetKeyDown(KeyCode.R) || Input.GetButtonDown("Restart")))
             {
                 RestartGame();
             }
-        }
+    }
 
         void RestartGame()
         {

@@ -87,6 +87,8 @@ public class Tetromino : MonoBehaviour
 
     void Update()
     {
+        // Block all player control while menus/pause are active.
+        if (Time.timeScale == 0f) return;
         if (!isLanded) // Only allow movement if the piece hasn't landed yet
         {
             AdjustFallSpeed(); //  Adjust speed based on score
@@ -152,23 +154,31 @@ public class Tetromino : MonoBehaviour
     void HandleMovement()
     {
         float currentTime = Time.time;
+        float dpadX = Input.GetAxisRaw("DPadX");
+        float dpadY = Input.GetAxisRaw("DPadY");
 
         // Left and Right Movement
-        if (Input.GetKey(KeyCode.LeftArrow) && currentTime - lastMoveTime > moveDelay)
+        if ((Input.GetKey(KeyCode.LeftArrow) || dpadX < 0) && currentTime - lastMoveTime > moveDelay)
         {
             Move(new Vector3(-1, 0, 0));
             lastMoveTime = currentTime;
         }
-        else if (Input.GetKey(KeyCode.RightArrow) && currentTime - lastMoveTime > moveDelay)
+        else if ((Input.GetKey(KeyCode.RightArrow) || dpadX > 0) && currentTime - lastMoveTime > moveDelay)
         {
             Move(new Vector3(1, 0, 0));
             lastMoveTime = currentTime;
         }
 
-        // Rotation (Holding Up Arrow)
-        if (Input.GetKey(KeyCode.UpArrow) && currentTime - lastRotateTime > rotationDelay)
+        // Rotation Clockwise (Holding Up Arrow)
+        if ((Input.GetKey(KeyCode.UpArrow) || dpadY > 0 || Input.GetButton("RotateCCW")) && currentTime - lastRotateTime > rotationDelay)
         {
-            RotateTetromino();
+            RotateTetrominoClockwise();
+            lastRotateTime = currentTime;
+        }
+
+        if ((Input.GetKey(KeyCode.Return) || Input.GetButton("RotateCW")) && currentTime - lastRotateTime > rotationDelay)
+        {
+            RotateTetrominoCounterClockwise();
             lastRotateTime = currentTime;
         }
     }
@@ -183,15 +193,16 @@ public class Tetromino : MonoBehaviour
     void HandleFalling()
     {
         float currentFallTime = fallTime;
+        float dpadY = Input.GetAxisRaw("DPadY");
 
         // Soft Drop: Reduce fall time while holding Down Arrow
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) || dpadY < -0.5f)
         {
             currentFallTime = Mathf.Max(fallTime * 0.1f, 0.08f); // Minimum fall time to prevent instant lock
         }
 
         // Hard Drop: Instantly place the piece
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("HardDrop"))
         {
             HardDrop();
             return; // Skip normal falling logic
@@ -264,7 +275,7 @@ public class Tetromino : MonoBehaviour
         }
     }
 
-    void RotateTetromino()
+    void RotateTetrominoClockwise()
     {
         // Prevent rotation for the O Tetromino
         if (gameObject.name.Contains("O"))
@@ -280,6 +291,26 @@ public class Tetromino : MonoBehaviour
             if (!TryWallKick())
             {
                 transform.Rotate(0, 0, -90); // Undo rotation if all attempts fail
+            }
+        }
+    }
+
+    void RotateTetrominoCounterClockwise()
+    {
+        // Prevent rotation for the O Tetromino
+        if (gameObject.name.Contains("O"))
+        {
+            return; // Do nothing if this is the O piece
+        }
+
+        transform.Rotate(0, 0, -90);
+
+        if (CheckBoundaryCollision() || CheckCollision())
+        {
+            // Try wall kick offsets
+            if (!TryWallKick())
+            {
+                transform.Rotate(0, 0, 90); // Undo rotation if all attempts fail
             }
         }
     }

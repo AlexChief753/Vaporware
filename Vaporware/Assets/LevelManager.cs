@@ -1,6 +1,7 @@
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class LevelManager : MonoBehaviour
 {
@@ -15,11 +16,25 @@ public class LevelManager : MonoBehaviour
     private float currentTime;
     private bool levelPaused = false;
 
+    public Button continueButton;   // assign in Inspector
+    public Button itemShopButton;   // optional
+    public Button quitButton;       // optional
+
+    bool inputArmed = false;        // gate to ignore first Submit press
+
+    [SerializeField] private Button firstMenuButton;
+
     void Awake()
     {
         if (instance == null)
         {
             instance = this;
+        }
+
+        else if (instance != this)
+        {
+            Destroy(gameObject); // prevent duplicates calling different flags
+            return;
         }
     }
 
@@ -59,46 +74,85 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = 0; // Pause the game
         levelCompleteMenu.SetActive(true);
         levelCompleteText.text = "Level " + GameGrid.level + " Complete!";
+
+        // ensure inventory slots become non-interactable now
+        var inv = FindFirstObjectByType<InventoryUI>();
+        if (inv != null)
+        {
+            inv.RefreshSlots();   // draw items first
+            inv.SetMenuLock(true); // then hard-lock them
+        }
+
+        inputArmed = false;
+        EventSystem.current.SetSelectedGameObject(null);
+        EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
+        StartCoroutine(ArmMenuSelection());
+        // Force controller focus to the first button
+        var es = EventSystem.current;
+        if (es != null && firstMenuButton != null)
+        {
+            es.SetSelectedGameObject(null);
+            es.SetSelectedGameObject(firstMenuButton.gameObject);
+        }
+    }
+
+    System.Collections.IEnumerator ArmMenuSelection()
+    {
+        // wait one frame so the panel is active and any gameplay Submit press is from the past frame
+        yield return null;
+
+        // drain any held Submit/A so we don't immediately click
+        while (Input.GetButton("Submit")) yield return null;
+
+        // now pick the first button for navigation
+        if (continueButton != null)
+            EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
+
+        inputArmed = true;
     }
 
     public void ContinueToNextLevel()
     {
-        if (levelPaused) // Ensure it only progresses once
+        if (!levelPaused || !inputArmed) return;
+        // Prefer a robust guard that matches the actual menu state:
+        if (!levelCompleteMenu || !levelCompleteMenu.activeInHierarchy) return;
+
+        // Unlock inventory befor hiding the menu
+        var inv = FindFirstObjectByType<InventoryUI>();
+        if (inv != null) inv.SetMenuLock(false);
+
+        // if (Time.timeScale > 0f) return;
+
+        // Proceed
+        levelPaused = false;                // internal bookkeeping
+        Time.timeScale = 1;
+        GameGrid.level++;
+        currentTime = levelTime;
+
+        Tetromino.UpdateGlobalSpeed();
+        GameGrid.levelUpTriggered = false;
+
+        var activeTetromino = FindFirstObjectByType<Tetromino>();
+        if (activeTetromino) Destroy(activeTetromino.gameObject);
+
+        GameGrid.ClearGrid();
+
+        var spawner = FindFirstObjectByType<Spawner>();
+        if (spawner != null)
         {
-            levelPaused = false;
-            Time.timeScale = 1; // Resume the game
-            GameGrid.level++;
-            currentTime = levelTime; // Reset the level timer
-
-            Tetromino.UpdateGlobalSpeed(); // Adjust speed for new level
-
-            // Reset the trigger so the next level-up can happen
-            GameGrid.levelUpTriggered = false;
-
-            // Destroy the currently falling Tetromino to prevent merging
-            Tetromino activeTetromino = FindFirstObjectByType<Tetromino>();
-            if (activeTetromino != null)
-            {
-                Destroy(activeTetromino.gameObject);
-            }
-
-            // Clear the grid before spawning the next Tetromino
-            GameGrid.ClearGrid();
-
-            // Find Spawner and update UI
-            Spawner spawner = FindFirstObjectByType<Spawner>();
-            if (spawner != null)
-            {
-                spawner.UpdateUI();
-                spawner.SpawnTetromino(); // Spawn a new Tetromino for the fresh level
-            }
-            else
-            {
-                Debug.LogError("Spawner not found in the scene!");
-            }
-
-            levelCompleteMenu.SetActive(false); // Hide the menu
+            spawner.UpdateUI();
+            spawner.SpawnTetromino();
         }
+        else
+        {
+            Debug.LogError("Spawner not found in the scene!");
+        }
+
+        levelCompleteMenu.SetActive(false);
+
+        // re-enable inventory buttons for gameplay
+        //var ui = FindFirstObjectByType<InventoryUI>();
+        //if (ui) ui.RefreshSlots();
     }
 
 
@@ -113,10 +167,6 @@ public class LevelManager : MonoBehaviour
             shopManager.OpenShop();
         }
     }
-
-
-
-
 
 
     public void QuitGame()
