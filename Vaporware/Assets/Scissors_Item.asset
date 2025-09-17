@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8293685988c69014599efc6babac304b, type: 3}
-  m_Name: Files_Item
+  m_Name: Scissors_Item
   m_EditorClassIdentifier: 
-  itemName: Files
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
-  price: 50
-  description: Repeats the currently falling piece 3 times.
+  itemName: Scissors
+  itemSprite: {fileID: -8256736160493687645, guid: 50170f904d63f9a49aea206e716ba8b5, type: 3}
+  price: 69
+  description: Cuts away the top 3 occupied rows.

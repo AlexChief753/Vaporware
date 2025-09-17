@@ -172,7 +172,7 @@ public class GameGrid : MonoBehaviour
 
     public static void UpdateLevel()
     {
-        int requiredScore = GameGrid.level * 100; // 1000 points per level ***************************
+        int requiredScore = GameGrid.level * 1000; // 1000 points per level ***************************
         if (!levelUpTriggered && score >= requiredScore)
         {
             levelUpTriggered = true; // Prevent multiple triggers
@@ -218,6 +218,46 @@ public class GameGrid : MonoBehaviour
         }
     }
 
+    public static int ClearBottomNRows(int n)
+    {
+        int cleared = 0;
+        for (int i = 0; i < n; i++)
+        {
+            ClearRow(0); // clear the bottom most row
+            MoveRowsDown(0); // shift everything above down by 1
+            cleared++;
+        }
+            return cleared;
+    }
+
+    // Returns the highest y that has at least one occupied cell; -1 if board is empty
+    public static int GetHighestOccupiedRow()
+    {
+        for (int y = height - 1; y >= 0; y--)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if (grid[x, y] != null) return y;
+            }
+        }
+        return -1;
+    }
+
+    // Clears the current top occupied row up to n times (stops early if fewer exist).
+    // Returns how many rows were actually cleared.
+    public static int ClearTopNOccupiedRows(int n)
+    {
+        int cleared = 0;
+        for (int i = 0; i < n; i++)
+        {
+            int y = GetHighestOccupiedRow();
+            if (y < 0) break; // nothing left
+            ClearRow(y); // this also triggers any ItemSlot on those blocks
+            MoveRowsDown(y); // pull everything above down by 1
+            cleared++;
+        }
+        return cleared;
+    }
 
 }
 

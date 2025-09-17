@@ -57,8 +57,23 @@ public class InventoryManager : MonoBehaviour
                 if (spawner != null)
                 {
                     spawner.ForceSequence(type, 3); // Number of times to force the same piece to spawn
+                    Debug.Log($"Files used: tetromino will repeat.");
                 }
             }
+        }
+
+        // Remove 3 rows from top item (Scissors)
+        if (item.itemName == "Scissors")
+        {
+            int cleared = GameGrid.ClearTopNOccupiedRows(3);
+            Debug.Log($"Scissors used: cleared {cleared} top occupied row(s).");
+        }
+
+        // Remove 3 rows from bottom (Shredder)
+        if (item.itemName == "Shredder")
+        {
+            int cleared = GameGrid.ClearBottomNRows(3);
+            Debug.Log($"Shredder used: removed {cleared} bottom rows.");
         }
 
         // Remove item from inventory
