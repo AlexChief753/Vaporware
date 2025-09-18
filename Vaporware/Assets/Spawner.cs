@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using TMPro;
 public class Spawner : MonoBehaviour
 {
-    public TextMeshProUGUI scoreText;
+    public TextMeshProUGUI totalScoreText;
+    public TextMeshProUGUI levelScoreText;
     public TextMeshProUGUI gameOverText;
     public TextMeshProUGUI speedText;
     public TextMeshProUGUI levelText;
@@ -28,7 +29,8 @@ public class Spawner : MonoBehaviour
             Debug.Log("Game Over!");
 
             // Reset static game state
-            GameGrid.score = 0;
+            GameGrid.totalScore = 0;
+            GameGrid.levelScore = 0;
             GameGrid.level = 1;
             GameGrid.currency = 0;
             Tetromino.UpdateGlobalSpeed(); // This recalculates fallTime based on level 1
@@ -76,11 +78,7 @@ public class Spawner : MonoBehaviour
         }
 
 
-        //  Update Score UI
-        if (scoreText != null)
-        {
-            scoreText.text = "Score: " + GameGrid.score.ToString();
-        }
+        UpdateScoreUI();
 
         // Update Currency UI
         if (currencyText != null)
@@ -146,7 +144,8 @@ public class Spawner : MonoBehaviour
         void RestartGame()
         {
             // Reset game state for a new run
-            GameGrid.score = 0;
+            GameGrid.totalScore = 0;
+            GameGrid.levelScore = 0;
             GameGrid.level = 1;
             Tetromino.UpdateGlobalSpeed();
 
@@ -175,6 +174,15 @@ public class Spawner : MonoBehaviour
         {
             speedText.text = "Speed: " + GameGrid.level.ToString();
         }
+    }
+
+    public void UpdateScoreUI()
+    {
+        if (totalScoreText != null)
+            totalScoreText.text = "Total: " + GameGrid.totalScore.ToString();
+
+        if (levelScoreText != null)
+            levelScoreText.text = "Level: " + GameGrid.levelScore.ToString();
     }
 
     public void ForceSequence(int pieceIndex, int times)

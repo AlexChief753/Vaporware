@@ -89,6 +89,22 @@ public class Tetromino : MonoBehaviour
     {
         // Block all player control while menus/pause are active.
         if (Time.timeScale == 0f) return;
+
+        //If the timer is out, immediately trigger the Game Over flow
+        if (LevelManager.instance != null && LevelManager.instance.GetRemainingTime() <= 0f)
+        {
+            // stop this piece from doing any more logic
+            this.enabled = false;
+
+            // clean up ghost so it doesn't linger
+            if (ghostPiece != null) Destroy(ghostPiece);
+
+            // call SpawnTetromino() to run the existing IsGameOver() check + Game Over UI
+            var spawner = FindFirstObjectByType<Spawner>();
+            if (spawner != null) spawner.SpawnTetromino();
+            return;
+        }
+
         if (!isLanded) // Only allow movement if the piece hasn't landed yet
         {
             AdjustFallSpeed(); //  Adjust speed based on score

@@ -11,7 +11,7 @@ public class LevelManager : MonoBehaviour
     public GameObject levelCompleteMenu;
     public TextMeshProUGUI levelCompleteText;
 
-    private float levelTime = 300f; // 5 minutes per level
+    private float levelTime = 300f; // 5 minutes per level is 300f
     private int scoreRequirement = 1000;
     private float currentTime;
     private bool levelPaused = false;
@@ -36,11 +36,14 @@ public class LevelManager : MonoBehaviour
             Destroy(gameObject); // prevent duplicates calling different flags
             return;
         }
+
+        // Initialize timer here so it's ready before Spawner.Start()
+        currentTime = levelTime;
     }
 
     void Start()
     {
-        currentTime = levelTime;
+        //currentTime = levelTime;
         UpdateTimerUI();
         levelCompleteMenu.SetActive(false);
     }
@@ -49,16 +52,15 @@ public class LevelManager : MonoBehaviour
     {
         if (!levelPaused)
         {
-            currentTime -= Time.deltaTime;
-            UpdateTimerUI();
-
-            // Only trigger level completion from the timer
-            if (currentTime <= 0)
+            if (currentTime > 0f)
             {
-                CompleteLevel();
+                currentTime -= Time.deltaTime;
+                if (currentTime < 0f) currentTime = 0f; // clamp so the clock stops at 00:00
             }
-        }
 
+            UpdateTimerUI();
+            // No level complete here — timeout is handled as Game Over via GameGrid.IsGameOver()
+        }
     }
 
     public void UpdateTimerUI()
@@ -128,6 +130,7 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = 1;
         GameGrid.level++;
         currentTime = levelTime;
+        GameGrid.levelScore = 0;
 
         Tetromino.UpdateGlobalSpeed();
         GameGrid.levelUpTriggered = false;
@@ -179,5 +182,11 @@ public class LevelManager : MonoBehaviour
         instance.levelTime = newTime;
         instance.scoreRequirement = newScore;
     }
+
+    public float GetRemainingTime()
+    {
+        return currentTime;
+    }
+
 }
 

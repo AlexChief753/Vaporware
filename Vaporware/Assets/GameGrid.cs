@@ -95,7 +95,8 @@ public class GameGrid : MonoBehaviour
             }
         }
     }
-    public static int score = 0; // Track player score
+    public static int totalScore = 0; // Track total score across the whole game
+    public static int levelScore = 0; // Track score within the current level
     public static int level = 1; // Start at level 1
     public static int currency = 0; // Track player currency
     public static void CheckAndClearLines()
@@ -144,8 +145,10 @@ public class GameGrid : MonoBehaviour
 
             int points = (int)(((linesCleared * 100) + fullClearBonus) *
                 lineClearMult * (0.5 + (0.5 * comboCount))); // 100 points per line
-            score += points;
+            totalScore += points;
+            levelScore += points;
             currency += points; // Make currency equal to points
+            FindFirstObjectByType<Spawner>()?.UpdateScoreUI(); // Refresh the two score labels immediately
             UpdateLevel(); //  Check if level should increase
         }
     }
@@ -172,8 +175,8 @@ public class GameGrid : MonoBehaviour
 
     public static void UpdateLevel()
     {
-        int requiredScore = GameGrid.level * 1000; // 1000 points per level ***************************
-        if (!levelUpTriggered && score >= requiredScore)
+        int requiredScore = 1000; // Can call GameGrid.level and do some math to increase score required per level ***************************
+        if (!levelUpTriggered && levelScore >= requiredScore)
         {
             levelUpTriggered = true; // Prevent multiple triggers
             Time.timeScale = 0; // Pause game immediately
@@ -186,6 +189,7 @@ public class GameGrid : MonoBehaviour
     public static void ResetLevelTrigger()
     {
         levelUpTriggered = false;
+        levelScore = 0;
     }
 
 
@@ -200,6 +204,13 @@ public class GameGrid : MonoBehaviour
                 return true;
             }
         }
+
+        // Timeout check
+        if (LevelManager.instance != null && LevelManager.instance.GetRemainingTime() <= 0f)
+        {
+            return true; // Game over when the clock runs out
+        }
+
         return false;
     }
 
