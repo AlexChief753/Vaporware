@@ -179,10 +179,10 @@ public class Spawner : MonoBehaviour
     public void UpdateScoreUI()
     {
         if (totalScoreText != null)
-            totalScoreText.text = "Total: " + GameGrid.totalScore.ToString();
+            totalScoreText.text = "Total Score: " + GameGrid.totalScore.ToString();
 
         if (levelScoreText != null)
-            levelScoreText.text = "Level: " + GameGrid.levelScore.ToString();
+            levelScoreText.text = "Level Score: " + GameGrid.levelScore.ToString();
     }
 
     public void ForceSequence(int pieceIndex, int times)
