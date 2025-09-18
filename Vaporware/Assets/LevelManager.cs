@@ -16,10 +16,20 @@ public class LevelManager : MonoBehaviour
     private float currentTime;
     private bool levelPaused = false;
 
-    public Button continueButton;   // assign in Inspector
-    public Button itemShopButton;   // optional
-    public Button quitButton;       // optional
+    public Button continueButton;
+    public Button itemShopButton;
+    public Button quitButton;
 
+    [Header("Pause Menu")]
+    public GameObject pauseMenu;
+    public Button pauseResumeButton; // first button to focus
+    public Button pauseSettingsButton;      // placeholder
+    public Button pauseMainMenuButton; // placeholder
+    public Button pauseExitButton;
+
+    public CanvasController textCanvasController;
+
+    private bool isPaused = false;
     bool inputArmed = false;        // gate to ignore first Submit press
 
     [SerializeField] private Button firstMenuButton;
@@ -46,10 +56,40 @@ public class LevelManager : MonoBehaviour
         //currentTime = levelTime;
         UpdateTimerUI();
         levelCompleteMenu.SetActive(false);
+
+        // Hide pause menu and wire buttons
+        if (pauseMenu != null) pauseMenu.SetActive(false);
+
+        if (pauseResumeButton != null)
+            pauseResumeButton.onClick.AddListener(ResumeGame);
+
+        if (pauseSettingsButton != null)
+            pauseSettingsButton.onClick.AddListener(() => { Debug.Log("Settings (placeholder)"); });
+
+        if (pauseMainMenuButton != null)
+            pauseMainMenuButton.onClick.AddListener(() => { Debug.Log("Main Menu (placeholder)"); });
+
+        if (pauseExitButton != null)
+            pauseExitButton.onClick.AddListener(QuitGame);
     }
 
     void Update()
     {
+        // Toggle Pause
+        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Pause"))
+        {
+            if (!isPaused)
+            {
+                if (CanOpenPauseMenu())
+                    PauseGame();
+            }
+            else
+            {
+                // If already paused, Escape resumes
+                ResumeGame();
+            }
+        }
+
         if (!levelPaused)
         {
             if (currentTime > 0f)
@@ -186,6 +226,63 @@ public class LevelManager : MonoBehaviour
     public float GetRemainingTime()
     {
         return currentTime;
+    }
+
+    private bool CanOpenPauseMenu()
+    {
+        // Not while a level-complete menu is shown
+        if (levelCompleteMenu != null && levelCompleteMenu.activeInHierarchy) return false;
+
+        // Not while the item shop is open
+        var shop = FindFirstObjectByType<ItemShopManager>();
+        if (shop != null && shop.itemShopPanel != null && shop.itemShopPanel.activeInHierarchy) return false;
+
+        // Not while the Game Over UI is up
+        var spawner = FindFirstObjectByType<Spawner>();
+        if (spawner != null && spawner.gameOverText != null && spawner.gameOverText.gameObject.activeInHierarchy) return false;
+
+        // Only during an active level (timer > 0)
+        if (currentTime <= 0f) return false;
+
+        return true;
+    }
+
+    private void PauseGame()
+    {
+        isPaused = true;
+        Time.timeScale = 0f;
+
+        if (pauseMenu != null) pauseMenu.SetActive(true);
+
+        if (textCanvasController != null) 
+            textCanvasController.TurnOffCanvas();
+
+        // lock inventory buttons while paused
+        var inv = FindFirstObjectByType<InventoryUI>();
+        if (inv != null) inv.SetMenuLock(true);
+
+        // focus Resume button for controller/keyboard
+        var es = EventSystem.current;
+        if (es != null && pauseResumeButton != null)
+        {
+            es.SetSelectedGameObject(null);
+            es.SetSelectedGameObject(pauseResumeButton.gameObject);
+        }
+    }
+
+    public void ResumeGame()
+    {
+        isPaused = false;
+        Time.timeScale = 1f;
+
+        if (pauseMenu != null) pauseMenu.SetActive(false);
+
+        if (textCanvasController != null)
+            textCanvasController.TurnOnCanvas();
+
+        // unlock inventory again (normal gameplay)
+        var inv = FindFirstObjectByType<InventoryUI>();
+        if (inv != null) inv.SetMenuLock(false);
     }
 
 }
