@@ -2,6 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -283,6 +284,13 @@ public class LevelManager : MonoBehaviour
         // unlock inventory again (normal gameplay)
         var inv = FindFirstObjectByType<InventoryUI>();
         if (inv != null) inv.SetMenuLock(false);
+    }
+
+    public void ReturnToMainMenu()
+    {
+        // In the future, call SaveGame function to automatically save the game upon exiting to main menu *********************
+        Time.timeScale = 1f; // reset timescale so menu isn’t frozen
+        SceneManager.LoadScene("MainMenu");
     }
 
 }
