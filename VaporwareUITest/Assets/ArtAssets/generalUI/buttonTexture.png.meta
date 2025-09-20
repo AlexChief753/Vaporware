@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 6ba15a772e2611f49906df7992abfd67
+guid: 0e73bb0a7e903a54c8204ae4cc948a57
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -473147764219939093
-    second: gameplayComputerScreen_0
+      213: -4320469719072957016
+    second: buttonTexture_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: gameplayComputerScreen_0
+      name: buttonTexture_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 2672
-        height: 2000
+        width: 300
+        height: 300
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: be676638d9a0f69f0800000000000000
-      internalID: -473147764219939093
+      spriteID: 8ad13db6eab9a04c0800000000000000
+      internalID: -4320469719072957016
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      gameplayComputerScreen_0: -473147764219939093
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
