@@ -10,6 +10,7 @@ public class LevelManager : MonoBehaviour
     public GameObject levelCompleteMenu;
     public TextMeshProUGUI levelCompleteText;
 
+
     private float levelTime = 300f; // 5 minutes per level
     private int scoreRequirement = 1000;
     private float currentTime;
@@ -72,6 +73,7 @@ public class LevelManager : MonoBehaviour
 
             Tetromino.UpdateGlobalSpeed(); // Adjust speed for new level
 
+<<<<<<< Updated upstream
             // Reset the trigger so the next level-up can happen
             GameGrid.levelUpTriggered = false;
 
@@ -99,6 +101,15 @@ public class LevelManager : MonoBehaviour
 
             levelCompleteMenu.SetActive(false); // Hide the menu
         }
+=======
+        GameGrid.inventoryManager.PassiveInit();  //hacky, but works?
+
+        GameGrid.inventoryManager.PassiveInit();  //hacky, but works?
+
+        // re-enable inventory buttons for gameplay
+        //var ui = FindFirstObjectByType<InventoryUI>();
+        //if (ui) ui.RefreshSlots();
+>>>>>>> Stashed changes
     }
 
 

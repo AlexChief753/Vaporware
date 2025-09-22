@@ -13,6 +13,8 @@ public class Spawner : MonoBehaviour
     public Player playerBag;
     private List<int> bag = new List<int>();
 
+
+
     void Start()
     {
         playerBag.InitBag();
