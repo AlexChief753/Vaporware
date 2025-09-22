@@ -100,7 +100,7 @@ public class LevelManager : MonoBehaviour
             }
 
             UpdateTimerUI();
-            // No level complete here — timeout is handled as Game Over via GameGrid.IsGameOver()
+            // No level complete here â€” timeout is handled as Game Over via GameGrid.IsGameOver()
         }
     }
 
@@ -172,6 +172,8 @@ public class LevelManager : MonoBehaviour
         GameGrid.level++;
         currentTime = levelTime;
         GameGrid.levelScore = 0;
+
+        GameGrid.inventoryManager.PassiveInit();  //hacky, but works?
 
         Tetromino.UpdateGlobalSpeed();
         GameGrid.levelUpTriggered = false;
@@ -289,9 +291,8 @@ public class LevelManager : MonoBehaviour
     public void ReturnToMainMenu()
     {
         // In the future, call SaveGame function to automatically save the game upon exiting to main menu *********************
-        Time.timeScale = 1f; // reset timescale so menu isn’t frozen
+        Time.timeScale = 1f; // reset timescale so menu isnâ€™t frozen
         SceneManager.LoadScene("MainMenu");
     }
 
 }
-

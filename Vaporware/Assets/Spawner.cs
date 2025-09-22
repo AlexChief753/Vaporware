@@ -16,6 +16,8 @@ public class Spawner : MonoBehaviour
     private Queue<int> forcedQueue = new Queue<int>();
     private bool resetBagAfterForced = false;
 
+
+
     void Start()
     {
         playerBag.InitBag();

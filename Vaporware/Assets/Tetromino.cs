@@ -149,14 +149,14 @@ public class Tetromino : MonoBehaviour
 
     void AdjustFallSpeed()
     {
-        float speedIncrease = GameGrid.level * 0.1f; // Increase speed per level
+        float speedIncrease = GameGrid.level * InventoryManager.itemSpeedMod * 0.1f; // Increase speed per level
         fallTime = Mathf.Max(0.8f - speedIncrease, minFallTime);
     }
 
 
     public static void UpdateGlobalSpeed()
     {
-        float speedIncrease = GameGrid.level * 0.1f;
+        float speedIncrease = GameGrid.level * InventoryManager.itemSpeedMod * 0.1f;
         fallTime = Mathf.Max(baseFallTime - speedIncrease, 0.2f);
     }
 

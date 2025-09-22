@@ -6,6 +6,10 @@ public class GameGrid : MonoBehaviour
     public static int height = 21; // 10x20 is copyrighted
     public static Transform[,] grid = new Transform[width, height];
     public static int comboCount = 0;
+    public static double lineClearMult = 1; // Multiplier from line clear amount
+    public static double lineClearPoints = 100; //Default line clear value
+    public static double fullClearBonus = 1000; //Default full clear bonus
+    public static InventoryManager inventoryManager = FindFirstObjectByType<InventoryManager>();
 
     public static bool IsInsideGrid(Vector2 pos)
     {
@@ -102,8 +106,6 @@ public class GameGrid : MonoBehaviour
     public static void CheckAndClearLines()
     {
         double linesCleared = 0; // Track how many lines were cleared
-        double lineClearMult = 1; // Multiplier from line clear amount
-        double fullClearBonus = 0;
 
         for (int y = 0; y < height; y++)
         {
@@ -116,7 +118,7 @@ public class GameGrid : MonoBehaviour
             }
         }
 
-        if (linesCleared > 0) // Handles incrementing and resetting line combo
+        if (linesCleared > 0) // Handles incrementing and resetting line clear combo
             comboCount++;
         else
             comboCount = 0;
@@ -125,30 +127,7 @@ public class GameGrid : MonoBehaviour
         //  Award points and check for level-up
         if (linesCleared > 0)
         {
-            switch (linesCleared) //  Check for point multiplier to apply
-            {
-                case 1:
-                    lineClearMult = 1;
-                    break;
-                case 2:
-                    lineClearMult = 1.25;
-                    break;
-                case 3:
-                    lineClearMult = 1.5;
-                    break;
-                default:
-                    lineClearMult = 2.5;
-                    break;
-            }
-            if (IsBoardClear())
-                fullClearBonus = 1000; // Additional 1000 base points for a full clear
-
-            int points = (int)(((linesCleared * 100) + fullClearBonus) *
-                lineClearMult * (0.5 + (0.5 * comboCount))); // 100 points per line
-            totalScore += points;
-            levelScore += points;
-            currency += points; // Make currency equal to points
-            FindFirstObjectByType<Spawner>()?.UpdateScoreUI(); // Refresh the two score labels immediately
+            currency += ScoreAdd(linesCleared); // Make currency equal to points
             UpdateLevel(); //  Check if level should increase
         }
     }
@@ -212,6 +191,51 @@ public class GameGrid : MonoBehaviour
         }
 
         return false;
+    }
+
+    public static int ScoreAdd(double linesCleared)
+    {
+        switch (linesCleared) // set values to default before modifying with items
+        {
+            case 1:
+                lineClearMult = 1;
+                break;
+            case 2:
+                lineClearMult = 1.25;
+                break;
+            case 3:
+                lineClearMult = 1.5;
+                break;
+            default:
+                lineClearMult = 2.5;
+                break;
+        }
+        if (IsBoardClear())
+            fullClearBonus = 1000; // Additional 1000 base points for a full clear
+        else
+            fullClearBonus = 0;
+
+        applyItemEffects(linesCleared);
+
+        int points = (int)(((linesCleared * lineClearPoints) + fullClearBonus) *
+            lineClearMult * (0.5 + (0.5 * comboCount))); // 100 points per line
+        score += points;
+
+        return points;
+    }
+
+    //passive item effects from line clears should be included here
+    public static void applyItemEffects(double linesCleared)
+    {
+        for (int i = 0; i < inventoryManager.passiveItems.Count; i++)
+        {
+            if (inventoryManager.passiveItems[i].itemName == "testItem")
+                if (linesCleared == 1)
+                    lineClearMult += 0.25;
+
+            if (inventoryManager.passiveItems[i].itemName == "Coding 4 Clowns")
+                lineClearPoints += 100;
+        }
     }
 
     public static void ClearGrid()
