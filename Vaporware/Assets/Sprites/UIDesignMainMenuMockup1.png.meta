@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      UIDesignMainMenuMockup1_0: 2784085520491834477
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

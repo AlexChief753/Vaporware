@@ -9,6 +9,7 @@ public class GameGrid : MonoBehaviour
     public static double lineClearMult = 1; // Multiplier from line clear amount
     public static double lineClearPoints = 100; //Default line clear value
     public static double fullClearBonus = 1000; //Default full clear bonus
+    public static double comboMult = 0.5; //Default combo multiplier
     public static InventoryManager inventoryManager = FindFirstObjectByType<InventoryManager>();
 
     public static bool IsInsideGrid(Vector2 pos)
@@ -195,7 +196,10 @@ public class GameGrid : MonoBehaviour
 
     public static int ScoreAdd(double linesCleared)
     {
-        switch (linesCleared) // set values to default before modifying with items
+        lineClearPoints = 100;  // set values to default before modifying with items
+        comboMult = 0.5;
+
+        switch (linesCleared) 
         {
             case 1:
                 lineClearMult = 1;
@@ -218,8 +222,10 @@ public class GameGrid : MonoBehaviour
         applyItemEffects(linesCleared);
 
         int points = (int)(((linesCleared * lineClearPoints) + fullClearBonus) *
-            lineClearMult * (0.5 + (0.5 * comboCount))); // 100 points per line
-        score += points;
+            lineClearMult * (1 + (comboMult * (comboCount - 1))));
+
+        levelScore += points;
+        totalScore += points;
 
         return points;
     }

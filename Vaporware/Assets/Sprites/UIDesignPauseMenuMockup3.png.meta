@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      UIDesignPauseMenuMockup3_0: -6043919892347139421
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
