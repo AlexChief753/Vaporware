@@ -155,7 +155,7 @@ public class GameGrid : MonoBehaviour
 
     public static void UpdateLevel()
     {
-        int requiredScore = 100; // Can call GameGrid.level and do some math to increase score required per level ***************************
+        int requiredScore = 1000; // Can call GameGrid.level and do some math to increase score required per level ***************************
         if (!levelUpTriggered && levelScore >= requiredScore)
         {
             levelUpTriggered = true; // Prevent multiple triggers
