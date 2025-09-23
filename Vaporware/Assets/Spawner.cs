@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
+using UnityEngine.SceneManagement;
 public class Spawner : MonoBehaviour
 {
     public TextMeshProUGUI totalScoreText;
@@ -16,7 +17,32 @@ public class Spawner : MonoBehaviour
     private Queue<int> forcedQueue = new Queue<int>();
     private bool resetBagAfterForced = false;
 
+    void Awake()
+    {
+        // Ensure time is running (in case we came from a paused state)
+        Time.timeScale = 1f;
 
+        if (GameSession.startMode == StartMode.NewGame || GameSession.pendingSaveData == null)
+        {
+            // NEW GAME: hard reset all run state
+            GameGrid.totalScore = 0;
+            GameGrid.levelScore = 0;
+            GameGrid.level = 1;
+            GameGrid.currency = 0;
+            GameGrid.levelUpTriggered = false;
+            GameGrid.comboCount = 0;
+
+            GameGrid.ClearGrid();
+            Tetromino.UpdateGlobalSpeed();
+
+            if (gameOverText != null)
+                gameOverText.gameObject.SetActive(false);
+        }
+        else
+        {
+            // else: load path handled by LevelManager.ApplyLoadedDataAndShowLevelComplete()
+        }
+    }
 
     void Start()
     {
@@ -29,6 +55,10 @@ public class Spawner : MonoBehaviour
         if (GameGrid.IsGameOver())
         {
             Debug.Log("Game Over!");
+
+            // Immediately clear any pending load + delete save so a restart is a true fresh run
+            GameSession.Clear();
+            SaveSystem.Delete();
 
             // Reset static game state
             GameGrid.totalScore = 0;
@@ -145,14 +175,21 @@ public class Spawner : MonoBehaviour
 
         void RestartGame()
         {
+
+            // Ensure we do NOT reload into a saved state
+            GameSession.Clear();
+            SaveSystem.Delete();
+
             // Reset game state for a new run
             GameGrid.totalScore = 0;
             GameGrid.levelScore = 0;
             GameGrid.level = 1;
+            GameGrid.currency = 0;
+            GameGrid.comboCount = 0;
             Tetromino.UpdateGlobalSpeed();
 
-            Time.timeScale = 1; // Resume the game
             GameGrid.ClearGrid(); // Clear the grid
+            Time.timeScale = 1; // Resume the game
 
             // Hide the Game Over UI
             if (gameOverText != null)
@@ -160,8 +197,8 @@ public class Spawner : MonoBehaviour
                 gameOverText.gameObject.SetActive(false);
             }
 
-            UnityEngine.SceneManagement.SceneManager.LoadScene(UnityEngine.SceneManagement.SceneManager.GetActiveScene().name);
-        }
+            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
     
 
 

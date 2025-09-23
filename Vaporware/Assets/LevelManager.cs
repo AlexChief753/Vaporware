@@ -19,6 +19,7 @@ public class LevelManager : MonoBehaviour
 
     public Button continueButton;
     public Button itemShopButton;
+    public Button saveButton;
     public Button quitButton;
 
     [Header("Pause Menu")]
@@ -67,11 +68,19 @@ public class LevelManager : MonoBehaviour
         if (pauseSettingsButton != null)
             pauseSettingsButton.onClick.AddListener(() => { Debug.Log("Settings (placeholder)"); });
 
+        if (saveButton != null) saveButton.onClick.AddListener(SaveAtLevelComplete);
+
         if (pauseMainMenuButton != null)
             pauseMainMenuButton.onClick.AddListener(() => { Debug.Log("Main Menu (placeholder)"); });
 
         if (pauseExitButton != null)
             pauseExitButton.onClick.AddListener(QuitGame);
+
+        // If launching via Load Game, re-open Level Complete menu in paused state
+        if (GameSession.startMode == StartMode.LoadGame && GameSession.pendingSaveData != null)
+        {
+            ApplyLoadedDataAndShowLevelComplete(GameSession.pendingSaveData);
+        }
     }
 
     void Update()
@@ -292,7 +301,83 @@ public class LevelManager : MonoBehaviour
     {
         // In the future, call SaveGame function to automatically save the game upon exiting to main menu *********************
         Time.timeScale = 1f; // reset timescale so menu isn’t frozen
+        GameSession.Clear();
         SceneManager.LoadScene("MainMenu");
+    }
+
+    public void SaveAtLevelComplete()
+    {
+        var data = new SaveData
+        {
+            level = GameGrid.level,
+            totalScore = GameGrid.totalScore,
+            currency = GameGrid.currency,
+            savedAtIso = System.DateTime.UtcNow.ToString("o")
+        };
+
+        // Player bag
+        var spawner = FindFirstObjectByType<Spawner>();
+        if (spawner != null && spawner.playerBag != null)
+            data.playerBag = new System.Collections.Generic.List<int>(spawner.playerBag.playerBag);
+
+        // Inventory items by name (resolve names from InventoryManager’s current items)
+        var invMgr = FindFirstObjectByType<InventoryManager>();
+        if (invMgr != null && invMgr.items != null)
+        {
+            foreach (var item in invMgr.items)
+                if (item != null) data.inventoryItemNames.Add(item.itemName);
+        }
+
+        SaveSystem.Save(data);
+        Debug.Log("Game saved at Level Complete.");
+    }
+
+    private void ApplyLoadedDataAndShowLevelComplete(SaveData data)
+    {
+        // Apply core values
+        GameGrid.level = Mathf.Max(1, data.level);
+        GameGrid.totalScore = Mathf.Max(0, data.totalScore);
+        GameGrid.currency = Mathf.Max(0, data.currency);
+        GameGrid.levelUpTriggered = false;
+
+        // Inventory & player bag
+        var invMgr = FindFirstObjectByType<InventoryManager>();
+        var invUI = FindFirstObjectByType<InventoryUI>();
+        if (invMgr != null)
+        {
+            invMgr.items.Clear();
+            var shop = FindFirstObjectByType<ItemShopManager>();
+            if (shop != null && shop.availableItems != null && data.inventoryItemNames != null)
+            {
+                foreach (var name in data.inventoryItemNames)
+                {
+                    var match = System.Array.Find(shop.availableItems, so => so != null && so.itemName == name);
+                    if (match != null) invMgr.items.Add(match);
+                }
+            }
+            if (invUI != null) invUI.RefreshSlots();
+        }
+
+        // HUD refresh
+        var spawner = FindFirstObjectByType<Spawner>();
+        if (spawner != null) spawner.UpdateUI();
+
+        // Clean board in case anything lingered
+        GameGrid.ClearGrid();
+
+        // Present the Level Complete UI (paused), like CompleteLevel() does
+        Time.timeScale = 0f;
+        levelPaused = true;
+        levelCompleteMenu.SetActive(true);
+        if (levelCompleteText != null)
+            levelCompleteText.text = "Level " + GameGrid.level + " Complete!";
+
+        // Focus buttons
+        inputArmed = false;
+        EventSystem.current.SetSelectedGameObject(null);
+        if (continueButton != null)
+            EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
+        StartCoroutine(ArmMenuSelection());
     }
 
 }

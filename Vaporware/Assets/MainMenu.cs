@@ -25,7 +25,7 @@ public class MainMenu : MonoBehaviour
     {
         // Wire up buttons
         if (newGameButton) newGameButton.onClick.AddListener(StartNewGame);
-        if (loadGameButton) loadGameButton.onClick.AddListener(() => Debug.Log("Load Game (placeholder)"));
+        if (loadGameButton) loadGameButton.onClick.AddListener(LoadGame);
         if (settingsButton) settingsButton.onClick.AddListener(() => Debug.Log("Settings (placeholder)"));
         if (creditsButton) creditsButton.onClick.AddListener(() => Debug.Log("Credits (placeholder)"));
         if (exitButton) exitButton.onClick.AddListener(ExitGame);
@@ -41,6 +41,21 @@ public class MainMenu : MonoBehaviour
 
     private void StartNewGame()
     {
+        GameSession.startMode = StartMode.NewGame;
+        GameSession.pendingSaveData = null;
+        SceneManager.LoadScene(gameplaySceneName, LoadSceneMode.Single);
+    }
+
+    private void LoadGame()
+    {
+        var data = SaveSystem.Load();
+        if (data == null)
+        {
+            Debug.Log("No save found.");
+            return;
+        }
+        GameSession.startMode = StartMode.LoadGame;
+        GameSession.pendingSaveData = data;
         SceneManager.LoadScene(gameplaySceneName, LoadSceneMode.Single);
     }
 
