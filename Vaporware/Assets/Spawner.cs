@@ -17,6 +17,11 @@ public class Spawner : MonoBehaviour
     private Queue<int> forcedQueue = new Queue<int>();
     private bool resetBagAfterForced = false;
 
+    public GameObject gameOverPanel; 
+    public Button restartButton; 
+    public Button mainMenuButton; 
+    public Button quitButton; 
+
     void Awake()
     {
         // Ensure time is running (in case we came from a paused state)
@@ -48,6 +53,23 @@ public class Spawner : MonoBehaviour
     {
         playerBag.InitBag();
         SpawnTetromino();
+
+        if (gameOverPanel != null) gameOverPanel.SetActive(false);
+
+        // Wire buttons once
+        if (restartButton != null) restartButton.onClick.AddListener(RestartGame);
+        if (mainMenuButton != null) mainMenuButton.onClick.AddListener(() =>
+        {
+            // ensure we don't carry paused time or stale session
+            GameSession.Clear();                  // keep behavior consistent with your restart flow
+            Time.timeScale = 1f;
+            if (LevelManager.instance != null)    // prefer existing path out to Main Menu
+                LevelManager.instance.ReturnToMainMenu();
+        });
+        if (quitButton != null) quitButton.onClick.AddListener(() =>
+        {
+            Application.Quit();
+        });
     }
 
     public void SpawnTetromino()
@@ -72,6 +94,24 @@ public class Spawner : MonoBehaviour
             {
                 gameOverText.gameObject.SetActive(true);
             }
+
+            if (gameOverPanel != null)
+            {
+                gameOverPanel.SetActive(true);
+
+                // Give controller/keyboard focus to Restart
+                var es = UnityEngine.EventSystems.EventSystem.current;
+                if (es != null && restartButton != null)
+                {
+                    es.SetSelectedGameObject(null);
+                    es.SetSelectedGameObject(restartButton.gameObject);
+                }
+            }
+
+            // (Optional) lock the inventory while on Game Over
+            var inv = UnityEngine.Object.FindFirstObjectByType<InventoryUI>();
+            if (inv != null) inv.SetMenuLock(true);
+
             return;
         }
 
@@ -196,6 +236,8 @@ public class Spawner : MonoBehaviour
             {
                 gameOverText.gameObject.SetActive(false);
             }
+
+            if (gameOverPanel != null) gameOverPanel.SetActive(false);
 
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }

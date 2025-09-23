@@ -59,13 +59,20 @@ public class InventoryUI : MonoBehaviour
         // Don’t accept inventory input when the Level Complete menu is up
         //if (LevelManager.instance != null &&
         //    LevelManager.instance.levelCompleteMenu != null &&
-         //   LevelManager.instance.levelCompleteMenu.activeInHierarchy)
-         //   return;
+        //   LevelManager.instance.levelCompleteMenu.activeInHierarchy)
+        //   return;
+
+        // Hard-stop all inventory input while any menu pauses the game
+        if (Time.timeScale == 0f) return;
 
         if (LevelManager.instance && LevelManager.instance.levelCompleteMenu &&
             LevelManager.instance.levelCompleteMenu.activeInHierarchy) return;
 
-            // Keyboard shortcuts
+        // Explicitly ignore input while the Item Shop is up
+        var shop = FindFirstObjectByType<ItemShopManager>();
+        if (shop && shop.itemShopPanel && shop.itemShopPanel.activeInHierarchy) return;
+
+        // Keyboard shortcuts
         if (Input.GetKeyDown(KeyCode.Z) || Input.GetButtonDown("UseSlot1")) 
             TryUse(0);
         if (Input.GetKeyDown(KeyCode.X) || Input.GetButtonDown("UseSlot2")) 
@@ -91,12 +98,20 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    public void OnClickSlot1() => TryUse(0);
-    public void OnClickSlot2() => TryUse(1);
-    public void OnClickSlot3() => TryUse(2);
+    //public void OnClickSlot1() => TryUse(0);
+    //public void OnClickSlot2() => TryUse(1);
+    //public void OnClickSlot3() => TryUse(2);
 
     private void TryUse(int index)
     {
+        // Block use from button clicks while paused/menus are open
+        if (Time.timeScale == 0f) return;
+
+        if (LevelManager.instance && LevelManager.instance.levelCompleteMenu &&
+            LevelManager.instance.levelCompleteMenu.activeInHierarchy) return;
+        var shop = FindFirstObjectByType<ItemShopManager>();
+        if (shop && shop.itemShopPanel && shop.itemShopPanel.activeInHierarchy) return;
+
         InventoryManager.instance.UseItemAt(index);
     }
 
@@ -108,15 +123,6 @@ public class InventoryUI : MonoBehaviour
         slotImage.color = Color.white;
         slotImage.rectTransform.sizeDelta = new Vector2(100, 100); // Make item sprite fit circle
 
-        // Enable clicking only if an item exists in the slot
-        var btn = slotImage.GetComponent<Button>();
-        //if (btn != null) btn.interactable = true;
-        if (btn != null)
-        {
-            // If locked, stay non-interactable no matter what
-            bool locked = rootGroup != null && !rootGroup.interactable;
-            btn.interactable = !locked;   
-        }
     }
 
     private void ClearSlot(Image slotImage)
@@ -125,8 +131,5 @@ public class InventoryUI : MonoBehaviour
         slotImage.sprite = null;
         slotImage.color = new Color(1, 1, 1, 0);
 
-        // Disable clicking when empty
-        var btn = slotImage.GetComponent<Button>();
-        if (btn != null) btn.interactable = false;
     }
 }
