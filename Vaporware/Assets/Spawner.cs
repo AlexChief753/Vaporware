@@ -231,6 +231,8 @@ public class Spawner : MonoBehaviour
             GameGrid.level = 1;
             GameGrid.currency = 0;
             GameGrid.comboCount = 0;
+            var inventoryManager = FindFirstObjectByType<InventoryManager>();
+            inventoryManager.passiveItems.Clear();
             Tetromino.UpdateGlobalSpeed();
 
             GameGrid.ClearGrid(); // Clear the grid

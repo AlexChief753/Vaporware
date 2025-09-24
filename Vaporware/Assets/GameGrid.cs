@@ -10,7 +10,7 @@ public class GameGrid : MonoBehaviour
     public static double lineClearPoints = 100; //Default line clear value
     public static double fullClearBonus = 1000; //Default full clear bonus
     public static double comboMult = 0.5; //Default combo multiplier
-    public static InventoryManager inventoryManager = FindFirstObjectByType<InventoryManager>();
+    //public static InventoryManager inventoryManager = FindFirstObjectByType<InventoryManager>();
 
     public static bool IsInsideGrid(Vector2 pos)
     {
@@ -233,6 +233,7 @@ public class GameGrid : MonoBehaviour
     //passive item effects from line clears should be included here
     public static void applyItemEffects(double linesCleared)
     {
+        var inventoryManager = FindFirstObjectByType<InventoryManager>();
         for (int i = 0; i < inventoryManager.passiveItems.Count; i++)
         {
             if (inventoryManager.passiveItems[i].itemName == "testItem")

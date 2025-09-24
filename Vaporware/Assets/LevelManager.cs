@@ -182,7 +182,8 @@ public class LevelManager : MonoBehaviour
         currentTime = levelTime;
         GameGrid.levelScore = 0;
 
-        GameGrid.inventoryManager.PassiveInit();  //hacky, but works?
+        var inventoryManager = FindFirstObjectByType<InventoryManager>();
+        inventoryManager.PassiveInit();  //hacky, but works?
 
         Tetromino.UpdateGlobalSpeed();
         GameGrid.levelUpTriggered = false;
