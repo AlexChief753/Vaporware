@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine.SceneManagement;
+using UnityEngine.EventSystems;
 public class Spawner : MonoBehaviour
 {
     public TextMeshProUGUI totalScoreText;
@@ -16,6 +17,7 @@ public class Spawner : MonoBehaviour
     private List<int> bag = new List<int>();
     private Queue<int> forcedQueue = new Queue<int>();
     private bool resetBagAfterForced = false;
+
 
     public GameObject gameOverPanel; 
     public Button restartButton; 
@@ -106,6 +108,9 @@ public class Spawner : MonoBehaviour
                     es.SetSelectedGameObject(null);
                     es.SetSelectedGameObject(restartButton.gameObject);
                 }
+
+                SetGameOverButtonsInteractable(false);
+                StartCoroutine(ArmGameOverButtons());
             }
 
             // (Optional) lock the inventory while on Game Over
@@ -274,6 +279,40 @@ public class Spawner : MonoBehaviour
             forcedQueue.Enqueue(pieceIndex);
         }
         resetBagAfterForced = true;
+    }
+
+    private void SetGameOverButtonsInteractable(bool on)
+    {
+        if (restartButton) restartButton.interactable = on;
+        if (mainMenuButton) mainMenuButton.interactable = on;
+        if (quitButton) quitButton.interactable = on;
+    }
+
+    private System.Collections.IEnumerator ArmGameOverButtons()
+    {
+        // Wait at least one rendered frame
+        yield return new WaitForEndOfFrame();
+
+        // Wait until all "submit" variants are fully released
+        // (old Input Manager defaults: Submit maps to Return/Enter + joystick button 0 (A))
+        while (Input.GetButton("Submit") ||
+               Input.GetKey(KeyCode.Return) ||
+               Input.GetKey(KeyCode.KeypadEnter) ||
+               Input.GetKey(KeyCode.Space) ||
+               Input.GetKey(KeyCode.JoystickButton0))
+        {
+            yield return null;
+        }
+
+        // Now it's safe to enable and focus the Restart button
+        SetGameOverButtonsInteractable(true);
+
+        var es = EventSystem.current;
+        if (es && restartButton)
+        {
+            es.SetSelectedGameObject(null);
+            es.SetSelectedGameObject(restartButton.gameObject);
+        }
     }
 
 }
