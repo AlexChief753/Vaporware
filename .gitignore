@@ -4,11 +4,11 @@
 #
 /Vaporware/[Ll]ibrary/
 /Vaporware/[Tt]emp/
-/[Oo]bj/
-/[Bb]uild/
-/[Bb]uilds/
-/[Ll]ogs/
-/[Uu]ser[Ss]ettings/
+/Vaporware/[Oo]bj/
+/Vaporware/[Bb]uild/
+/Vaporware/[Bb]uilds/
+/Vaporware/[Ll]ogs/
+/Vaporware/[Uu]ser[Ss]ettings/
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
