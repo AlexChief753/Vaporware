@@ -1,2 +1,16 @@
 fileFormatVersion: 2
 guid: 472b01dd5ce72d143b154c04531d502d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ghostSprite: {instanceID: 0}
+  - ghostSprite1: {fileID: -3990879181660761041, guid: 9a7e95cd14c7c9143982b36cccf88afc, type: 3}
+  - ghostSprite2: {fileID: -5813083341651236839, guid: 8026c8a35f4b10444a5dca08cedcc332, type: 3}
+  - ghostSprite3: {fileID: -8272387744253174297, guid: d1b7b785c4af21241876ac3f99f11fad, type: 3}
+  - ghostSprite4: {fileID: -7932433543613314172, guid: e706ad84a7d3fb1478c8b404a8e367f3, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

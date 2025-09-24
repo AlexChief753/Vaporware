@@ -8,79 +8,221 @@ public class Tetromino : MonoBehaviour
     private float previousTime;
     private bool isLanded = false;
     private GameObject ghostPiece;
+<<<<<<< Updated upstream
     public Sprite ghostSprite; // Assign the gray square sprite in the Inspector
     //test line
+=======
+    // public Sprite ghostSprite; // Assign the gray square sprite in the Inspector
+    //                            //test line
+
+    public Sprite ghostSprite1;
+    public Sprite ghostSprite2;
+    public Sprite ghostSprite3;
+    public Sprite ghostSprite4;
+
+    public int pieceIndex; // set by Spawner when spawning
+>>>>>>> Stashed changes
 
 
     void Start()
     {
+        // DEBUG: Check what sprites are actually assigned
+        Debug.LogWarning($"Ghost Sprites - 1: {ghostSprite1 != null}, 2: {ghostSprite2 != null}, 3: {ghostSprite3 != null}, 4: {ghostSprite4 != null}");
+
         AssignRandomItemSlots();
+        AssignGhostSprites();
         CreateGhostPiece();
         Invoke("UpdateGhostPiece", 0.05f);
     }
 
+    void AssignGhostSprites()
+    {
+        // Try to find sprites by name in Resources folder
+        ghostSprite1 = Resources.Load<Sprite>("OneWidthGhostPiece");
+        ghostSprite2 = Resources.Load<Sprite>("TwoWidthGhostPiece");
+        ghostSprite3 = Resources.Load<Sprite>("ThreeWidthGhostPiece");
+        ghostSprite4 = Resources.Load<Sprite>("FourWidthGhostPiece");
+        
+        Debug.LogWarning($"Programmatic assignment - 1: {ghostSprite1 != null}, 2: {ghostSprite2 != null}, 3: {ghostSprite3 != null}, 4: {ghostSprite4 != null}");
+    }
+
     void AssignRandomItemSlots()
     {
-    foreach (Transform block in transform)
-    {
-        ItemSlot itemSlot = block.gameObject.AddComponent<ItemSlot>();
-
-        // 2% chance to have an item slot
-        if (Random.value < 0.2f)
+        foreach (Transform block in transform)
         {
-            itemSlot.hasItem = true;
-            Debug.Log("Item slot added at " + block.position);
+            ItemSlot itemSlot = block.gameObject.AddComponent<ItemSlot>();
+
+            // 2% chance to have an item slot
+            if (Random.value < 0.2f)
+            {
+                itemSlot.hasItem = true;
+                Debug.Log("Item slot added at " + block.position);
+            }
         }
-    }
     }
 
     public void CreateGhostPiece()
     {
-        ghostPiece = new GameObject("GhostPiece");
-        ghostPiece.tag = "GhostPiece";
 
-        foreach (Transform block in transform)
+        // Clean up any existing ghost piece first
+        if (ghostPiece != null)
         {
-            GameObject ghostBlock = new GameObject("GhostBlock");
-            ghostBlock.transform.SetParent(ghostPiece.transform);
-            ghostBlock.transform.localPosition = block.localPosition;
-
-            SpriteRenderer sr = ghostBlock.AddComponent<SpriteRenderer>();
-            sr.sprite = ghostSprite;
-            sr.color = new Color(1f, 1f, 1f, 0.3f); //1f, 1f, 1f, 0.3f change 0.3f to higher for darker ghost pieces
-            sr.sortingOrder = -1;
+            Destroy(ghostPiece);
         }
 
-        ghostPiece.transform.SetParent(null); // Detach ghost piece from Tetromino
+        ghostPiece = new GameObject("GhostPiece");
+        // ghostPiece.tag = "GhostPiece";
+
+        // Measure Tetromino Width and select appropriate ghost piece sprite
+        float width = GetPieceWidth();
+        Sprite selectedGhostSprite = GetGhostSpriteForWidth(width);
+
+        if (selectedGhostSprite == null)
+        {
+            Debug.LogError("No ghost sprite available! Cannot create ghost piece.");
+            Destroy(ghostPiece);
+            ghostPiece = null;
+            return;
+        }
+
+        Debug.Log("Creating ghost piece with width: " + width + ", using sprite: " + selectedGhostSprite.name);
+
+        // Add SpriteRenderer directly to the ghostPiece
+        SpriteRenderer sr = ghostPiece.AddComponent<SpriteRenderer>();
+        sr.sprite = selectedGhostSprite;
+        sr.color = new Color(1f, 1f, 1f, 0.7f); // Add this line for transparency
+        sr.sortingOrder = -1;
+
+        float scaleFactor = width / selectedGhostSprite.bounds.size.x;   // Adjusts Width - will need to change if sprite is updated.
+        ghostPiece.transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
+        ghostPiece.transform.SetParent(null);
+
+        // DEBUG: Add a collider to see the bounds in Scene view
+        BoxCollider2D collider = ghostPiece.AddComponent<BoxCollider2D>();
+        collider.isTrigger = true;
 
         Invoke("UpdateGhostPiece", 0.02f);
     }
 
-
-
-
-
-    void UpdateGhostPiece()
+    private Sprite GetGhostSpriteForWidth(float width)
     {
-        if (ghostPiece == null) return; // Safety check
-
-        // Match the rotation of the active Tetromino
-        ghostPiece.transform.rotation = transform.rotation;
-
-        // Start from the active Tetromino's position
-        Vector3 basePos = transform.position;
-        Vector3 finalPos = basePos;
-
-        // Move the ghost down step-by-step until collision
-        while (!CheckCollisionAtGhostPosition(finalPos + Vector3.down, ghostPiece.transform.rotation))
+        int roundedWidth = Mathf.RoundToInt(width);
+        
+        // Check which sprites are actually assigned and use the first available one
+        Sprite[] availableSprites = { ghostSprite1, ghostSprite2, ghostSprite3, ghostSprite4 };
+        int index = Mathf.Clamp(roundedWidth - 1, 0, 3);
+        
+        if (availableSprites[index] != null)
         {
-            finalPos += Vector3.down;
+            return availableSprites[index];
         }
-
-        // Place the ghost at the final position
-        ghostPiece.transform.position = finalPos;
+        
+        // Fallback: use first available sprite
+        foreach (Sprite sprite in availableSprites)
+        {
+            if (sprite != null) 
+            {
+                Debug.LogWarning($"Ghost sprite for width {roundedWidth} not assigned, using fallback");
+                return sprite;
+            }
+        }
+        
+        Debug.LogError("No ghost sprites assigned at all!");
+        return null;
     }
 
+
+    // This contains a lot of unecessary code for debugging
+    private void UpdateGhostPiece()
+    {
+        // Terminate if ghost piece is null
+        if (ghostPiece == null)
+        {
+            Debug.LogWarning("GHOST PIECE IS NULL!!!!!!!!!!!!");
+            return;
+        }
+
+        SpriteRenderer sr = ghostPiece.GetComponent<SpriteRenderer>();
+
+        // Check for junk ghost piece, destroy and recreate if it exists
+        if (sr == null)
+        {
+            // If the SpriteRenderer is missing, recreate the ghost piece
+            Debug.LogWarning("SpriteRenderer missing, recreating ghost piece");
+            if (ghostPiece != null) Destroy(ghostPiece);
+            CreateGhostPiece();
+            return;
+        }
+
+
+        float width = GetPieceWidth();
+        Sprite newSprite = GetGhostSpriteForWidth(width);
+
+        // Update the ghost piece directly
+        if (sr != null)
+        {
+            sr.sprite = newSprite;
+        }
+        else
+        {
+            Debug.LogWarning("SpriteRenderer is null on ghost piece!");
+        }
+
+        // Calculate where the ghost piece should land
+        Vector3 ghostPosition = CalculateGhostPosition();
+        ghostPiece.transform.position = ghostPosition;
+
+        Debug.Log($"Ghost position: {ghostPosition}, Width: {width}, Sprite: {newSprite?.name ?? "NULL"}");
+    }
+
+
+    private Vector3 CalculateGhostPosition()
+    {
+        Vector3 currentPosition = transform.position;
+        Vector3 testPosition = currentPosition;
+
+        // Move down until we hit something
+        while (!CheckGhostCollision(testPosition + Vector3.down))
+        {
+            testPosition += Vector3.down;
+        }
+
+        // Ensure the ghost stays aligned with the tetromino's X position
+        testPosition.x = currentPosition.x;
+
+        return testPosition;
+    }
+
+    private bool CheckGhostCollision(Vector3 position)
+    {
+        // For a platform ghost, we need to check the entire width at the given Y position
+        float width = GetPieceWidth();
+        float halfWidth = width / 2f;
+
+        // Check multiple points along the platform width
+        for (float x = -halfWidth; x <= halfWidth; x += 1f)
+        {
+            Vector2 checkPos = new Vector2(
+                Mathf.Round(position.x + x),
+                Mathf.Round(position.y)
+            );
+
+            // Check if this check point is within grid bounds first
+            if (checkPos.x < 0 || checkPos.x >= GameGrid.width)
+            {
+                // This point is outside the grid horizontally, but that's OK for ghost collision
+                // Only check vertical bounds and occupancy for points inside the grid
+                continue;
+            }
+
+            // If any point goes below the grid or hits an occupied cell
+            if (checkPos.y < 0 || (checkPos.y < GameGrid.height && GameGrid.IsCellOccupied(checkPos)))
+            {
+                return true;
+            }
+        }
+        return false; // No collision, safe to move down
+    }
 
 
 
@@ -210,6 +352,7 @@ public class Tetromino : MonoBehaviour
                 if (ghostPiece != null)
                 {
                     Destroy(ghostPiece); // Destroy ghost of active tetromino
+                    ghostPiece = null;
                 }
 
                 GameGrid.AddToGrid(this.transform);
@@ -248,6 +391,7 @@ public class Tetromino : MonoBehaviour
         if (ghostPiece != null)
         {
             Destroy(ghostPiece);
+            ghostPiece = null;
         }
     }
 
@@ -260,6 +404,14 @@ public class Tetromino : MonoBehaviour
         if (CheckBoundaryCollision() || CheckCollision())
         {
             transform.position -= direction; // Move back if out of bounds or occupied
+        }
+        else
+        {
+            // Successful move - update ghost position
+            if (!isLanded && ghostPiece != null)
+            {
+                UpdateGhostPiece();
+            }
         }
     }
 
@@ -281,8 +433,43 @@ public class Tetromino : MonoBehaviour
                 transform.Rotate(0, 0, -90); // Undo rotation if all attempts fail
             }
         }
+
+        // Only update ghost if it exists and we're not landed
+        if (!isLanded && ghostPiece != null)
+        {
+            UpdateGhostPiece();
+        }
     }
 
+<<<<<<< Updated upstream
+=======
+    void RotateTetrominoCounterClockwise()
+    {
+        // Prevent rotation for the O Tetromino
+        if (gameObject.name.Contains("O"))
+        {
+            return; // Do nothing if this is the O piece
+        }
+
+        transform.Rotate(0, 0, -90);
+
+        if (CheckBoundaryCollision() || CheckCollision())
+        {
+            // Try wall kick offsets
+            if (!TryWallKick())
+            {
+                transform.Rotate(0, 0, 90); // Undo rotation if all attempts fail
+            }
+        }
+
+        // Update ghost immediately after rotation
+        if (!isLanded && ghostPiece != null)
+        {
+            UpdateGhostPiece(); // This should recalculate width and position
+        }
+    }
+
+>>>>>>> Stashed changes
     bool TryWallKick()
     {
         Vector3[] wallKickOffsets;
@@ -341,7 +528,7 @@ public class Tetromino : MonoBehaviour
         return false;
     }
 
-    bool CheckCollision()
+    private bool CheckCollision()
     {
         foreach (Transform child in transform)
         {
@@ -362,6 +549,22 @@ public class Tetromino : MonoBehaviour
         return false;
     }
 
+    // There may be a redundant Rounding function call in another function now that this function also calls Round()
+    float GetPieceWidth()
+    {
+        float minX = float.MaxValue;
+        float maxX = float.MinValue;
+        
+        foreach (Transform block in transform)
+        {
+            Vector3 localPos = block.position;
+            if (localPos.x < minX) minX = localPos.x;
+            if (localPos.x > maxX) maxX = localPos.x;
+        }
+        
+        float width = maxX - minX + 1f; // +1 because each block is 1 unit wide
+        return Mathf.Round(width);
+    }
 }
 
 

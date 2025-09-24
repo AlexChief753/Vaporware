@@ -3,7 +3,6 @@
 # Get latest from https://github.com/github/gitignore/blob/main/Unity.gitignore
 #
 /Vaporware/[Ll]ibrary/
-/[Tt]emp/
 /[Oo]bj/
 /[Bb]uild/
 /[Bb]uilds/
