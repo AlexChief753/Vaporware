@@ -8,10 +8,6 @@ public class Tetromino : MonoBehaviour
     private float previousTime;
     private bool isLanded = false;
     private GameObject ghostPiece;
-<<<<<<< Updated upstream
-    public Sprite ghostSprite; // Assign the gray square sprite in the Inspector
-    //test line
-=======
     // public Sprite ghostSprite; // Assign the gray square sprite in the Inspector
     //                            //test line
 
@@ -21,7 +17,6 @@ public class Tetromino : MonoBehaviour
     public Sprite ghostSprite4;
 
     public int pieceIndex; // set by Spawner when spawning
->>>>>>> Stashed changes
 
 
     void Start()
@@ -441,8 +436,6 @@ public class Tetromino : MonoBehaviour
         }
     }
 
-<<<<<<< Updated upstream
-=======
     void RotateTetrominoCounterClockwise()
     {
         // Prevent rotation for the O Tetromino
@@ -469,7 +462,6 @@ public class Tetromino : MonoBehaviour
         }
     }
 
->>>>>>> Stashed changes
     bool TryWallKick()
     {
         Vector3[] wallKickOffsets;
