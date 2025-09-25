@@ -322,11 +322,22 @@ public class LevelManager : MonoBehaviour
             data.playerBag = new System.Collections.Generic.List<int>(spawner.playerBag.playerBag);
 
         // Inventory items by name (resolve names from InventoryManager’s current items)
+        //var invMgr = FindFirstObjectByType<InventoryManager>();
+        //if (invMgr != null && invMgr.items != null)
+        //{
+        //    foreach (var item in invMgr.items)
+        //        if (item != null) data.inventoryItemNames.Add(item.itemName);
+        //}
         var invMgr = FindFirstObjectByType<InventoryManager>();
-        if (invMgr != null && invMgr.items != null)
+        if (invMgr != null)
         {
+            // Active/regular items by name (existing behavior)
             foreach (var item in invMgr.items)
                 if (item != null) data.inventoryItemNames.Add(item.itemName);
+
+            // NEW: Passive items by name
+            foreach (var p in invMgr.passiveItems)
+                if (p != null) data.passiveItemNames.Add(p.itemName);
         }
 
         SaveSystem.Save(data);
@@ -344,8 +355,10 @@ public class LevelManager : MonoBehaviour
         // Inventory & player bag
         var invMgr = FindFirstObjectByType<InventoryManager>();
         var invUI = FindFirstObjectByType<InventoryUI>();
+        
         if (invMgr != null)
         {
+            // Clear and rebuild active items existing behavior
             invMgr.items.Clear();
             var shop = FindFirstObjectByType<ItemShopManager>();
             if (shop != null && shop.availableItems != null && data.inventoryItemNames != null)
@@ -356,6 +369,18 @@ public class LevelManager : MonoBehaviour
                     if (match != null) invMgr.items.Add(match);
                 }
             }
+
+            // Clear and rebuild passive items
+            invMgr.passiveItems.Clear();
+            if (shop != null && shop.availableItems != null && data.passiveItemNames != null)
+            {
+                foreach (var name in data.passiveItemNames)
+                {
+                    var match = System.Array.Find(shop.availableItems, so => so != null && so.itemName == name);
+                    if (match != null) invMgr.passiveItems.Add(match);
+                }
+            }
+
             if (invUI != null) invUI.RefreshSlots();
         }
 

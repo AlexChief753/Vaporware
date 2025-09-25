@@ -12,5 +12,7 @@ public class SaveData
     public List<int> playerBag = new List<int>(); // Player.playerBag
     public List<string> inventoryItemNames = new List<string>(); // by name
 
+    public List<string> passiveItemNames = new List<string>();
+
     public string savedAtIso; // metadata (timestamp)
 }
