@@ -58,14 +58,13 @@ public class Spawner : MonoBehaviour
 
         if (gameOverPanel != null) gameOverPanel.SetActive(false);
 
-        // Wire buttons once
         if (restartButton != null) restartButton.onClick.AddListener(RestartGame);
         if (mainMenuButton != null) mainMenuButton.onClick.AddListener(() =>
         {
             // ensure we don't carry paused time or stale session
-            GameSession.Clear();                  // keep behavior consistent with your restart flow
+            GameSession.Clear(); // keep behavior consistent with restart flow
             Time.timeScale = 1f;
-            if (LevelManager.instance != null)    // prefer existing path out to Main Menu
+            if (LevelManager.instance != null) // prefer existing path out to Main Menu
                 LevelManager.instance.ReturnToMainMenu();
         });
         if (quitButton != null) quitButton.onClick.AddListener(() =>
@@ -80,7 +79,7 @@ public class Spawner : MonoBehaviour
         {
             Debug.Log("Game Over!");
 
-            // Immediately clear any pending load + delete save so a restart is a true fresh run
+            // Immediately clear any pending load and delete save so a restart is a true fresh run
             GameSession.Clear();
             SaveSystem.Delete();
 
@@ -113,7 +112,7 @@ public class Spawner : MonoBehaviour
                 StartCoroutine(ArmGameOverButtons());
             }
 
-            // (Optional) lock the inventory while on Game Over
+            // Optional lock the inventory while on Game Over
             var inv = UnityEngine.Object.FindFirstObjectByType<InventoryUI>();
             if (inv != null) inv.SetMenuLock(true);
 
@@ -296,7 +295,7 @@ public class Spawner : MonoBehaviour
         yield return new WaitForEndOfFrame();
 
         // Wait until all "submit" variants are fully released
-        // (old Input Manager defaults: Submit maps to Return/Enter + joystick button 0 (A))
+        // old Input Manager defaults: Submit maps to Return/Enter + joystick button 0 (A)
         while (Input.GetButton("Submit") ||
                Input.GetKey(KeyCode.Return) ||
                Input.GetKey(KeyCode.KeypadEnter) ||
@@ -306,7 +305,7 @@ public class Spawner : MonoBehaviour
             yield return null;
         }
 
-        // Now it's safe to enable and focus the Restart button
+        // enable and focus the Restart button
         SetGameOverButtonsInteractable(true);
 
         var es = EventSystem.current;

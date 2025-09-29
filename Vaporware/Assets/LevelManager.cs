@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using static CharacterID;
 
 public class LevelManager : MonoBehaviour
 {
@@ -26,13 +28,13 @@ public class LevelManager : MonoBehaviour
     public GameObject pauseMenu;
     public Button pauseResumeButton; // first button to focus
     public Button pauseSettingsButton;      // placeholder
-    public Button pauseMainMenuButton; // placeholder
+    public Button pauseMainMenuButton;
     public Button pauseExitButton;
 
     public CanvasController textCanvasController;
 
     private bool isPaused = false;
-    bool inputArmed = false;        // gate to ignore first Submit press
+    bool inputArmed = false;// gate to ignore first Submit press
 
     [SerializeField] private Button firstMenuButton;
 
@@ -55,7 +57,6 @@ public class LevelManager : MonoBehaviour
 
     void Start()
     {
-        //currentTime = levelTime;
         UpdateTimerUI();
         levelCompleteMenu.SetActive(false);
 
@@ -109,7 +110,6 @@ public class LevelManager : MonoBehaviour
             }
 
             UpdateTimerUI();
-            // No level complete here — timeout is handled as Game Over via GameGrid.IsGameOver()
         }
     }
 
@@ -166,19 +166,16 @@ public class LevelManager : MonoBehaviour
     public void ContinueToNextLevel()
     {
         if (!levelPaused || !inputArmed) return;
-        // Prefer a robust guard that matches the actual menu state:
         if (!levelCompleteMenu || !levelCompleteMenu.activeInHierarchy) return;
 
         // Unlock inventory befor hiding the menu
         var inv = FindFirstObjectByType<InventoryUI>();
         if (inv != null) inv.SetMenuLock(false);
 
-        // if (Time.timeScale > 0f) return;
-
         // Proceed
-        levelPaused = false;                // internal bookkeeping
+        levelPaused = false;
         Time.timeScale = 1;
-        GameGrid.level++;
+        GameGrid.level++; // Increment level 
         currentTime = levelTime;
         GameGrid.levelScore = 0;
 
@@ -206,9 +203,6 @@ public class LevelManager : MonoBehaviour
 
         levelCompleteMenu.SetActive(false);
 
-        // re-enable inventory buttons for gameplay
-        //var ui = FindFirstObjectByType<InventoryUI>();
-        //if (ui) ui.RefreshSlots();
     }
 
 
@@ -300,7 +294,7 @@ public class LevelManager : MonoBehaviour
 
     public void ReturnToMainMenu()
     {
-        // In the future, call SaveGame function to automatically save the game upon exiting to main menu *********************
+        // In the future, we could call SaveGame function to automatically save the game upon exiting to main menu *********************
         Time.timeScale = 1f; // reset timescale so menu isn’t frozen
         GameSession.Clear();
         SceneManager.LoadScene("MainMenu");
@@ -313,7 +307,8 @@ public class LevelManager : MonoBehaviour
             level = GameGrid.level,
             totalScore = GameGrid.totalScore,
             currency = GameGrid.currency,
-            savedAtIso = System.DateTime.UtcNow.ToString("o")
+            savedAtIso = System.DateTime.UtcNow.ToString("o"),
+            characterId = CharacterRuntime.Selected.ToString()
         };
 
         // Player bag
@@ -321,24 +316,20 @@ public class LevelManager : MonoBehaviour
         if (spawner != null && spawner.playerBag != null)
             data.playerBag = new System.Collections.Generic.List<int>(spawner.playerBag.playerBag);
 
-        // Inventory items by name (resolve names from InventoryManager’s current items)
-        //var invMgr = FindFirstObjectByType<InventoryManager>();
-        //if (invMgr != null && invMgr.items != null)
-        //{
-        //    foreach (var item in invMgr.items)
-        //        if (item != null) data.inventoryItemNames.Add(item.itemName);
-        //}
         var invMgr = FindFirstObjectByType<InventoryManager>();
         if (invMgr != null)
         {
-            // Active/regular items by name (existing behavior)
+            // Active/regular items by name
             foreach (var item in invMgr.items)
                 if (item != null) data.inventoryItemNames.Add(item.itemName);
 
-            // NEW: Passive items by name
+            //Passive items by name
             foreach (var p in invMgr.passiveItems)
                 if (p != null) data.passiveItemNames.Add(p.itemName);
         }
+
+        var shopSvc = ShopService.FindOrCreate();
+        shopSvc.SaveTo(data);   // saves 4 items, what was sold, level tag
 
         SaveSystem.Save(data);
         Debug.Log("Game saved at Level Complete.");
@@ -354,35 +345,65 @@ public class LevelManager : MonoBehaviour
 
         // Inventory & player bag
         var invMgr = FindFirstObjectByType<InventoryManager>();
-        var invUI = FindFirstObjectByType<InventoryUI>();
-        
-        if (invMgr != null)
+
+        var shopSvc = ShopService.FindOrCreate();
+        shopSvc.LoadFrom(data); // restores the same 4 items and the ones already sold
+
+        // Restore selected character into runtime
+        if (!string.IsNullOrEmpty(data.characterId) &&
+            System.Enum.TryParse(data.characterId, out CharacterId loadedId))
         {
-            // Clear and rebuild active items existing behavior
-            invMgr.items.Clear();
-            var shop = FindFirstObjectByType<ItemShopManager>();
-            if (shop != null && shop.availableItems != null && data.inventoryItemNames != null)
-            {
-                foreach (var name in data.inventoryItemNames)
-                {
-                    var match = System.Array.Find(shop.availableItems, so => so != null && so.itemName == name);
-                    if (match != null) invMgr.items.Add(match);
-                }
-            }
-
-            // Clear and rebuild passive items
-            invMgr.passiveItems.Clear();
-            if (shop != null && shop.availableItems != null && data.passiveItemNames != null)
-            {
-                foreach (var name in data.passiveItemNames)
-                {
-                    var match = System.Array.Find(shop.availableItems, so => so != null && so.itemName == name);
-                    if (match != null) invMgr.passiveItems.Add(match);
-                }
-            }
-
-            if (invUI != null) invUI.RefreshSlots();
+            CharacterRuntime.Set(loadedId);
         }
+        else
+        {
+            CharacterRuntime.Set(CharacterId.Trinity);
+        }
+
+        // Build a global name, Item lookup
+        var byName = new Dictionary<string, Item>();
+
+        // From the shop pool
+        var svc = ShopService.FindOrCreate();
+        if (svc != null && svc.pool != null && svc.pool.entries != null)
+        {
+            foreach (var e in svc.pool.entries)
+            {
+                if (e != null && e.item != null && !string.IsNullOrEmpty(e.item.itemName))
+                    if (!byName.ContainsKey(e.item.itemName))
+                        byName.Add(e.item.itemName, e.item);
+            }
+        }
+
+        // Also include anything under Resources
+        var extras = Resources.LoadAll<Item>(""); // no path = search all under Resources
+        foreach (var it in extras)
+        {
+            if (it != null && !string.IsNullOrEmpty(it.itemName))
+                if (!byName.ContainsKey(it.itemName))
+                    byName.Add(it.itemName, it);
+        }
+
+        // Rebuild the inventory from saved names
+        invMgr.items.Clear();
+        if (data.inventoryItemNames != null)
+        {
+            foreach (var name in data.inventoryItemNames)
+                if (!string.IsNullOrEmpty(name) && byName.TryGetValue(name, out var item))
+                    invMgr.items.Add(item);
+        }
+
+        invMgr.passiveItems.Clear();
+        if (data.passiveItemNames != null)
+        {
+            foreach (var name in data.passiveItemNames)
+                if (!string.IsNullOrEmpty(name) && byName.TryGetValue(name, out var item))
+                    invMgr.passiveItems.Add(item);
+        }
+
+        // Make the UI reflect the lists
+        var invUI = FindFirstObjectByType<InventoryUI>();
+        if (invUI != null) invUI.RefreshSlots();
 
         // HUD refresh
         var spawner = FindFirstObjectByType<Spawner>();
@@ -391,7 +412,7 @@ public class LevelManager : MonoBehaviour
         // Clean board in case anything lingered
         GameGrid.ClearGrid();
 
-        // Present the Level Complete UI (paused), like CompleteLevel() does
+        // Present the Level Complete UI (paused)
         Time.timeScale = 0f;
         levelPaused = true;
         levelCompleteMenu.SetActive(true);

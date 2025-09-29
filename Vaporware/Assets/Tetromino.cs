@@ -12,6 +12,10 @@ public class Tetromino : MonoBehaviour
     //test line
     public int pieceIndex; // set by Spawner when spawning
 
+    // Blocks accidental Space/Submit carry-over for a brief moment after unpausing.
+    private static float inputGuardUntilRealtime = 0f;
+    private static bool wasPausedLastFrame = false;
+
 
     void Start()
     {
@@ -87,6 +91,22 @@ public class Tetromino : MonoBehaviour
 
     void Update()
     {
+        // Detect pause/unpause transitions and set a short input guard window
+        bool pausedNow = (Time.timeScale == 0f);
+        if (pausedNow)
+        {
+            // Remember we were paused
+            wasPausedLastFrame = true;
+            return; // you already return while paused - keep that behavior
+        }
+        else if (wasPausedLastFrame)
+        {
+            // We just came back from any menu (pause, character select, etc.):
+            // disarm Space/Submit for a short moment so we don't hard drop instantly.
+            inputGuardUntilRealtime = Time.realtimeSinceStartup + 0.15f; // 150 ms is enough to clear a held key
+            wasPausedLastFrame = false;
+        }
+
         // Block all player control while menus/pause are active.
         if (Time.timeScale == 0f) return;
 
@@ -218,10 +238,14 @@ public class Tetromino : MonoBehaviour
         }
 
         // Hard Drop: Instantly place the piece
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("HardDrop"))
+        // Ignore Space/Submit if we're within the post-unpause guard window
+        if (Time.realtimeSinceStartup >= inputGuardUntilRealtime)
         {
-            HardDrop();
-            return; // Skip normal falling logic
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("HardDrop"))
+            {
+                HardDrop();
+                return;
+            }
         }
 
         // Normal falling logic

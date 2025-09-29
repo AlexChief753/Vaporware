@@ -52,7 +52,6 @@ public class InventoryManager : MonoBehaviour
 
         Item item = items[index];
 
-        // TODO: replace this with the real effect later
         Debug.Log("Using item: " + item.itemName);
 
         // Force Sequence item (Files)

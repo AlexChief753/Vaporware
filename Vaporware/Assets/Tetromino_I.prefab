@@ -223,6 +223,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ghostSprite: {fileID: 8029035505728729933, guid: 3d60abb1327305544b4111e9c75aea5d, type: 3}
+  pieceIndex: 0
 --- !u!1 &4972785935449467140
 GameObject:
   m_ObjectHideFlags: 0

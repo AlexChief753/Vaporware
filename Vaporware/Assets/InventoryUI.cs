@@ -12,7 +12,7 @@ public class InventoryUI : MonoBehaviour
     [Header("Lock control")]
     public CanvasGroup rootGroup;
 
-    // Remember each slot’s original Navigation so can restore it
+    // Remember each slot's original Navigation so can restore it
     private readonly Dictionary<Button, Navigation> _savedNav = new Dictionary<Button, Navigation>();
 
     public void SetMenuLock(bool locked)
@@ -56,11 +56,6 @@ public class InventoryUI : MonoBehaviour
 
     void Update()
     {
-        // Don’t accept inventory input when the Level Complete menu is up
-        //if (LevelManager.instance != null &&
-        //    LevelManager.instance.levelCompleteMenu != null &&
-        //   LevelManager.instance.levelCompleteMenu.activeInHierarchy)
-        //   return;
 
         // Hard-stop all inventory input while any menu pauses the game
         if (Time.timeScale == 0f) return;
@@ -98,9 +93,6 @@ public class InventoryUI : MonoBehaviour
         }
     }
 
-    //public void OnClickSlot1() => TryUse(0);
-    //public void OnClickSlot2() => TryUse(1);
-    //public void OnClickSlot3() => TryUse(2);
 
     private void TryUse(int index)
     {

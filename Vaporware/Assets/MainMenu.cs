@@ -7,7 +7,7 @@ public class MainMenu : MonoBehaviour
 {
     [Header("Buttons")]
     public Button newGameButton;
-    public Button loadGameButton; // placeholder 
+    public Button loadGameButton;
     public Button settingsButton; // placeholder 
     public Button creditsButton; // placeholder 
     public Button exitButton;
@@ -23,7 +23,6 @@ public class MainMenu : MonoBehaviour
 
     void Start()
     {
-        // Wire up buttons
         if (newGameButton) newGameButton.onClick.AddListener(StartNewGame);
         if (loadGameButton) loadGameButton.onClick.AddListener(LoadGame);
         if (settingsButton) settingsButton.onClick.AddListener(() => Debug.Log("Settings (placeholder)"));

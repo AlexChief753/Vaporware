@@ -14,5 +14,11 @@ public class SaveData
 
     public List<string> passiveItemNames = new List<string>();
 
+    public string characterId;
+
+    public List<string> shopItemNames = new List<string>();
+    public List<string> shopSoldItemNames = new List<string>();
+    public int shopLevelTag;
+
     public string savedAtIso; // metadata (timestamp)
 }

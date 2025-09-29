@@ -10,7 +10,6 @@ public class GameGrid : MonoBehaviour
     public static double lineClearPoints = 100; //Default line clear value
     public static double fullClearBonus = 1000; //Default full clear bonus
     public static double comboMult = 0.5; //Default combo multiplier
-    //public static InventoryManager inventoryManager = FindFirstObjectByType<InventoryManager>();
 
     public static bool IsInsideGrid(Vector2 pos)
     {
@@ -155,7 +154,7 @@ public class GameGrid : MonoBehaviour
 
     public static void UpdateLevel()
     {
-        int requiredScore = 1000; // Can call GameGrid.level and do some math to increase score required per level ***************************
+        int requiredScore = 1000; // Could call GameGrid.level and do some math to increase score required per level ***************************
         if (!levelUpTriggered && levelScore >= requiredScore)
         {
             levelUpTriggered = true; // Prevent multiple triggers
@@ -223,6 +222,9 @@ public class GameGrid : MonoBehaviour
 
         int points = (int)(((linesCleared * lineClearPoints) + fullClearBonus) *
             lineClearMult * (1 + (comboMult * (comboCount - 1))));
+
+        // Apply per-character score multiplier BEFORE scores are committed or level-up is checked
+        points = CharacterEffectsManager.ApplyCharacterScoring(points);
 
         levelScore += points;
         totalScore += points;

@@ -12,7 +12,6 @@ public class ItemShopManager : MonoBehaviour
 
     public TextMeshProUGUI currencyText;
 
-    // reference Item ScriptableObject assets
     public Item[] availableItems;
 
     private GameObject lastSelectedShopGO;
@@ -44,57 +43,70 @@ public class ItemShopManager : MonoBehaviour
 
     void PopulateShop()
     {
+
+
         // Clear existing
         foreach (Transform child in itemsParent)
             Destroy(child.gameObject);
 
-        foreach (Item item in availableItems)
+        for (int i = 0; i < availableItems.Length; i++)
         {
+            var item = availableItems[i];
             if (item == null) continue;
 
             Button newButton = Instantiate(itemButtonPrefab, itemsParent);
 
-            // Icon (use Button's Image or a child "Icon")
             var buttonImage = newButton.GetComponent<Image>();
-            if (buttonImage != null)
-                buttonImage.sprite = item.itemSprite;
+            if (buttonImage != null) buttonImage.sprite = item.itemSprite;
 
-            // Name
             var nameText = newButton.GetComponentInChildren<TextMeshProUGUI>();
-            if (nameText != null)
-                nameText.text = item.itemName;
+            if (nameText != null) nameText.text = item.itemName;
 
-            // Price (child "PriceText") & badge visibility
             var priceText = newButton.transform.Find("PriceBadge/PriceText")?.GetComponent<TextMeshProUGUI>();
-            if (priceText != null)
-                priceText.text = $"${item.price}";
+            if (priceText != null) priceText.text = $"${item.price}";
 
             var priceBadge = newButton.transform.Find("PriceBadge")?.GetComponent<Image>();
-            if (priceBadge != null)
-                priceBadge.enabled = true; // ensure the rectangle shows
+            if (priceBadge != null) priceBadge.enabled = true;
 
+            int capturedIndex = i;
             newButton.onClick.RemoveAllListeners();
-            newButton.onClick.AddListener(() => PurchaseItem(item));
+            newButton.onClick.AddListener(() =>
+            {
+                // Only remove from shop when purchase actually succeeds
+                if (PurchaseItem(item))
+                {
+                    // mark sold for this round
+                    ShopService.FindOrCreate().MarkSold(item);
+
+                    // make sure re-entering shop this level doesn't bring it back
+                    availableItems[capturedIndex] = null;
+
+                    // hide this specific button
+                    newButton.gameObject.SetActive(false);
+                }
+                else
+                {
+                    // we could have feedback for failure (flash price red, SFX, etc.)
+                }
+            });
         }
     }
 
-    void PurchaseItem(Item item)
+    bool PurchaseItem(Item item)
     {
-        if (item == null) return;
+        if (item == null) return false;
 
-        // Use the item's own price instead of a fixed 100
         if (GameGrid.currency < item.price)
         {
             Debug.Log("Cannot purchase, not enough currency!");
-            // TODO: flash price red / play SFX
-            return;
+            return false;
         }
 
         // Try to add to inventory
         if (!InventoryManager.instance.AddItem(item))
         {
             Debug.Log("Cannot purchase, inventory full!");
-            return;
+            return false;
         }
 
         // Deduct and refresh
@@ -104,6 +116,8 @@ public class ItemShopManager : MonoBehaviour
         UpdateCurrencyUI();
 
         Debug.Log($"Purchased: {item.itemName} for {item.price}");
+
+        return true;
     }
 
     void OnBack()
@@ -158,7 +172,7 @@ public class ItemShopManager : MonoBehaviour
         var es = EventSystem.current;
         if (!es) return;
 
-        // If selection was lost (e.g., mouse clicked a non-selectable), reselect something
+        // If selection was lost, reselect something
         if (es.currentSelectedGameObject == null || !es.currentSelectedGameObject.activeInHierarchy)
         {
             // Try to reselect the last selected shop GO first
