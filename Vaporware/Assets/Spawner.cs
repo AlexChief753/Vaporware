@@ -192,7 +192,11 @@ public class Spawner : MonoBehaviour
         bag.Clear();
         for (int i = 0; i < playerBag.playerBag.Count; i++)
         {
+<<<<<<< HEAD
             bag.Add(playerBag.playerBag[i]); /////////////////////////////////////////////////////////
+=======
+            bag.Add(playerBag.playerBag[i]);
+>>>>>>> Alex_Branch
         }
 
         // Shuffle the bag to prevent predictable patterns
