@@ -8,12 +8,16 @@ public class MainMenu : MonoBehaviour
     [Header("Buttons")]
     public Button newGameButton;
     public Button loadGameButton;
-    public Button settingsButton; // placeholder 
+    public Button settingsButton;
     public Button creditsButton; // placeholder 
     public Button exitButton;
 
     [Header("Scenes")]
     [SerializeField] private string gameplaySceneName = "SampleScene"; // Gameplay scene name
+
+    [Header("Settings")]
+    [SerializeField] private Canvas settingsCanvas;
+    [SerializeField] private SettingsController settings;
 
     void Awake()
     {
@@ -25,7 +29,7 @@ public class MainMenu : MonoBehaviour
     {
         if (newGameButton) newGameButton.onClick.AddListener(StartNewGame);
         if (loadGameButton) loadGameButton.onClick.AddListener(LoadGame);
-        if (settingsButton) settingsButton.onClick.AddListener(() => Debug.Log("Settings (placeholder)"));
+        if (settingsButton) settingsButton.onClick.AddListener(OpenSettings);
         if (creditsButton) creditsButton.onClick.AddListener(() => Debug.Log("Credits (placeholder)"));
         if (exitButton) exitButton.onClick.AddListener(ExitGame);
 
@@ -56,6 +60,17 @@ public class MainMenu : MonoBehaviour
         GameSession.startMode = StartMode.LoadGame;
         GameSession.pendingSaveData = data;
         SceneManager.LoadScene(gameplaySceneName, LoadSceneMode.Single);
+    }
+
+    private void OpenSettings()
+    {
+        // ensure parent canvas is active if you keep it disabled in the editor
+        if (settingsCanvas && !settingsCanvas.gameObject.activeSelf)
+            settingsCanvas.gameObject.SetActive(true);
+
+        // call into the panel's controller (it will set itself active)
+        if (settings) settings.Open();
+        else Debug.LogWarning("SettingsController not assigned on MainMenu.");
     }
 
     private void ExitGame()

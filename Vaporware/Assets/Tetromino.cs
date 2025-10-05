@@ -310,13 +310,13 @@ public class Tetromino : MonoBehaviour
         if (Time.realtimeSinceStartup >= inputGuardUntilRealtime)
         {
             // Prevent accidental super fast drop of next piece by checking for a space key release between pieces
-            if (Input.GetKeyUp(KeyCode.Space))
+            if (Input.GetKeyUp(KeyCode.Space) || Input.GetButtonUp("HardDrop"))
             {
                 spaceKeyReady = true;
             }
             
             // Super fast drop!
-            else if (Input.GetKey(KeyCode.Space) && spaceKeyReady)
+            else if ((Input.GetKey(KeyCode.Space) || Input.GetButton("HardDrop"))&& spaceKeyReady)
             {
                 currentFallTime = Mathf.Max(fallTime * 0.005f, 0.005f);
             }
