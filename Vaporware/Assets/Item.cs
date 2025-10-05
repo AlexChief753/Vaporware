@@ -6,6 +6,7 @@ public class Item : ScriptableObject
     [Header("Display")]
     public string itemName;
     public Sprite itemSprite;
+    public bool passive;  // tag this if the item is a passive instead of consumable
 
     [Header("Shop")]
     public int price = 100;
@@ -13,5 +14,4 @@ public class Item : ScriptableObject
     [TextArea]
     public string description;
 
-    // public ItemEffectSO effect;
 }

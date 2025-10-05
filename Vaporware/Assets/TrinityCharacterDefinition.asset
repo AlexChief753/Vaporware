@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8506adabf2c52d24abb42b6977972d8b, type: 3}
+  m_Name: TrinityCharacterDefinition
+  m_EditorClassIdentifier: 
+  id: 0
+  displayName: Trinity
+  shortDescription: Character description will go here!
+  statLines:
+  - She earns less points.
+  - She has a higher chance to get rare items in the shop!
+  portrait: {fileID: 5482877548705639266, guid: 90129695aba925e44a777112118f3871, type: 3}

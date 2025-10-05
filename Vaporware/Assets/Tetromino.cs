@@ -10,6 +10,11 @@ public class Tetromino : MonoBehaviour
     private GameObject ghostPiece;
     public Sprite ghostSprite; // Assign the gray square sprite in the Inspector
     //test line
+    public int pieceIndex; // set by Spawner when spawning
+
+    // Blocks accidental Space/Submit carry-over for a brief moment after unpausing.
+    private static float inputGuardUntilRealtime = 0f;
+    private static bool wasPausedLastFrame = false;
 
 
     void Start()
@@ -86,6 +91,40 @@ public class Tetromino : MonoBehaviour
 
     void Update()
     {
+        // Detect pause/unpause transitions and set a short input guard window
+        bool pausedNow = (Time.timeScale == 0f);
+        if (pausedNow)
+        {
+            // Remember we were paused
+            wasPausedLastFrame = true;
+            return; // you already return while paused - keep that behavior
+        }
+        else if (wasPausedLastFrame)
+        {
+            // We just came back from any menu (pause, character select, etc.):
+            // disarm Space/Submit for a short moment so we don't hard drop instantly.
+            inputGuardUntilRealtime = Time.realtimeSinceStartup + 0.15f; // 150 ms is enough to clear a held key
+            wasPausedLastFrame = false;
+        }
+
+        // Block all player control while menus/pause are active.
+        if (Time.timeScale == 0f) return;
+
+        //If the timer is out, immediately trigger the Game Over flow
+        if (LevelManager.instance != null && LevelManager.instance.GetRemainingTime() <= 0f)
+        {
+            // stop this piece from doing any more logic
+            this.enabled = false;
+
+            // clean up ghost so it doesn't linger
+            if (ghostPiece != null) Destroy(ghostPiece);
+
+            // call SpawnTetromino() to run the existing IsGameOver() check + Game Over UI
+            var spawner = FindFirstObjectByType<Spawner>();
+            if (spawner != null) spawner.SpawnTetromino();
+            return;
+        }
+
         if (!isLanded) // Only allow movement if the piece hasn't landed yet
         {
             AdjustFallSpeed(); //  Adjust speed based on score
@@ -130,14 +169,14 @@ public class Tetromino : MonoBehaviour
 
     void AdjustFallSpeed()
     {
-        float speedIncrease = GameGrid.level * 0.1f; // Increase speed per level
+        float speedIncrease = GameGrid.level * InventoryManager.itemSpeedMod * 0.1f; // Increase speed per level
         fallTime = Mathf.Max(0.8f - speedIncrease, minFallTime);
     }
 
 
     public static void UpdateGlobalSpeed()
     {
-        float speedIncrease = GameGrid.level * 0.1f;
+        float speedIncrease = GameGrid.level * InventoryManager.itemSpeedMod * 0.1f;
         fallTime = Mathf.Max(baseFallTime - speedIncrease, 0.2f);
     }
 
@@ -151,23 +190,31 @@ public class Tetromino : MonoBehaviour
     void HandleMovement()
     {
         float currentTime = Time.time;
+        float dpadX = Input.GetAxisRaw("DPadX");
+        float dpadY = Input.GetAxisRaw("DPadY");
 
         // Left and Right Movement
-        if (Input.GetKey(KeyCode.LeftArrow) && currentTime - lastMoveTime > moveDelay)
+        if ((Input.GetKey(KeyCode.LeftArrow) || dpadX < 0) && currentTime - lastMoveTime > moveDelay)
         {
             Move(new Vector3(-1, 0, 0));
             lastMoveTime = currentTime;
         }
-        else if (Input.GetKey(KeyCode.RightArrow) && currentTime - lastMoveTime > moveDelay)
+        else if ((Input.GetKey(KeyCode.RightArrow) || dpadX > 0) && currentTime - lastMoveTime > moveDelay)
         {
             Move(new Vector3(1, 0, 0));
             lastMoveTime = currentTime;
         }
 
-        // Rotation (Holding Up Arrow)
-        if (Input.GetKey(KeyCode.UpArrow) && currentTime - lastRotateTime > rotationDelay)
+        // Rotation Clockwise (Holding Up Arrow)
+        if ((Input.GetKey(KeyCode.UpArrow) || dpadY > 0 || Input.GetButton("RotateCCW")) && currentTime - lastRotateTime > rotationDelay)
         {
-            RotateTetromino();
+            RotateTetrominoClockwise();
+            lastRotateTime = currentTime;
+        }
+
+        if ((Input.GetKey(KeyCode.Return) || Input.GetButton("RotateCW")) && currentTime - lastRotateTime > rotationDelay)
+        {
+            RotateTetrominoCounterClockwise();
             lastRotateTime = currentTime;
         }
     }
@@ -182,18 +229,23 @@ public class Tetromino : MonoBehaviour
     void HandleFalling()
     {
         float currentFallTime = fallTime;
+        float dpadY = Input.GetAxisRaw("DPadY");
 
         // Soft Drop: Reduce fall time while holding Down Arrow
-        if (Input.GetKey(KeyCode.DownArrow))
+        if (Input.GetKey(KeyCode.DownArrow) || dpadY < -0.5f)
         {
             currentFallTime = Mathf.Max(fallTime * 0.1f, 0.08f); // Minimum fall time to prevent instant lock
         }
 
         // Hard Drop: Instantly place the piece
-        if (Input.GetKeyDown(KeyCode.Space))
+        // Ignore Space/Submit if we're within the post-unpause guard window
+        if (Time.realtimeSinceStartup >= inputGuardUntilRealtime)
         {
-            HardDrop();
-            return; // Skip normal falling logic
+            if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("HardDrop"))
+            {
+                HardDrop();
+                return;
+            }
         }
 
         // Normal falling logic
@@ -263,7 +315,7 @@ public class Tetromino : MonoBehaviour
         }
     }
 
-    void RotateTetromino()
+    void RotateTetrominoClockwise()
     {
         // Prevent rotation for the O Tetromino
         if (gameObject.name.Contains("O"))
@@ -279,6 +331,26 @@ public class Tetromino : MonoBehaviour
             if (!TryWallKick())
             {
                 transform.Rotate(0, 0, -90); // Undo rotation if all attempts fail
+            }
+        }
+    }
+
+    void RotateTetrominoCounterClockwise()
+    {
+        // Prevent rotation for the O Tetromino
+        if (gameObject.name.Contains("O"))
+        {
+            return; // Do nothing if this is the O piece
+        }
+
+        transform.Rotate(0, 0, -90);
+
+        if (CheckBoundaryCollision() || CheckCollision())
+        {
+            // Try wall kick offsets
+            if (!TryWallKick())
+            {
+                transform.Rotate(0, 0, 90); // Undo rotation if all attempts fail
             }
         }
     }

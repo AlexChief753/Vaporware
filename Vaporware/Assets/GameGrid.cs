@@ -5,6 +5,11 @@ public class GameGrid : MonoBehaviour
     public static int width = 10;
     public static int height = 21; // 10x20 is copyrighted
     public static Transform[,] grid = new Transform[width, height];
+    public static int comboCount = 0;
+    public static double lineClearMult = 1; // Multiplier from line clear amount
+    public static double lineClearPoints = 100; //Default line clear value
+    public static double fullClearBonus = 1000; //Default full clear bonus
+    public static double comboMult = 0.5; //Default combo multiplier
 
     public static bool IsInsideGrid(Vector2 pos)
     {
@@ -45,6 +50,20 @@ public class GameGrid : MonoBehaviour
         return true; // Row is full
     }
 
+    public static bool IsBoardClear()
+    {
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if (grid[x, y] != null)
+                {
+                    return false; // Board is not clear
+                }
+            }
+        }
+        return true;
+    }
     public static void ClearRow(int y)
     {
     for (int x = 0; x < width; x++)
@@ -80,12 +99,13 @@ public class GameGrid : MonoBehaviour
             }
         }
     }
-    public static int score = 0; // Track player score
+    public static int totalScore = 0; // Track total score across the whole game
+    public static int levelScore = 0; // Track score within the current level
     public static int level = 1; // Start at level 1
     public static int currency = 0; // Track player currency
     public static void CheckAndClearLines()
     {
-        int linesCleared = 0; // Track how many lines were cleared
+        double linesCleared = 0; // Track how many lines were cleared
 
         for (int y = 0; y < height; y++)
         {
@@ -98,14 +118,17 @@ public class GameGrid : MonoBehaviour
             }
         }
 
+        if (linesCleared > 0) // Handles incrementing and resetting line clear combo
+            comboCount++;
+        else
+            comboCount = 0;
+
+
         //  Award points and check for level-up
         if (linesCleared > 0)
         {
-            int points = linesCleared * 100; // 100 points per line
-            score += points;
-            currency += points; // Make currency equal to points
+            currency += ScoreAdd(linesCleared); // Make currency equal to points
             UpdateLevel(); //  Check if level should increase
-            
         }
     }
 
@@ -131,8 +154,8 @@ public class GameGrid : MonoBehaviour
 
     public static void UpdateLevel()
     {
-        int requiredScore = GameGrid.level * 100; // 1000 points per level ***************************
-        if (!levelUpTriggered && score >= requiredScore)
+        int requiredScore = 1000; // Could call GameGrid.level and do some math to increase score required per level ***************************
+        if (!levelUpTriggered && levelScore >= requiredScore)
         {
             levelUpTriggered = true; // Prevent multiple triggers
             Time.timeScale = 0; // Pause game immediately
@@ -145,6 +168,7 @@ public class GameGrid : MonoBehaviour
     public static void ResetLevelTrigger()
     {
         levelUpTriggered = false;
+        levelScore = 0;
     }
 
 
@@ -159,7 +183,68 @@ public class GameGrid : MonoBehaviour
                 return true;
             }
         }
+
+        // Timeout check
+        if (LevelManager.instance != null && LevelManager.instance.GetRemainingTime() <= 0f)
+        {
+            return true; // Game over when the clock runs out
+        }
+
         return false;
+    }
+
+    public static int ScoreAdd(double linesCleared)
+    {
+        lineClearPoints = 100;  // set values to default before modifying with items
+        comboMult = 0.5;
+
+        switch (linesCleared) 
+        {
+            case 1:
+                lineClearMult = 1;
+                break;
+            case 2:
+                lineClearMult = 1.25;
+                break;
+            case 3:
+                lineClearMult = 1.5;
+                break;
+            default:
+                lineClearMult = 2.5;
+                break;
+        }
+        if (IsBoardClear())
+            fullClearBonus = 1000; // Additional 1000 base points for a full clear
+        else
+            fullClearBonus = 0;
+
+        applyItemEffects(linesCleared);
+
+        int points = (int)(((linesCleared * lineClearPoints) + fullClearBonus) *
+            lineClearMult * (1 + (comboMult * (comboCount - 1))));
+
+        // Apply per-character score multiplier BEFORE scores are committed or level-up is checked
+        points = CharacterEffectsManager.ApplyCharacterScoring(points);
+
+        levelScore += points;
+        totalScore += points;
+
+        return points;
+    }
+
+    //passive item effects from line clears should be included here
+    public static void applyItemEffects(double linesCleared)
+    {
+        var inventoryManager = FindFirstObjectByType<InventoryManager>();
+        for (int i = 0; i < inventoryManager.passiveItems.Count; i++)
+        {
+            if (inventoryManager.passiveItems[i].itemName == "testItem")
+                if (linesCleared == 1)
+                    lineClearMult += 0.25;
+
+            if (inventoryManager.passiveItems[i].itemName == "Coding 4 Clowns")
+                lineClearPoints += 100;
+        }
     }
 
     public static void ClearGrid()
@@ -177,6 +262,46 @@ public class GameGrid : MonoBehaviour
         }
     }
 
+    public static int ClearBottomNRows(int n)
+    {
+        int cleared = 0;
+        for (int i = 0; i < n; i++)
+        {
+            ClearRow(0); // clear the bottom most row
+            MoveRowsDown(0); // shift everything above down by 1
+            cleared++;
+        }
+            return cleared;
+    }
+
+    // Returns the highest y that has at least one occupied cell; -1 if board is empty
+    public static int GetHighestOccupiedRow()
+    {
+        for (int y = height - 1; y >= 0; y--)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if (grid[x, y] != null) return y;
+            }
+        }
+        return -1;
+    }
+
+    // Clears the current top occupied row up to n times (stops early if fewer exist).
+    // Returns how many rows were actually cleared.
+    public static int ClearTopNOccupiedRows(int n)
+    {
+        int cleared = 0;
+        for (int i = 0; i < n; i++)
+        {
+            int y = GetHighestOccupiedRow();
+            if (y < 0) break; // nothing left
+            ClearRow(y); // this also triggers any ItemSlot on those blocks
+            MoveRowsDown(y); // pull everything above down by 1
+            cleared++;
+        }
+        return cleared;
+    }
 
 }
 
