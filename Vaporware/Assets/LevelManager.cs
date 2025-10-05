@@ -14,6 +14,14 @@ public class LevelManager : MonoBehaviour
     public GameObject levelCompleteMenu;
     public TextMeshProUGUI levelCompleteText;
 
+    [Header("Level Complete Stats")]
+    [SerializeField] private TMPro.TextMeshProUGUI lcTotalScoreText;
+    [SerializeField] private TMPro.TextMeshProUGUI lcLevelScoreText;
+    [SerializeField] private TMPro.TextMeshProUGUI lcTimeText;
+    [SerializeField] private TMPro.TextMeshProUGUI lcCurrencyText;
+
+    public float GetLevelTimeConfigured() => levelTime;
+
     private float levelTime = 300f; // 5 minutes per level is 300f
     private int scoreRequirement = 1000;
     private float currentTime;
@@ -37,6 +45,10 @@ public class LevelManager : MonoBehaviour
     bool inputArmed = false;// gate to ignore first Submit press
 
     [SerializeField] private Button firstMenuButton;
+
+    [Header("Settings")]
+    [SerializeField] private Canvas settingsCanvas;          // parent canvas
+    [SerializeField] private SettingsController settings;    // SettingsPanel's controller
 
     void Awake()
     {
@@ -67,7 +79,10 @@ public class LevelManager : MonoBehaviour
             pauseResumeButton.onClick.AddListener(ResumeGame);
 
         if (pauseSettingsButton != null)
-            pauseSettingsButton.onClick.AddListener(() => { Debug.Log("Settings (placeholder)"); });
+        {
+            pauseSettingsButton.onClick.RemoveAllListeners();
+            pauseSettingsButton.onClick.AddListener(OpenSettingsFromPause);
+        }
 
         if (saveButton != null) saveButton.onClick.AddListener(SaveAtLevelComplete);
 
@@ -86,18 +101,26 @@ public class LevelManager : MonoBehaviour
 
     void Update()
     {
-        // Toggle Pause
-        if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Pause"))
+        // If settings is open, swallow pause/unpause inputs
+        if (settings != null && settings.IsOpen)
         {
-            if (!isPaused)
+
+        }
+        else
+        {
+            // Toggle Pause
+            if (Input.GetKeyDown(KeyCode.Escape) || Input.GetButtonDown("Pause"))
             {
-                if (CanOpenPauseMenu())
-                    PauseGame();
-            }
-            else
-            {
-                // If already paused, Escape resumes
-                ResumeGame();
+                if (!isPaused)
+                {
+                    if (CanOpenPauseMenu())
+                        PauseGame();
+                }
+                else
+                {
+                    // If already paused, Escape resumes
+                    ResumeGame();
+                }
             }
         }
 
@@ -126,6 +149,8 @@ public class LevelManager : MonoBehaviour
         Time.timeScale = 0; // Pause the game
         levelCompleteMenu.SetActive(true);
         levelCompleteText.text = "Level " + GameGrid.level + " Complete!";
+
+        SetLevelCompleteStats();
 
         // ensure inventory slots become non-interactable now
         var inv = FindFirstObjectByType<InventoryUI>();
@@ -308,7 +333,10 @@ public class LevelManager : MonoBehaviour
             totalScore = GameGrid.totalScore,
             currency = GameGrid.currency,
             savedAtIso = System.DateTime.UtcNow.ToString("o"),
-            characterId = CharacterRuntime.Selected.ToString()
+            characterId = CharacterRuntime.Selected.ToString(),
+            levelScore = GameGrid.levelScore,
+            savedLevelTime = levelTime,
+            savedTimeRemaining = currentTime
         };
 
         // Player bag
@@ -342,6 +370,10 @@ public class LevelManager : MonoBehaviour
         GameGrid.totalScore = Mathf.Max(0, data.totalScore);
         GameGrid.currency = Mathf.Max(0, data.currency);
         GameGrid.levelUpTriggered = false;
+        GameGrid.levelScore = Mathf.Max(0, data.levelScore);
+
+        levelTime = data.savedLevelTime;
+        currentTime = data.savedTimeRemaining;
 
         // Inventory & player bag
         var invMgr = FindFirstObjectByType<InventoryManager>();
@@ -418,6 +450,7 @@ public class LevelManager : MonoBehaviour
         levelCompleteMenu.SetActive(true);
         if (levelCompleteText != null)
             levelCompleteText.text = "Level " + GameGrid.level + " Complete!";
+        SetLevelCompleteStats();
 
         // Focus buttons
         inputArmed = false;
@@ -425,6 +458,63 @@ public class LevelManager : MonoBehaviour
         if (continueButton != null)
             EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
         StartCoroutine(ArmMenuSelection());
+    }
+
+    private void OpenSettingsFromPause()
+    {
+        if (settingsCanvas && !settingsCanvas.gameObject.activeSelf)
+            settingsCanvas.gameObject.SetActive(true);
+
+        if (settings)
+        {
+            // Hide Pause while settings is open
+            if (pauseMenu) pauseMenu.SetActive(false);
+
+            settings.Open(onClosed: () =>
+            {
+                // Restore Pause when closing Settings
+                if (pauseMenu) pauseMenu.SetActive(true);
+
+                // Restore controller focus to Resume button
+                var es = EventSystem.current;
+                if (es && pauseResumeButton)
+                {
+                    es.SetSelectedGameObject(null);
+                    es.SetSelectedGameObject(pauseResumeButton.gameObject);
+                }
+            });
+        }
+        else
+        {
+            Debug.LogWarning("SettingsController not assigned in LevelManager.");
+        }
+    }
+
+    //Format mm:ss
+    private static string FormatTime(float seconds)
+    {
+        if (seconds < 0) seconds = 0;
+        int m = Mathf.FloorToInt(seconds / 60f);
+        int s = Mathf.FloorToInt(seconds % 60f);
+        return $"{m:00}:{s:00}";
+    }
+
+    // Push stats into the Level Complete UI texts
+    private void SetLevelCompleteStats()
+    {
+        if (lcTotalScoreText) lcTotalScoreText.text = "Total Score: " + GameGrid.totalScore.ToString();
+        if (lcLevelScoreText) lcLevelScoreText.text = "Level Score: " + GameGrid.levelScore.ToString();
+
+        // elapsed this level = levelTime - currentTime
+        float elapsed = Mathf.Clamp(levelTime - currentTime, 0f, levelTime);
+        if (lcTimeText) lcTimeText.text = "Time: " + FormatTime(elapsed);
+
+        if (lcCurrencyText) lcCurrencyText.text = "Currency: " + GameGrid.currency.ToString();
+    }
+
+    public void RefreshLevelCompleteUI()
+    {
+        SetLevelCompleteStats();
     }
 
 }
