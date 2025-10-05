@@ -114,10 +114,6 @@ public class ItemShopManager : MonoBehaviour
         var ui = FindFirstObjectByType<InventoryUI>();
         if (ui) ui.RefreshSlots();
         UpdateCurrencyUI();
-        // Refresh for level complete menu
-        var lm = LevelManager.instance;
-        if (lm != null)
-            lm.RefreshLevelCompleteUI();
 
         Debug.Log($"Purchased: {item.itemName} for {item.price}");
 

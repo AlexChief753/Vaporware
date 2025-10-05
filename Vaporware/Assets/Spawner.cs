@@ -84,11 +84,11 @@ public class Spawner : MonoBehaviour
             SaveSystem.Delete();
 
             // Reset static game state
-            //GameGrid.totalScore = 0;
-            //GameGrid.levelScore = 0;
-            //GameGrid.level = 1;
-            //GameGrid.currency = 0;
-            //Tetromino.UpdateGlobalSpeed(); // This recalculates fallTime based on level 1
+            GameGrid.totalScore = 0;
+            GameGrid.levelScore = 0;
+            GameGrid.level = 1;
+            GameGrid.currency = 0;
+            Tetromino.UpdateGlobalSpeed(); // This recalculates fallTime based on level 1
 
             Time.timeScale = 0;
             if (gameOverText != null)
@@ -110,17 +110,9 @@ public class Spawner : MonoBehaviour
 
                 SetGameOverButtonsInteractable(false);
                 StartCoroutine(ArmGameOverButtons());
-
-                // Fill Game Over stats panel
-                var goStats = FindFirstObjectByType<GameOverStatsUI>(FindObjectsInactive.Include);
-                var lm = LevelManager.instance;
-                if (goStats != null && lm != null)
-                {
-                    goStats.ShowNow(lm.GetLevelTimeConfigured(), lm.GetRemainingTime());
-                }
             }
 
-            // Lock the inventory while on Game Over
+            // Optional lock the inventory while on Game Over
             var inv = UnityEngine.Object.FindFirstObjectByType<InventoryUI>();
             if (inv != null) inv.SetMenuLock(true);
 
@@ -200,7 +192,7 @@ public class Spawner : MonoBehaviour
         bag.Clear();
         for (int i = 0; i < playerBag.playerBag.Count; i++)
         {
-            bag.Add(playerBag.playerBag[i]); /////////////////////////////////////////////////////////
+            bag.Add(playerBag.playerBag[i]);
         }
 
         // Shuffle the bag to prevent predictable patterns
