@@ -8,8 +8,6 @@ public class Tetromino : MonoBehaviour
     private float previousTime;
     private bool isLanded = false;
     private GameObject ghostPiece;
-    // public Sprite ghostSprite; // Assign the gray square sprite in the Inspector
-    //                            //test line
 
     public Sprite ghostSprite1;
     public Sprite ghostSprite2;
@@ -18,17 +16,22 @@ public class Tetromino : MonoBehaviour
 
     public int pieceIndex; // set by Spawner when spawning
 
+    private float moveDelay = 0.2f; // Time between movements when holding key
+    private float rotationDelay = 0.25f; // Time between rotations when holding key
+    private float lastMoveTime = 0f;
+    private float lastRotateTime = 0f;
+
+    private static bool spaceKeyReady = true;
+
 
     void Start()
     {
-        // DEBUG: Check what sprites are actually assigned
-        Debug.LogWarning($"Ghost Sprites - 1: {ghostSprite1 != null}, 2: {ghostSprite2 != null}, 3: {ghostSprite3 != null}, 4: {ghostSprite4 != null}");
-
         AssignRandomItemSlots();
         AssignGhostSprites();
         CreateGhostPiece();
         Invoke("UpdateGhostPiece", 0.05f);
     }
+
 
     void AssignGhostSprites()
     {
@@ -40,6 +43,7 @@ public class Tetromino : MonoBehaviour
         
         Debug.LogWarning($"Programmatic assignment - 1: {ghostSprite1 != null}, 2: {ghostSprite2 != null}, 3: {ghostSprite3 != null}, 4: {ghostSprite4 != null}");
     }
+
 
     void AssignRandomItemSlots()
     {
@@ -55,6 +59,7 @@ public class Tetromino : MonoBehaviour
             }
         }
     }
+
 
     public void CreateGhostPiece()
     {
@@ -99,6 +104,7 @@ public class Tetromino : MonoBehaviour
         Invoke("UpdateGhostPiece", 0.02f);
     }
 
+
     private Sprite GetGhostSpriteForWidth(float width)
     {
         int roundedWidth = Mathf.RoundToInt(width);
@@ -130,95 +136,26 @@ public class Tetromino : MonoBehaviour
     // This contains a lot of unecessary code for debugging
     private void UpdateGhostPiece()
     {
-        // Terminate if ghost piece is null
-        if (ghostPiece == null)
-        {
-            Debug.LogWarning("GHOST PIECE IS NULL!!!!!!!!!!!!");
-            return;
-        }
+        if (ghostPiece == null) return;
 
         SpriteRenderer sr = ghostPiece.GetComponent<SpriteRenderer>();
-
-        // Check for junk ghost piece, destroy and recreate if it exists
-        if (sr == null)
-        {
-            // If the SpriteRenderer is missing, recreate the ghost piece
-            Debug.LogWarning("SpriteRenderer missing, recreating ghost piece");
-            if (ghostPiece != null) Destroy(ghostPiece);
-            CreateGhostPiece();
-            return;
-        }
-
+        if (sr == null) return;
 
         float width = GetPieceWidth();
         Sprite newSprite = GetGhostSpriteForWidth(width);
 
-        // Update the ghost piece directly
-        if (sr != null)
-        {
-            sr.sprite = newSprite;
-        }
-        else
-        {
-            Debug.LogWarning("SpriteRenderer is null on ghost piece!");
-        }
+        sr.sprite = newSprite;
+        
+        // Update scale based on the new width
+        float scaleFactor = width / newSprite.bounds.size.x;
+        ghostPiece.transform.localScale = new Vector3(scaleFactor, scaleFactor, 1f);
 
-        // Calculate where the ghost piece should land
+        // Calculate where the ghost piece should land using the lowest point approach
         Vector3 ghostPosition = CalculateGhostPosition();
         ghostPiece.transform.position = ghostPosition;
 
-        Debug.Log($"Ghost position: {ghostPosition}, Width: {width}, Sprite: {newSprite?.name ?? "NULL"}");
+        Debug.Log($"Ghost position: {ghostPosition}, Width: {width}, Lowest point: {GetLowestPoint()}");
     }
-
-
-    private Vector3 CalculateGhostPosition()
-    {
-        Vector3 currentPosition = transform.position;
-        Vector3 testPosition = currentPosition;
-
-        // Move down until we hit something
-        while (!CheckGhostCollision(testPosition + Vector3.down))
-        {
-            testPosition += Vector3.down;
-        }
-
-        // Ensure the ghost stays aligned with the tetromino's X position
-        testPosition.x = currentPosition.x;
-
-        return testPosition;
-    }
-
-    private bool CheckGhostCollision(Vector3 position)
-    {
-        // For a platform ghost, we need to check the entire width at the given Y position
-        float width = GetPieceWidth();
-        float halfWidth = width / 2f;
-
-        // Check multiple points along the platform width
-        for (float x = -halfWidth; x <= halfWidth; x += 1f)
-        {
-            Vector2 checkPos = new Vector2(
-                Mathf.Round(position.x + x),
-                Mathf.Round(position.y)
-            );
-
-            // Check if this check point is within grid bounds first
-            if (checkPos.x < 0 || checkPos.x >= GameGrid.width)
-            {
-                // This point is outside the grid horizontally, but that's OK for ghost collision
-                // Only check vertical bounds and occupancy for points inside the grid
-                continue;
-            }
-
-            // If any point goes below the grid or hits an occupied cell
-            if (checkPos.y < 0 || (checkPos.y < GameGrid.height && GameGrid.IsCellOccupied(checkPos)))
-            {
-                return true;
-            }
-        }
-        return false; // No collision, safe to move down
-    }
-
 
 
     void Update()
@@ -262,9 +199,6 @@ public class Tetromino : MonoBehaviour
     }
 
 
-
-    //
-
     void AdjustFallSpeed()
     {
         float speedIncrease = GameGrid.level * 0.1f; // Increase speed per level
@@ -278,12 +212,6 @@ public class Tetromino : MonoBehaviour
         fallTime = Mathf.Max(baseFallTime - speedIncrease, 0.2f);
     }
 
-
-
-    private float moveDelay = 0.2f; // Time between movements when holding key
-    private float rotationDelay = 0.25f; // Time between rotations when holding key
-    private float lastMoveTime = 0f;
-    private float lastRotateTime = 0f;
 
     void HandleMovement()
     {
@@ -326,11 +254,16 @@ public class Tetromino : MonoBehaviour
             currentFallTime = Mathf.Max(fallTime * 0.1f, 0.08f); // Minimum fall time to prevent instant lock
         }
 
-        // Hard Drop: Instantly place the piece
-        if (Input.GetKeyDown(KeyCode.Space))
+        // Prevent accidental super fast drop of next piece by checking for a space key release between pieces
+         if (Input.GetKeyUp(KeyCode.Space))
         {
-            HardDrop();
-            return; // Skip normal falling logic
+            spaceKeyReady = true;
+        }
+        
+        // Super fast drop!
+        else if (Input.GetKey(KeyCode.Space) && spaceKeyReady)
+        {
+            currentFallTime = Mathf.Max(fallTime * 0.005f, 0.005f);
         }
 
         // Normal falling logic
@@ -354,32 +287,11 @@ public class Tetromino : MonoBehaviour
                 GameGrid.CheckAndClearLines();
                 FindFirstObjectByType<Spawner>().SpawnTetromino();
                 this.enabled = false; // Disable this piece's movement
+                spaceKeyReady = false;      // Disable super fast drops
             }
-
-
         }
     }
 
-    void HardDrop()
-    {
-        while (!CheckCollision())
-        {
-            transform.position += new Vector3(0, -1, 0);
-        }
-        transform.position += new Vector3(0, 1, 0); // Move back up to last valid position
-        isLanded = true;
-
-        // Destroy ghost piece if it exists
-        if (ghostPiece != null)
-        {
-            Destroy(ghostPiece);
-        }
-
-        GameGrid.AddToGrid(this.transform); // Store piece in grid
-        GameGrid.CheckAndClearLines(); // Check for full lines
-        FindFirstObjectByType<Spawner>().SpawnTetromino();
-        this.enabled = false; // Disable movement after placement
-    }
 
     void OnDestroy()
     {
@@ -389,7 +301,6 @@ public class Tetromino : MonoBehaviour
             ghostPiece = null;
         }
     }
-
 
 
     void Move(Vector3 direction)
@@ -409,6 +320,7 @@ public class Tetromino : MonoBehaviour
             }
         }
     }
+
 
     void RotateTetromino()
     {
@@ -436,6 +348,7 @@ public class Tetromino : MonoBehaviour
         }
     }
 
+
     void RotateTetrominoCounterClockwise()
     {
         // Prevent rotation for the O Tetromino
@@ -461,6 +374,7 @@ public class Tetromino : MonoBehaviour
             UpdateGhostPiece(); // This should recalculate width and position
         }
     }
+
 
     bool TryWallKick()
     {
@@ -505,7 +419,6 @@ public class Tetromino : MonoBehaviour
     }
 
 
-
     bool CheckBoundaryCollision()
     {
         foreach (Transform child in transform)
@@ -519,6 +432,7 @@ public class Tetromino : MonoBehaviour
         }
         return false;
     }
+
 
     private bool CheckCollision()
     {
@@ -541,6 +455,7 @@ public class Tetromino : MonoBehaviour
         return false;
     }
 
+
     // There may be a redundant Rounding function call in another function now that this function also calls Round()
     float GetPieceWidth()
     {
@@ -549,14 +464,117 @@ public class Tetromino : MonoBehaviour
         
         foreach (Transform block in transform)
         {
-            Vector3 localPos = block.position;
-            if (localPos.x < minX) minX = localPos.x;
-            if (localPos.x > maxX) maxX = localPos.x;
+            Vector3 worldPos = block.position;
+            if (worldPos.x < minX) minX = worldPos.x;
+            if (worldPos.x > maxX) maxX = worldPos.x;
         }
         
-        float width = maxX - minX + 1f; // +1 because each block is 1 unit wide
-        return Mathf.Round(width);
+        // Just get the width, no center calculations needed
+        float width = Mathf.Round(maxX - minX + 1f);
+        return width;
     }
-}
 
+
+    private bool CheckGhostCollision(Vector3 position)
+    {
+        // Check the ACTUAL tetromino footprint at this position, not the rectangular bounding box
+        foreach (Transform block in transform)
+        {
+            // Calculate where this block would be if the tetromino was at this position
+            Vector3 blockOffset = block.position - transform.position;
+            Vector3 blockWorldPos = position + blockOffset;
+            
+            Vector2 checkPos = new Vector2(
+                Mathf.Round(blockWorldPos.x),
+                Mathf.Round(blockWorldPos.y)
+            );
+
+            // Check bounds
+            if (checkPos.x < 0 || checkPos.x >= GameGrid.width || checkPos.y < 0)
+            {
+                return true;
+            }
+
+            // Check if occupied (but only if within grid height)
+            if (checkPos.y < GameGrid.height && GameGrid.IsCellOccupied(checkPos))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    private float GetLowestPoint()
+    {
+        float lowestY = float.MaxValue;
+        
+        foreach (Transform block in transform)
+        {
+            Vector3 worldPos = block.position;
+            if (worldPos.y < lowestY) lowestY = worldPos.y;
+        }
+        
+        return Mathf.Round(lowestY);
+    }
+
+
+    private Vector3 CalculateGhostPosition()
+    {
+        float width = GetPieceWidth();
+        float lowestPoint = GetLowestPoint();
+        
+        // Calculate the tetromino's center for X positioning
+        float minX = float.MaxValue;
+        float maxX = float.MinValue;
+        foreach (Transform block in transform)
+        {
+            Vector3 worldPos = block.position;
+            if (worldPos.x < minX) minX = worldPos.x;
+            if (worldPos.x > maxX) maxX = worldPos.x;
+        }
+        float centerX = (minX + maxX) / 2f;
+        
+        // Start from the lowest point and find the highest collision in the landing zone
+        Vector3 testPosition = new Vector3(centerX, lowestPoint, 0);
+        
+        // Move down until we find the top of the landing surface
+        while (!CheckRectangularCollision(testPosition, width))
+        {
+            testPosition += Vector3.down;
+        }
+        
+        // Move up to sit on top of the collision surface
+        testPosition += Vector3.up;
+        
+        Debug.Log($"Lowest point: {lowestPoint}, Ghost position: {testPosition}, Width: {width}");
+        
+        return testPosition;
+    }
+
+
+    private bool CheckRectangularCollision(Vector3 position, float width)
+    {
+        // Check a rectangular area matching the ghost sprite width
+        for (float x = -width/2f + 0.33f; x <= width/2f - 0.33f; x += 1f)
+        {
+            Vector2 checkPos = new Vector2(
+                Mathf.Round(position.x + x),
+                Mathf.Round(position.y)
+            );
+
+            // Skip if outside horizontal bounds
+            if (checkPos.x < 0 || checkPos.x >= GameGrid.width)
+                continue;
+
+            // Check if this position would collide
+            if (checkPos.y < 0 || (checkPos.y < GameGrid.height && GameGrid.IsCellOccupied(checkPos)))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+}
 
