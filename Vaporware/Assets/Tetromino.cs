@@ -8,7 +8,6 @@ public class Tetromino : MonoBehaviour
     private float previousTime;
     private bool isLanded = false;
     private GameObject ghostPiece;
-<<<<<<< HEAD
     public Sprite ghostSprite; // Assign the gray square sprite in the Inspector
     //test line
     public int pieceIndex; // set by Spawner when spawning
@@ -16,7 +15,6 @@ public class Tetromino : MonoBehaviour
     // Blocks accidental Space/Submit carry-over for a brief moment after unpausing.
     private static float inputGuardUntilRealtime = 0f;
     private static bool wasPausedLastFrame = false;
-=======
 
     public Sprite ghostSprite1;
     public Sprite ghostSprite2;
@@ -31,7 +29,6 @@ public class Tetromino : MonoBehaviour
     private float lastRotateTime = 0f;
 
     private static bool spaceKeyReady = true;
->>>>>>> Alex_Branch
 
 
     void Start()
@@ -307,30 +304,23 @@ public class Tetromino : MonoBehaviour
             currentFallTime = Mathf.Max(fallTime * 0.1f, 0.08f); // Minimum fall time to prevent instant lock
         }
 
-<<<<<<< HEAD
+
         // Hard Drop: Instantly place the piece
         // Ignore Space/Submit if we're within the post-unpause guard window
         if (Time.realtimeSinceStartup >= inputGuardUntilRealtime)
         {
-            if (Input.GetKeyDown(KeyCode.Space) || Input.GetButtonDown("HardDrop"))
+            // Prevent accidental super fast drop of next piece by checking for a space key release between pieces
+            if (Input.GetKeyUp(KeyCode.Space))
             {
-                HardDrop();
-                return;
+                spaceKeyReady = true;
             }
-=======
-        // Prevent accidental super fast drop of next piece by checking for a space key release between pieces
-         if (Input.GetKeyUp(KeyCode.Space))
-        {
-            spaceKeyReady = true;
+            
+            // Super fast drop!
+            else if (Input.GetKey(KeyCode.Space) && spaceKeyReady)
+            {
+                currentFallTime = Mathf.Max(fallTime * 0.005f, 0.005f);
+            }
         }
-        
-        // Super fast drop!
-        else if (Input.GetKey(KeyCode.Space) && spaceKeyReady)
-        {
-            currentFallTime = Mathf.Max(fallTime * 0.005f, 0.005f);
->>>>>>> Alex_Branch
-        }
-
         // Normal falling logic
         if (Time.time - previousTime > currentFallTime)
         {
@@ -386,12 +376,7 @@ public class Tetromino : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
     void RotateTetrominoClockwise()
-=======
-
-    void RotateTetromino()
->>>>>>> Alex_Branch
     {
         // Prevent rotation for the O Tetromino
         if (gameObject.name.Contains("O"))
@@ -417,10 +402,6 @@ public class Tetromino : MonoBehaviour
         }
     }
 
-<<<<<<< HEAD
-=======
-
->>>>>>> Alex_Branch
     void RotateTetrominoCounterClockwise()
     {
         // Prevent rotation for the O Tetromino
@@ -439,10 +420,6 @@ public class Tetromino : MonoBehaviour
                 transform.Rotate(0, 0, 90); // Undo rotation if all attempts fail
             }
         }
-<<<<<<< HEAD
-    }
-
-=======
 
         // Update ghost immediately after rotation
         if (!isLanded && ghostPiece != null)
@@ -452,7 +429,6 @@ public class Tetromino : MonoBehaviour
     }
 
 
->>>>>>> Alex_Branch
     bool TryWallKick()
     {
         Vector3[] wallKickOffsets;
