@@ -21,7 +21,7 @@ public class Tetromino : MonoBehaviour
     public Sprite ghostSprite3;
     public Sprite ghostSprite4;
 
-    public int pieceIndex; // set by Spawner when spawning
+    // public int pieceIndex; // set by Spawner when spawning
 
     private float moveDelay = 0.2f; // Time between movements when holding key
     private float rotationDelay = 0.25f; // Time between rotations when holding key
