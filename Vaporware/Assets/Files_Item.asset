@@ -15,4 +15,4 @@ MonoBehaviour:
   itemName: Files
   itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
   price: 50
-  description: I'm sure it'll do something!
+  description: Repeats the currently falling piece 3 times.

@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd5fdc1281f46d74480758b0746e7eb3, type: 3}
+  m_Name: ItemPool
+  m_EditorClassIdentifier: 
+  entries:
+  - item: {fileID: 11400000, guid: 72baec6a96610fa458631146fb01b858, type: 2}
+    rarity: 2
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 77b30d9d24620c04888e1eb8fb081eda, type: 2}
+    rarity: 3
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 6631928922c0b4d44bf6fcdb8e38d1e5, type: 2}
+    rarity: 4
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 2be678b7128ac6c499f55c4a93b2ea60, type: 2}
+    rarity: 0
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: bdf054cb75f714648b89629942907419, type: 2}
+    rarity: 0
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 56bebc6c439edf542bba21c606858739, type: 2}
+    rarity: 0
+    weightOverride: 0
+    enabled: 1
+  commonWeight: 45
+  uncommonWeight: 25
+  rareWeight: 15
+  epicWeight: 10
+  legendaryWeight: 5

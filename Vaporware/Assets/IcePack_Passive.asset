@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: IcePack_Passive
   m_EditorClassIdentifier: 
   itemName: Ice Pack
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: 4521939829641436789, guid: d37a1b4a09d871542a9663c733be4abf, type: 3}
   passive: 1
   price: 100
   description: Eases the headache of high pressure situations. Slows down piece fall

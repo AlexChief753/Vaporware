@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Coding4Clowns_Passive
   m_EditorClassIdentifier: 
   itemName: Coding 4 Clowns
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: -5312287169312700444, guid: 112a841cbe2300543a6ac0e8c10f7d3d, type: 3}
   passive: 1
   price: 100
   description: Learn to make each line count! Each line cleared is worth 100 more

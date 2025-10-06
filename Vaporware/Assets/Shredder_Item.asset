@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Shredder_Item
   m_EditorClassIdentifier: 
   itemName: Shredder
-  itemSprite: {fileID: 8653081822583779529, guid: ed271c362f957314c8bfee1e08ae8191, type: 3}
-  price: 75
-  description: Shreddar Cheese
+  itemSprite: {fileID: -4017540803627212904, guid: 1432dd793b92d1a4fbf63eaa05c74475, type: 3}
+  passive: 0
+  price: 90
+  description: Shreds the bottom 3 rows.
