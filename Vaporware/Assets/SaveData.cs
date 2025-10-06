@@ -7,6 +7,12 @@ public class SaveData
     public int level; // current level number
     public int totalScore; // total score as of level completion
     public int currency; // currency as of level completion
+<<<<<<< HEAD
+=======
+    public int levelScore;
+    public float savedLevelTime;
+    public float savedTimeRemaining;
+>>>>>>> main
     
 
     public List<int> playerBag = new List<int>(); // Player.playerBag

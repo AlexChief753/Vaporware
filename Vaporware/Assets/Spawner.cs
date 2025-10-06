@@ -84,11 +84,11 @@ public class Spawner : MonoBehaviour
             SaveSystem.Delete();
 
             // Reset static game state
-            GameGrid.totalScore = 0;
-            GameGrid.levelScore = 0;
-            GameGrid.level = 1;
-            GameGrid.currency = 0;
-            Tetromino.UpdateGlobalSpeed(); // This recalculates fallTime based on level 1
+            //GameGrid.totalScore = 0;
+            //GameGrid.levelScore = 0;
+            //GameGrid.level = 1;
+            //GameGrid.currency = 0;
+            //Tetromino.UpdateGlobalSpeed(); // This recalculates fallTime based on level 1
 
             Time.timeScale = 0;
             if (gameOverText != null)
@@ -110,9 +110,17 @@ public class Spawner : MonoBehaviour
 
                 SetGameOverButtonsInteractable(false);
                 StartCoroutine(ArmGameOverButtons());
+
+                // Fill Game Over stats panel
+                var goStats = FindFirstObjectByType<GameOverStatsUI>(FindObjectsInactive.Include);
+                var lm = LevelManager.instance;
+                if (goStats != null && lm != null)
+                {
+                    goStats.ShowNow(lm.GetLevelTimeConfigured(), lm.GetRemainingTime());
+                }
             }
 
-            // Optional lock the inventory while on Game Over
+            // Lock the inventory while on Game Over
             var inv = UnityEngine.Object.FindFirstObjectByType<InventoryUI>();
             if (inv != null) inv.SetMenuLock(true);
 
@@ -270,6 +278,50 @@ public class Spawner : MonoBehaviour
 
         if (levelScoreText != null)
             levelScoreText.text = "Level Score: " + GameGrid.levelScore.ToString();
+    }
+
+    public void ForceSequence(int pieceIndex, int times)
+    {
+        forcedQueue.Clear();
+        for (int i = 0; i < times; i++)
+        {
+            forcedQueue.Enqueue(pieceIndex);
+        }
+        resetBagAfterForced = true;
+    }
+
+    private void SetGameOverButtonsInteractable(bool on)
+    {
+        if (restartButton) restartButton.interactable = on;
+        if (mainMenuButton) mainMenuButton.interactable = on;
+        if (quitButton) quitButton.interactable = on;
+    }
+
+    private System.Collections.IEnumerator ArmGameOverButtons()
+    {
+        // Wait at least one rendered frame
+        yield return new WaitForEndOfFrame();
+
+        // Wait until all "submit" variants are fully released
+        // old Input Manager defaults: Submit maps to Return/Enter + joystick button 0 (A)
+        while (Input.GetButton("Submit") ||
+               Input.GetKey(KeyCode.Return) ||
+               Input.GetKey(KeyCode.KeypadEnter) ||
+               Input.GetKey(KeyCode.Space) ||
+               Input.GetKey(KeyCode.JoystickButton0))
+        {
+            yield return null;
+        }
+
+        // enable and focus the Restart button
+        SetGameOverButtonsInteractable(true);
+
+        var es = EventSystem.current;
+        if (es && restartButton)
+        {
+            es.SetSelectedGameObject(null);
+            es.SetSelectedGameObject(restartButton.gameObject);
+        }
     }
 
     public void ForceSequence(int pieceIndex, int times)

@@ -99,7 +99,11 @@ public class InventoryManager : MonoBehaviour
         itemSpeedMod = 1;   //reset any values modified to default before applying effects
                             //in order to prevent reapplying effects
         for (int i = 0; i < passiveItems.Count; i++)
+<<<<<<< HEAD
         {   
+=======
+        {
+>>>>>>> main
             if (passiveItems[i].itemName == "Ice Pack")
             {
                 itemSpeedMod = itemSpeedMod * (float) 0.5;
