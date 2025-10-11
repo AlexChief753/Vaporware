@@ -127,6 +127,12 @@ public class Spawner : MonoBehaviour
             return;
         }
 
+        if (1 == 1) // replace with boss check later
+        {
+            var bossMan = FindFirstObjectByType<BossManager>();
+            bossMan.BossPieceDrop();
+        }
+
 
         int randomIndex;
         // if the Forced Sequence (Files) item is used
@@ -321,6 +327,35 @@ public class Spawner : MonoBehaviour
         {
             es.SetSelectedGameObject(null);
             es.SetSelectedGameObject(restartButton.gameObject);
+        }
+    }
+
+    public void AddGarbage(int x, int y)
+    {
+        if (!GameGrid.grid[x, y] && x < GameGrid.grid.Length && x >= 0 && y >= 0)
+        {
+            GameObject newTetromino = Instantiate(tetrominoes[7], new Vector3(x, y, 0), Quaternion.identity);
+            Tetromino tetrominoScript = newTetromino.GetComponent<Tetromino>();
+            if (tetrominoScript != null)
+            {
+                tetrominoScript.pieceIndex = 7;
+                tetrominoScript.isLanded = true;
+                GameGrid.AddToGrid(tetrominoScript.transform);
+                GameGrid.CheckAndClearLines();
+            }
+        }
+    }
+
+    // x is the position of the gap for the garbage line
+    public void GarbageLine(int x, int y)
+    {
+        GameGrid.MoveRowsUp(y);
+        for (int i = 0; i < GameGrid.width; i++)
+        {
+            if (i != x)
+            {
+                AddGarbage(i, y);
+            }
         }
     }
 

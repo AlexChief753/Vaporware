@@ -6,7 +6,7 @@ public class Tetromino : MonoBehaviour
     private static float fallTime = baseFallTime;
     private float minFallTime = 0.2f; // Prevents the game from becoming too fast
     private float previousTime;
-    private bool isLanded = false;
+    public bool isLanded = false;
     private GameObject ghostPiece;
     public Sprite ghostSprite; // Assign the gray square sprite in the Inspector
     //test line
@@ -70,6 +70,10 @@ public class Tetromino : MonoBehaviour
 
     public void CreateGhostPiece()
     {
+        //do not create ghost piece for garbage tile
+        if (pieceIndex == 7)
+            return;
+
 
         // Clean up any existing ghost piece first
         if (ghostPiece != null)
@@ -242,14 +246,14 @@ public class Tetromino : MonoBehaviour
 
     void AdjustFallSpeed()
     {
-        float speedIncrease = GameGrid.level * InventoryManager.itemSpeedMod * 0.1f; // Increase speed per level
+        float speedIncrease = GameGrid.level * InventoryManager.itemSpeedMod * BossManager.bossSpeedMod * 0.1f; // Increase speed per level
         fallTime = Mathf.Max(0.8f - speedIncrease, minFallTime);
     }
 
 
     public static void UpdateGlobalSpeed()
     {
-        float speedIncrease = GameGrid.level * InventoryManager.itemSpeedMod * 0.1f;
+        float speedIncrease = GameGrid.level * InventoryManager.itemSpeedMod * BossManager.bossSpeedMod * 0.1f;
         fallTime = Mathf.Max(baseFallTime - speedIncrease, 0.2f);
     }
 

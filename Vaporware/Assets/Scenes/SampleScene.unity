@@ -653,6 +653,7 @@ MonoBehaviour:
   - {fileID: 7175070229562263550, guid: 195eabc01ade1ad47a414c50d5b31a92, type: 3}
   - {fileID: 4508977494700247668, guid: e79795fa9dca8b5439db4974ae626b4a, type: 3}
   - {fileID: 4508977494700247668, guid: 4224bf10af63a5a4a9176f132e0f92c6, type: 3}
+  - {fileID: 4508977494700247668, guid: 7a527de5a96213449b721be34f7769d5, type: 3}
   playerBag: {fileID: 152083659}
   gameOverPanel: {fileID: 738633791}
   restartButton: {fileID: 35051}
@@ -3077,6 +3078,57 @@ RectTransform:
   m_AnchoredPosition: {x: -633.6, y: -50.36}
   m_SizeDelta: {x: 525.07, y: 806.05}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &594271834
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 594271836}
+  - component: {fileID: 594271835}
+  m_Layer: 0
+  m_Name: BossManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &594271835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 594271834}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: da3fd2a118a83b648a399f21250fa255, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bosses:
+  - {fileID: 11400000, guid: eaee3c7966d966942bd292396d14f93d, type: 2}
+  currentBoss: {fileID: 11400000, guid: eaee3c7966d966942bd292396d14f93d, type: 2}
+  rage: 0
+  counters:
+  - 0
+  - 0
+--- !u!4 &594271836
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 594271834}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.7006936, y: 9.689843, z: -0.052283235}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &596150979
 GameObject:
   m_ObjectHideFlags: 0
@@ -13524,3 +13576,4 @@ SceneRoots:
   - {fileID: 15941518}
   - {fileID: 2073985459}
   - {fileID: 1001390556}
+  - {fileID: 594271836}

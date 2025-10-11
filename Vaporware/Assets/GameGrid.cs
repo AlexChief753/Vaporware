@@ -10,6 +10,7 @@ public class GameGrid : MonoBehaviour
     public static double lineClearPoints = 100; //Default line clear value
     public static double fullClearBonus = 1000; //Default full clear bonus
     public static double comboMult = 0.5; //Default combo multiplier
+    public static int requiredScore = 0;
 
     public static bool IsInsideGrid(Vector2 pos)
     {
@@ -99,6 +100,23 @@ public class GameGrid : MonoBehaviour
             }
         }
     }
+
+    public static void MoveRowsUp(int startY)
+    {
+        for (int y = height; y > startY; y--)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if (grid[x, y - 1] != null)
+                {
+                    grid[x, y] = grid[x, y - 1]; // Move block up
+                    grid[x, y].position += new Vector3(0, 1, 0);
+                    grid[x, y - 1] = null;
+                }
+            }
+        }
+    }
+
     public static int totalScore = 0; // Track total score across the whole game
     public static int levelScore = 0; // Track score within the current level
     public static int level = 1; // Start at level 1
@@ -115,6 +133,8 @@ public class GameGrid : MonoBehaviour
                 MoveRowsDown(y);
                 y--; // Check the same row again after moving blocks down
                 linesCleared++;
+                var bossMan = FindFirstObjectByType<BossManager>();
+                bossMan.counters[0] = bossMan.counters[0] + 1;
             }
         }
 
@@ -154,7 +174,7 @@ public class GameGrid : MonoBehaviour
 
     public static void UpdateLevel()
     {
-        int requiredScore = 1000; // Could call GameGrid.level and do some math to increase score required per level ***************************
+        requiredScore = 1000; // Could call GameGrid.level and do some math to increase score required per level ***************************
         if (!levelUpTriggered && levelScore >= requiredScore)
         {
             levelUpTriggered = true; // Prevent multiple triggers
@@ -302,6 +322,7 @@ public class GameGrid : MonoBehaviour
         }
         return cleared;
     }
+
 
 }
 
