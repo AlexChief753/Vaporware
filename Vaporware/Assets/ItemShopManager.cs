@@ -139,7 +139,7 @@ public class ItemShopManager : MonoBehaviour
     void UpdateCurrencyUI()
     {
         if (currencyText != null)
-            currencyText.text = "Currency: " + GameGrid.currency.ToString();
+            currencyText.text = "" + GameGrid.currency.ToString();
     }
 
     private void SelectFirstShopButton()

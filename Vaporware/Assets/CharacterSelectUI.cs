@@ -17,6 +17,7 @@ public class CharacterSelectUI : MonoBehaviour
     [Header("View")]
     public Image portraitImage;
     public TextMeshProUGUI nameText;
+    public TextMeshProUGUI nameTagText;
     public TextMeshProUGUI descriptionText;
     public Transform statsParent;
     public TextMeshProUGUI statLinePrefab;
@@ -57,6 +58,7 @@ public class CharacterSelectUI : MonoBehaviour
         CurrentId = id;
 
         if (nameText) nameText.text = def.displayName;
+        if (nameTagText) nameTagText.text = def.displayName;
         if (descriptionText) descriptionText.text = def.shortDescription;
 
         if (portraitImage)
