@@ -205,7 +205,14 @@ public class LevelManager : MonoBehaviour
         GameGrid.levelScore = 0;
 
         var inventoryManager = FindFirstObjectByType<InventoryManager>();
-        inventoryManager.PassiveInit();  //hacky, but works?
+        inventoryManager.PassiveInit();
+
+        //if (1 == 1) //replace with boss conditional later
+        //{ 
+            var bossMan = FindFirstObjectByType<BossManager>();
+            bossMan.currentBoss = bossMan.bosses[0]; // replace with boss randomizer
+            bossMan.LoadBoss();
+        //}
 
         Tetromino.UpdateGlobalSpeed();
         GameGrid.levelUpTriggered = false;

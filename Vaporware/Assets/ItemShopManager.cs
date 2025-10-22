@@ -1,7 +1,8 @@
-using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
+using Unity.VisualScripting;
+using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class ItemShopManager : MonoBehaviour
 {
@@ -15,6 +16,8 @@ public class ItemShopManager : MonoBehaviour
     public Item[] availableItems;
 
     private GameObject lastSelectedShopGO;
+
+    [SerializeField] public ShopTooltipUI shopTooltip;
 
     void Start()
     {
@@ -67,6 +70,13 @@ public class ItemShopManager : MonoBehaviour
 
             var priceBadge = newButton.transform.Find("PriceBadge")?.GetComponent<Image>();
             if (priceBadge != null) priceBadge.enabled = true;
+
+            ShopItemHover hover = newButton.GetComponent<ShopItemHover>();
+            if (hover == null)
+                hover = newButton.AddComponent<ShopItemHover>();
+
+            hover.item = item;
+            hover.tooltip = shopTooltip;
 
             int capturedIndex = i;
             newButton.onClick.RemoveAllListeners();
@@ -139,7 +149,7 @@ public class ItemShopManager : MonoBehaviour
     void UpdateCurrencyUI()
     {
         if (currencyText != null)
-            currencyText.text = "Currency: " + GameGrid.currency.ToString();
+            currencyText.text = "" + GameGrid.currency.ToString();
     }
 
     private void SelectFirstShopButton()
