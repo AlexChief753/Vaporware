@@ -4,9 +4,9 @@ using TMPro;
 public class ShopTooltipUI : MonoBehaviour
 {
     [Header("Wiring")]
-    public GameObject root;            // The panel to show/hide
-    public TextMeshProUGUI titleText;  // Item name
-    public TextMeshProUGUI bodyText;   // Item description
+    public GameObject root; // The panel to show/hide
+    public TextMeshProUGUI titleText; // Item name
+    public TextMeshProUGUI bodyText; // Item description
 
     void Awake()
     {
