@@ -38,6 +38,7 @@ public class Spawner : MonoBehaviour
             GameGrid.currency = 0;
             GameGrid.levelUpTriggered = false;
             GameGrid.comboCount = 0;
+            GameGrid.garbageChance = 1;
 
             GameGrid.ClearGrid();
             Tetromino.UpdateGlobalSpeed();
@@ -127,7 +128,7 @@ public class Spawner : MonoBehaviour
             return;
         }
 
-        if (1 == 1) // replace with boss check later
+        if (GameGrid.level % 4 == 0)
         {
             var bossMan = FindFirstObjectByType<BossManager>();
             bossMan.BossPieceDrop();
@@ -244,6 +245,7 @@ public class Spawner : MonoBehaviour
             GameGrid.level = 1;
             GameGrid.currency = 0;
             GameGrid.comboCount = 0;
+            GameGrid.garbageChance = 1;
             var inventoryManager = FindFirstObjectByType<InventoryManager>();
             inventoryManager.passiveItems.Clear();
             Tetromino.UpdateGlobalSpeed();

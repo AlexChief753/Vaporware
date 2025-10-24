@@ -203,16 +203,17 @@ public class LevelManager : MonoBehaviour
         GameGrid.level++; // Increment level 
         currentTime = levelTime;
         GameGrid.levelScore = 0;
+        GameGrid.garbageChance = 1;
 
         var inventoryManager = FindFirstObjectByType<InventoryManager>();
         inventoryManager.PassiveInit();
 
-        //if (1 == 1) //replace with boss conditional later
-        //{ 
+        if (GameGrid.level % 4 == 0)
+        { 
             var bossMan = FindFirstObjectByType<BossManager>();
             bossMan.currentBoss = bossMan.bosses[0]; // replace with boss randomizer
             bossMan.LoadBoss();
-        //}
+        }
 
         Tetromino.UpdateGlobalSpeed();
         GameGrid.levelUpTriggered = false;

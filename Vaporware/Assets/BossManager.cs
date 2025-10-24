@@ -48,23 +48,25 @@ public class BossManager : MonoBehaviour
 
             var levelMan = FindFirstObjectByType<LevelManager>();
 
-            //if (((300 - levelMan.GetRemainingTime()) / 10 < counters[1]) && (counters[0] == 0))
-            if (counters[0] > 1)
+            if ((levelMan.GetRemainingTime()) / 10 < counters[1])
             {
-                counters[0] = 0;
+                if (counters[0] != 0)
+                    counters[0] = 0;
 
-                var spawner = FindFirstObjectByType<Spawner>();
-
-                if (rage)
-                { 
-                    spawner.GarbageLine(Random.Range(0, 10), 0);
-                    spawner.GarbageLine(Random.Range(0, 10), 0);
-                }
                 else
-                    spawner.GarbageLine(Random.Range(0, 10), 0);
+                {
+                    var spawner = FindFirstObjectByType<Spawner>();
+
+                    if (rage)
+                    {
+                        spawner.GarbageLine(Random.Range(0, 10), 0);
+                        spawner.GarbageLine(Random.Range(0, 10), 0);
+                    }
+                    else
+                        spawner.GarbageLine(Random.Range(0, 10), 0);
+                }
             }
-            //counters[0] = 0;
-            //counters[1] = Mathf.Ceil(300 - levelMan.GetRemainingTime() / 10);
+            counters[1] = Mathf.Floor((levelMan.GetRemainingTime()) / 10);
         }
     }
 }

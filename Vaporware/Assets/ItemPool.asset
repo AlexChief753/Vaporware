@@ -37,6 +37,38 @@ MonoBehaviour:
     rarity: 0
     weightOverride: 0
     enabled: 1
+  - item: {fileID: 11400000, guid: b17215c0628995f4a9c7321f6f74dfa5, type: 2}
+    rarity: 0
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 8f0c5e2e2cda31448b2b68c649e124c4, type: 2}
+    rarity: 0
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: c9e7c96954a79af4c8302132ee578872, type: 2}
+    rarity: 0
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: bdc64a9e3de6fb44e81b14e66fdde39d, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 614878eb1f5800c42bc30bb3d0675b56, type: 2}
+    rarity: 0
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: c029fccaddedb8141a57d725bbbc74d8, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: c333d9774e9c79f40941e9a0c8882d75, type: 2}
+    rarity: 4
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: c5a7dd2258d844b408ee3f2c0b9a7b24, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
   commonWeight: 45
   uncommonWeight: 25
   rareWeight: 15

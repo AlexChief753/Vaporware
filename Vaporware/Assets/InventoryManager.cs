@@ -8,6 +8,7 @@ public class InventoryManager : MonoBehaviour
     public List<Item> items = new List<Item>();
     public List<Item> passiveItems = new List<Item>();
     public static float itemSpeedMod = 1;
+    public static float scalingMult = 1;
 
 
     void Awake()
@@ -96,14 +97,17 @@ public class InventoryManager : MonoBehaviour
     //run at level start to activate items that should be active immediately
     public void PassiveInit()
     {
-        itemSpeedMod = 1;   //reset any values modified to default before applying effects
-                            //in order to prevent reapplying effects
+        itemSpeedMod = 1;               //reset any values modified to default before applying effects
+        GameGrid.comboReset = true;     //in order to prevent reapplying effects
+
         for (int i = 0; i < passiveItems.Count; i++)
         {
             if (passiveItems[i].itemName == "Ice Pack")
-            {
                 itemSpeedMod = itemSpeedMod * (float) 0.5;
-            }
+
+            if (passiveItems[i].itemName == "CD Player")
+                GameGrid.comboReset = false;
+
         }
         return;
     }
