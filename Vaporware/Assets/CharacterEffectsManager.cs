@@ -36,7 +36,7 @@ public class CharacterEffectsManager : MonoBehaviour
     {
         public CharacterId id;
         public string displayName = "Unnamed";
-        [Range(0.1f, 3f)] public float scoreMultiplier = 1f;
+        [Range(0.1f, 10f)] public float scoreMultiplier = 1f;
 
         // per-rarity multipliers for shop weights
         [Header("Shop rarity weight multipliers (1 = normal)")]
@@ -85,7 +85,7 @@ public class CharacterEffectsManager : MonoBehaviour
     {
         if (_byId.TryGetValue(id, out var mod))
         {
-            _activeMultiplier = Mathf.Clamp(mod.scoreMultiplier, 0.1f, 3f);
+            _activeMultiplier = Mathf.Clamp(mod.scoreMultiplier, 0.1f, 10f);
             _activeName = mod.displayName;
 
             // commit rarity multipliers for the active character

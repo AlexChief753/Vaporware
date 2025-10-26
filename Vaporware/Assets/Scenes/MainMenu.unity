@@ -1899,6 +1899,7 @@ GameObject:
   - component: {fileID: 1010948573}
   - component: {fileID: 1010948572}
   - component: {fileID: 1010948575}
+  - component: {fileID: 1010948576}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2024,6 +2025,19 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!114 &1010948576
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1010948571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c7b5947b286bfa438dddf0b74747e28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetAspect: 1.7777778
 --- !u!1 &1035339077
 GameObject:
   m_ObjectHideFlags: 0
@@ -3436,8 +3450,8 @@ Canvas:
   m_GameObject: {fileID: 1459251653}
   m_Enabled: 1
   serializedVersion: 3
-  m_RenderMode: 0
-  m_Camera: {fileID: 0}
+  m_RenderMode: 1
+  m_Camera: {fileID: 1010948573}
   m_PlaneDistance: 100
   m_PixelPerfect: 0
   m_ReceivesEvents: 1
@@ -3448,7 +3462,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 242
   m_TargetDisplay: 0
 --- !u!224 &1459251657
 RectTransform:
