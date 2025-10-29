@@ -30,6 +30,12 @@ public class Tetromino : MonoBehaviour
 
     private static bool spaceKeyReady = true;
 
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     void Start()
     {
@@ -267,11 +273,13 @@ public class Tetromino : MonoBehaviour
         // Left and Right Movement
         if ((Input.GetKey(KeyCode.LeftArrow) || dpadX < 0) && currentTime - lastMoveTime > moveDelay)
         {
+            audioManager.playSFX(audioManager.pieceMove);
             Move(new Vector3(-1, 0, 0));
             lastMoveTime = currentTime;
         }
         else if ((Input.GetKey(KeyCode.RightArrow) || dpadX > 0) && currentTime - lastMoveTime > moveDelay)
         {
+            audioManager.playSFX(audioManager.pieceMove);
             Move(new Vector3(1, 0, 0));
             lastMoveTime = currentTime;
         }
@@ -279,12 +287,14 @@ public class Tetromino : MonoBehaviour
         // Rotation Clockwise (Holding Up Arrow)
         if ((Input.GetKey(KeyCode.UpArrow) || dpadY > 0 || Input.GetButton("RotateCCW")) && currentTime - lastRotateTime > rotationDelay)
         {
+            audioManager.playSFX(audioManager.rotate);
             RotateTetrominoClockwise();
             lastRotateTime = currentTime;
         }
 
         if ((Input.GetKey(KeyCode.Return) || Input.GetButton("RotateCW")) && currentTime - lastRotateTime > rotationDelay)
         {
+            audioManager.playSFX(audioManager.rotate);
             RotateTetrominoCounterClockwise();
             lastRotateTime = currentTime;
         }
