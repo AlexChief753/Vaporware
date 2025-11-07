@@ -14,7 +14,8 @@ public class GameGrid : MonoBehaviour
     public static double comboMult = 0.5; //Default combo multiplier
     public static double itemMult = 1; //Base item multiplier
     public static int requiredScore = 0;
-    public static float garbageChance = 1;
+    public static float lastLineCleared = 300; //Time last row was cleared
+    public static int rowCleared = 0;
 
     public static bool IsInsideGrid(Vector2 pos)
     {
@@ -135,6 +136,7 @@ public class GameGrid : MonoBehaviour
             {
                 ClearRow(y);
                 MoveRowsDown(y);
+                rowCleared = y;
                 y--; // Check the same row again after moving blocks down
                 linesCleared++;
                 if (level % 4 == 0)
@@ -184,12 +186,14 @@ public class GameGrid : MonoBehaviour
 
     public static void UpdateLevel()
     {
-        requiredScore = 1000 * level; // Could call GameGrid.level and do some math to increase score required per level ***************************
+        requiredScore = 1000 + (500 * (level - 1)); // Could call GameGrid.level and do some math to increase score required per level ***************************
         if (!levelUpTriggered && levelScore >= requiredScore)
         {
             levelUpTriggered = true; // Prevent multiple triggers
             var levelMan = FindFirstObjectByType<LevelManager>();
-            currency += (int)Mathf.Round((float)(levelMan.GetRemainingTime() * level * 1.1)); // Up currency based on remaining time
+            currency += (int)Mathf.Round((float)(levelMan.GetRemainingTime() * level * 1.1) + 100); // Up currency based on remaining time
+            var inventoryMan = FindFirstObjectByType<InventoryManager>();
+            inventoryMan.PassiveEndRound();
             Time.timeScale = 0; // Pause game immediately
             LevelManager.instance.CompleteLevel();
         }
@@ -299,15 +303,55 @@ public class GameGrid : MonoBehaviour
                     itemMult = itemMult * ((levelMan.GetRemainingTime() - 270) / 15);
 
             if (inventoryManager.passiveItems[i].itemName == "Motivational Poster")
-                itemMult = itemMult * ((GetHighestOccupiedRow() / 10) + 1);
+            {
+                if (GetHighestOccupiedRow() < 10)
+                    itemMult = itemMult * ((GetHighestOccupiedRow() / 10) + 1);
+                else
+                    itemMult = itemMult * 2;
+            }
 
             if (inventoryManager.passiveItems[i].itemName == "CD Player")
                 comboMult = comboMult * 0.5;
 
             if (inventoryManager.passiveItems[i].itemName == "Juggler's Guidebook")
                 if (comboDropped == false)
-                    itemMult = itemMult * 2;
+                    comboMult = comboMult * 2;
+
+            if (inventoryManager.passiveItems[i].itemName == "Compressed Air")
+                if (IsBoardClear())
+                    currency += 100;
+
+            if (inventoryManager.passiveItems[i].itemName == "Play Money")
+                if (linesCleared == 3)
+                    currency += 20;
+
+            if (inventoryManager.passiveItems[i].itemName == "Schedule Book")
+                if (linesCleared == 2)
+                    comboCount++;
+
+            if (inventoryManager.passiveItems[i].itemName == "Feather Duster")
+                itemMult = itemMult * (2 - (GetHighestOccupiedRow() / 20));
+
+            if (inventoryManager.passiveItems[i].itemName == "Company Card")
+                lineClearPoints += currency / 100; // careful tuning with this one, it'll break the game easily if not
+
+            if (inventoryManager.passiveItems[i].itemName == "Pocket Watch")
+                itemMult = itemMult * (lastLineCleared - levelMan.GetRemainingTime() / 10);
+
+            if (inventoryManager.passiveItems[i].itemName == "Less is More")
+                if (Random.Range(0, 5) < 1)
+                {
+                    ClearRow(rowCleared); // rowCleared is now the row above what was cleared
+                    MoveRowsDown(rowCleared);
+                    rowCleared--;
+                    if (rowCleared >= 0)
+                    {
+                        ClearRow(rowCleared);
+                        MoveRowsDown(rowCleared);
+                    }
+                }
         }
+        lastLineCleared = levelMan.GetRemainingTime();
     }
 
     public static void ClearGrid()

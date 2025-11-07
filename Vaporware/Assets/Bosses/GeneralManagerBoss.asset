@@ -10,13 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2a112a64ee749dd4697d443ae97dfe64, type: 3}
-  m_Name: PrinterBoss
+  m_Name: GeneralManagerBoss
   m_EditorClassIdentifier: 
-  bossName: Jammed Printer
+  bossName: General Manager
   scoreMultiplier: 1
-  description: 'If a score-earning line clear doesn''t occur every 10 seconds, a
-    garbage line forms at the bottom of the board.  Increases to 2 lines and increases
-    fall speed when the stage is halfway cleared.
-
-    Keep clearing lines, show
-    no fear. Printers prey on fear.'
+  description: The general manager will spawn small columns of garbage on top of
+    your stack, which can quickly overwhelm you!  However, it is possible for it
+    to clear lines which can help to reduce the pressure.

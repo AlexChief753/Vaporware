@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2a112a64ee749dd4697d443ae97dfe64, type: 3}
+  m_Name: CEOBoss
+  m_EditorClassIdentifier: 
+  bossName: The CEO
+  scoreMultiplier: 1.5
+  description: The head honcho of the Vaporware Corporation. He will test your skills,
+    using the skills of the previous rivals you've faced! Starts by spawning columns
+    and lines from the bottom depending on how tall your stack is.  Second phase
+    will spawn single tiles across your board, combined with lines from the bottom
+    of the grid. During the final phase, speed increases, garbage will spawn if you
+    don't clear lines often enough, and the boss will rapidly spawn dangerous lines
+    from the bottom after 30 seconds!

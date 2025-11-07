@@ -38,7 +38,6 @@ public class Spawner : MonoBehaviour
             GameGrid.currency = 0;
             GameGrid.levelUpTriggered = false;
             GameGrid.comboCount = 0;
-            GameGrid.garbageChance = 1;
 
             GameGrid.ClearGrid();
             Tetromino.UpdateGlobalSpeed();
@@ -245,7 +244,6 @@ public class Spawner : MonoBehaviour
             GameGrid.level = 1;
             GameGrid.currency = 0;
             GameGrid.comboCount = 0;
-            GameGrid.garbageChance = 1;
             var inventoryManager = FindFirstObjectByType<InventoryManager>();
             inventoryManager.passiveItems.Clear();
             Tetromino.UpdateGlobalSpeed();
@@ -358,6 +356,16 @@ public class Spawner : MonoBehaviour
             {
                 AddGarbage(i, y);
             }
+        }
+    }
+
+    // x is the position of the gaps for the garbage line
+    public void GarbageLineAnnoying(int x, int y)
+    {
+        GameGrid.MoveRowsUp(y);
+        for (int i = x % 2; i < GameGrid.width; i += 2)
+        {
+            AddGarbage(i, y);
         }
     }
 

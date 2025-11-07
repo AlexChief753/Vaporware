@@ -203,15 +203,15 @@ public class LevelManager : MonoBehaviour
         GameGrid.level++; // Increment level 
         currentTime = levelTime;
         GameGrid.levelScore = 0;
-        GameGrid.garbageChance = 1;
 
         var inventoryManager = FindFirstObjectByType<InventoryManager>();
         inventoryManager.PassiveInit();
+        GameGrid.lastLineCleared = 300;
 
         if (GameGrid.level % 4 == 0)
         { 
             var bossMan = FindFirstObjectByType<BossManager>();
-            bossMan.currentBoss = bossMan.bosses[0]; // replace with boss randomizer
+            bossMan.currentBoss = bossMan.bosses[(GameGrid.level / 4) % 6];
             bossMan.LoadBoss();
         }
 

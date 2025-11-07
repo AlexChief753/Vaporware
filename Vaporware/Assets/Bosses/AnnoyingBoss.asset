@@ -10,13 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 2a112a64ee749dd4697d443ae97dfe64, type: 3}
-  m_Name: PrinterBoss
+  m_Name: AnnoyingBoss
   m_EditorClassIdentifier: 
-  bossName: Jammed Printer
+  bossName: Annoying Coworker
   scoreMultiplier: 1
-  description: 'If a score-earning line clear doesn''t occur every 10 seconds, a
-    garbage line forms at the bottom of the board.  Increases to 2 lines and increases
-    fall speed when the stage is halfway cleared.
-
-    Keep clearing lines, show
-    no fear. Printers prey on fear.'
+  description: Spawns a particularly annoying line of garbage periodically. These
+    lines are difficult to clear without items, so plan accordingly!  After half,
+    they'll begin to drop single pieces on the top of your stack, getting in your
+    way!

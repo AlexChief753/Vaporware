@@ -3261,6 +3261,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bosses:
   - {fileID: 11400000, guid: eaee3c7966d966942bd292396d14f93d, type: 2}
+  - {fileID: 11400000, guid: 978fda0c2710ff0499a0a4cb46d17403, type: 2}
+  - {fileID: 11400000, guid: b49e9ca2401ba4d4c9e7555b89ec2f9a, type: 2}
+  - {fileID: 11400000, guid: ccce5ef43357b7d498d8f59e9fa1e32d, type: 2}
+  - {fileID: 11400000, guid: ad228870290044142807cc0a91c306c4, type: 2}
+  - {fileID: 11400000, guid: df10b3765af7f55409282257a11cf76a, type: 2}
   currentBoss: {fileID: 11400000, guid: eaee3c7966d966942bd292396d14f93d, type: 2}
   rage: 0
   counters:
