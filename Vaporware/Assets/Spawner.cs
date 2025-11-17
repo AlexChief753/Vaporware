@@ -12,6 +12,7 @@ public class Spawner : MonoBehaviour
     public TextMeshProUGUI speedText;
     public TextMeshProUGUI levelText;
     public TextMeshProUGUI currencyText;
+    public TextMeshProUGUI displayRequiredScore;
     public GameObject[] tetrominoes;
     public Player playerBag;
     private List<int> bag = new List<int>();
@@ -127,7 +128,7 @@ public class Spawner : MonoBehaviour
             return;
         }
 
-        if (1 == 1) // replace with boss check later
+        if (GameGrid.level % 4 == 0)
         {
             var bossMan = FindFirstObjectByType<BossManager>();
             bossMan.BossPieceDrop();
@@ -188,6 +189,7 @@ public class Spawner : MonoBehaviour
         if (levelText != null)
         {
             levelText.text = "Level: " + GameGrid.level.ToString();
+            displayRequiredScore.text = "Required Score: " + (1000 + (500 * (GameGrid.level - 1))).ToString();
         }
 
         // Update Timer UI
@@ -269,6 +271,7 @@ public class Spawner : MonoBehaviour
         if (levelText != null)
         {
             levelText.text = "Level: " + GameGrid.level.ToString();
+            displayRequiredScore.text = "Required Score: " + (1000 + (500 * (GameGrid.level - 1))).ToString();
         }
 
         if (speedText != null)
@@ -356,6 +359,16 @@ public class Spawner : MonoBehaviour
             {
                 AddGarbage(i, y);
             }
+        }
+    }
+
+    // x is the position of the gaps for the garbage line
+    public void GarbageLineAnnoying(int x, int y)
+    {
+        GameGrid.MoveRowsUp(y);
+        for (int i = x % 2; i < GameGrid.width; i += 2)
+        {
+            AddGarbage(i, y);
         }
     }
 

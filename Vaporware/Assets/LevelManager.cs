@@ -27,9 +27,11 @@ public class LevelManager : MonoBehaviour
     private float currentTime;
     private bool levelPaused = false;
 
+    [Header("Level Complete Menu")]
     public Button continueButton;
     public Button itemShopButton;
     public Button saveButton;
+    public Button mainMenuButton;
     public Button quitButton;
 
     [Header("Pause Menu")]
@@ -206,13 +208,14 @@ public class LevelManager : MonoBehaviour
 
         var inventoryManager = FindFirstObjectByType<InventoryManager>();
         inventoryManager.PassiveInit();
+        GameGrid.lastLineCleared = 300;
 
-        //if (1 == 1) //replace with boss conditional later
-        //{ 
+        if (GameGrid.level % 4 == 0)
+        { 
             var bossMan = FindFirstObjectByType<BossManager>();
-            bossMan.currentBoss = bossMan.bosses[0]; // replace with boss randomizer
+            bossMan.currentBoss = bossMan.bosses[(GameGrid.level / 4) % 6];
             bossMan.LoadBoss();
-        //}
+        }
 
         Tetromino.UpdateGlobalSpeed();
         GameGrid.levelUpTriggered = false;

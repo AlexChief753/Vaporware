@@ -6,7 +6,7 @@ public class Boss : ScriptableObject
 {
     [Header("Attributes")]
     public string bossName;
-    public int scoreMultiplier;
+    public float scoreMultiplier;
 
     [TextArea]
     public string description;

@@ -14,5 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bossName: Jammed Printer
   scoreMultiplier: 1
-  description: If a score-earning line clear doesn't occur every 10 seconds, a garbage
-    line forms at the bottom of the board.  Increases to 2 when halfway cleared.
+  description: 'If a score-earning line clear doesn''t occur every 10 seconds, a
+    garbage line forms at the bottom of the board.  Increases to 2 lines and increases
+    fall speed when the stage is halfway cleared.
+
+    Keep clearing lines, show
+    no fear. Printers prey on fear.'

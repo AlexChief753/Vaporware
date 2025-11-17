@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 171ec6a99d63e4d418f8c04ac0234091
+guid: 25cd957464cf0684aa911e0681fcfa66
 TextureImporter:
   internalIDToNameTable:
   - first:
@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      UIDesignShopMockup5_0: 7099608488400804510
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

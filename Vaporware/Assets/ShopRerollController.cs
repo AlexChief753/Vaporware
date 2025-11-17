@@ -60,6 +60,9 @@ public class ShopRerollController : MonoBehaviour
         // Roll a fresh set of 4 items (distinct within this roll)
         Item[] newItems = ItemPoolRoller.SampleDistinct(poolToUse, 4);
 
+        // Update the internal shop state
+        svc.ForceSetSelection(newItems);
+
         // Overwrite the shop's current selection (force all 4 to repopulate even if some were bought)
         if (shop != null)
         {

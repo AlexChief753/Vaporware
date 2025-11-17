@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      VaporwareLogo_0: 4498234732365699995
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

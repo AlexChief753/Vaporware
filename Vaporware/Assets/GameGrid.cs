@@ -6,11 +6,16 @@ public class GameGrid : MonoBehaviour
     public static int height = 21; // 10x20 is copyrighted
     public static Transform[,] grid = new Transform[width, height];
     public static int comboCount = 0;
+    public static bool comboReset = true;
+    public static bool comboDropped = false;
     public static double lineClearMult = 1; // Multiplier from line clear amount
     public static double lineClearPoints = 100; //Default line clear value
     public static double fullClearBonus = 1000; //Default full clear bonus
     public static double comboMult = 0.5; //Default combo multiplier
+    public static double itemMult = 1; //Base item multiplier
     public static int requiredScore = 0;
+    public static float lastLineCleared = 300; //Time last row was cleared
+    public static int rowCleared = 0;
 
     public static bool IsInsideGrid(Vector2 pos)
     {
@@ -131,23 +136,41 @@ public class GameGrid : MonoBehaviour
             {
                 ClearRow(y);
                 MoveRowsDown(y);
+                rowCleared = y;
                 y--; // Check the same row again after moving blocks down
                 linesCleared++;
-                var bossMan = FindFirstObjectByType<BossManager>();
-                bossMan.counters[0] = bossMan.counters[0] + 1;
+                if (level % 4 == 0)
+                {
+                    var bossMan = FindFirstObjectByType<BossManager>();
+                    bossMan.counters[0] = bossMan.counters[0] + 1;
+                }
             }
         }
 
-        if (linesCleared > 0) // Handles incrementing and resetting line clear combo
+        //if (linesCleared > 0) // Handles incrementing and resetting line clear combo
+        //    comboCount++;
+        //else if (comboReset)
+        //{
+        //    comboCount = 0;
+        //    comboDropped = true;
+        //}
+        if (linesCleared > 0)
+        {
             comboCount++;
+            comboDropped = false; // combo is alive
+        }
         else
+        {
+            // only reset when a piece finishes and didn't clear lines
             comboCount = 0;
+            comboDropped = true;
+        }
 
 
         //  Award points and check for level-up
         if (linesCleared > 0)
         {
-            currency += ScoreAdd(linesCleared); // Make currency equal to points
+            ScoreAdd(linesCleared);
             UpdateLevel(); //  Check if level should increase
         }
     }
@@ -174,16 +197,20 @@ public class GameGrid : MonoBehaviour
 
     public static void UpdateLevel()
     {
-        requiredScore = 1000; // Could call GameGrid.level and do some math to increase score required per level ***************************
+        requiredScore = 1000 + (500 * (level - 1)); // Could call GameGrid.level and do some math to increase score required per level ***************************
         if (!levelUpTriggered && levelScore >= requiredScore)
         {
             levelUpTriggered = true; // Prevent multiple triggers
+            var levelMan = FindFirstObjectByType<LevelManager>();
+            currency += (int)Mathf.Round((float)(levelMan.GetRemainingTime() * level * 1.1) + 100); // Up currency based on remaining time
+            var inventoryMan = FindFirstObjectByType<InventoryManager>();
+            inventoryMan.PassiveEndRound();
             Time.timeScale = 0; // Pause game immediately
             LevelManager.instance.CompleteLevel();
         }
     }
-
-
+    
+    
     // Reset levelUpTriggered when starting a new level
     public static void ResetLevelTrigger()
     {
@@ -255,16 +282,87 @@ public class GameGrid : MonoBehaviour
     //passive item effects from line clears should be included here
     public static void applyItemEffects(double linesCleared)
     {
+        itemMult = 1;
         var inventoryManager = FindFirstObjectByType<InventoryManager>();
+        var levelMan = FindFirstObjectByType<LevelManager>();
         for (int i = 0; i < inventoryManager.passiveItems.Count; i++)
         {
             if (inventoryManager.passiveItems[i].itemName == "testItem")
                 if (linesCleared == 1)
                     lineClearMult += 0.25;
 
+            if (inventoryManager.passiveItems[i].itemName == "2Lines")
+                if (linesCleared == 2)
+                    lineClearMult += 0.5;
+
+            if (inventoryManager.passiveItems[i].itemName == "3Lines")
+                if (linesCleared == 3)
+                    lineClearMult += 1;
+
+            if (inventoryManager.passiveItems[i].itemName == "4Lines")
+                if (linesCleared >= 4)
+                    lineClearMult += 1.5;
+
+            if (inventoryManager.passiveItems[i].itemName == "Hot Chocolate")
+                comboMult = comboMult * 1.25;
+
             if (inventoryManager.passiveItems[i].itemName == "Coding 4 Clowns")
                 lineClearPoints += 100;
+
+            if (inventoryManager.passiveItems[i].itemName == "Expresso")
+                if (levelMan.GetRemainingTime() > 270)
+                    itemMult = itemMult * ((levelMan.GetRemainingTime() - 270) / 15);
+
+            if (inventoryManager.passiveItems[i].itemName == "Motivational Poster")
+            {
+                if (GetHighestOccupiedRow() < 10)
+                    itemMult = itemMult * ((GetHighestOccupiedRow() / 10) + 1);
+                else
+                    itemMult = itemMult * 2;
+            }
+
+            if (inventoryManager.passiveItems[i].itemName == "CD Player")
+                comboMult = comboMult * 0.5;
+
+            if (inventoryManager.passiveItems[i].itemName == "Juggler's Guidebook")
+                if (comboDropped == false)
+                    comboMult = comboMult * 2;
+
+            if (inventoryManager.passiveItems[i].itemName == "Compressed Air")
+                if (IsBoardClear())
+                    currency += 100;
+
+            if (inventoryManager.passiveItems[i].itemName == "Play Money")
+                if (linesCleared == 3)
+                    currency += 20;
+
+            if (inventoryManager.passiveItems[i].itemName == "Schedule Book")
+                if (linesCleared == 2)
+                    comboCount++;
+
+            if (inventoryManager.passiveItems[i].itemName == "Feather Duster")
+                itemMult = itemMult * (2 - (GetHighestOccupiedRow() / 20));
+
+            if (inventoryManager.passiveItems[i].itemName == "Company Card")
+                lineClearPoints += currency / 100; // careful tuning with this one, it'll break the game easily if not
+
+            if (inventoryManager.passiveItems[i].itemName == "Pocket Watch")
+                itemMult = itemMult * (lastLineCleared - levelMan.GetRemainingTime() / 10);
+
+            if (inventoryManager.passiveItems[i].itemName == "Less is More")
+                if (Random.Range(0, 5) < 1)
+                {
+                    ClearRow(rowCleared); // rowCleared is now the row above what was cleared
+                    MoveRowsDown(rowCleared);
+                    rowCleared--;
+                    if (rowCleared >= 0)
+                    {
+                        ClearRow(rowCleared);
+                        MoveRowsDown(rowCleared);
+                    }
+                }
         }
+        lastLineCleared = levelMan.GetRemainingTime();
     }
 
     public static void ClearGrid()

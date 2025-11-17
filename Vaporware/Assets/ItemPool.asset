@@ -37,6 +37,74 @@ MonoBehaviour:
     rarity: 0
     weightOverride: 0
     enabled: 1
+  - item: {fileID: 11400000, guid: b17215c0628995f4a9c7321f6f74dfa5, type: 2}
+    rarity: 0
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 8f0c5e2e2cda31448b2b68c649e124c4, type: 2}
+    rarity: 0
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: c9e7c96954a79af4c8302132ee578872, type: 2}
+    rarity: 0
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: bdc64a9e3de6fb44e81b14e66fdde39d, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 614878eb1f5800c42bc30bb3d0675b56, type: 2}
+    rarity: 0
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: c029fccaddedb8141a57d725bbbc74d8, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: c333d9774e9c79f40941e9a0c8882d75, type: 2}
+    rarity: 4
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: c5a7dd2258d844b408ee3f2c0b9a7b24, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: af696893f118e64408b75e3a0f577bba, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 3fa4269cf385a72469719f92b2549442, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 12b4f771331f2d048a597f6396292204, type: 2}
+    rarity: 3
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 53a3e61b22da8834384a9b3c3cbf413e, type: 2}
+    rarity: 3
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 85fda8445f0ad0e4dbae2903f9665798, type: 2}
+    rarity: 0
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 66cae04c3b31cdd4dad9f8af2f26f702, type: 2}
+    rarity: 2
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 9d9230b1c3768844dae173655fa4d6a9, type: 2}
+    rarity: 3
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: b82507208db2644499a80ed0b472cfa9, type: 2}
+    rarity: 2
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 201b98fabdd944641a04586e09b091e5, type: 2}
+    rarity: 0
+    weightOverride: 0
+    enabled: 1
   commonWeight: 45
   uncommonWeight: 25
   rareWeight: 15

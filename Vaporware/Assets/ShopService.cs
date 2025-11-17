@@ -11,7 +11,7 @@ public class ShopService : MonoBehaviour
     [Range(1, 8)] public int itemsPerShop = 4;
 
     // State for the inter-level shop
-    private int _selectionLevel = -1; // which GameGrid.level this selection belongs to
+    private int _selectionLevel = -1;       // which GameGrid.level this selection belongs to
     private readonly List<Item> _selection = new();   // size itemsPerShop
     private readonly HashSet<string> _soldNames = new();
 
@@ -134,7 +134,7 @@ public class ShopService : MonoBehaviour
         return result;
     }
 
-    // Save/Load bridge
+    // Save / Load bridge
     public void SaveTo(SaveData data)
     {
         if (data == null) return;
@@ -192,6 +192,18 @@ public class ShopService : MonoBehaviour
         if (data.shopSoldItemNames != null)
             foreach (var n in data.shopSoldItemNames)
                 if (!string.IsNullOrEmpty(n)) _soldNames.Add(n);
+    }
+
+    public void ForceSetSelection(Item[] items)
+    {
+        _selection.Clear();
+        _soldNames.Clear();
+
+        for (int i = 0; i < items.Length; i++)
+            _selection.Add(items[i]);
+
+        while (_selection.Count < itemsPerShop)
+            _selection.Add(null);
     }
 }
 
