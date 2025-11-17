@@ -36,12 +36,12 @@ public class AudioManager : MonoBehaviour
     private void Start()
     {
 
-        backgroundMusicSource.volume = musicVolume;
-        sfxSource.volume = sfxVolume;
-
         // Load saved volume or use default 0.5
         float musicVolume = PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, 0.5f);
         float sfxVolume = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 0.5f);
+
+        backgroundMusicSource.volume = musicVolume;
+        sfxSource.volume = sfxVolume;
 
         backgroundMusicSource.volume = musicVolume;
         sfxSource.volume = sfxVolume;
