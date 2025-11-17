@@ -7,15 +7,17 @@ public class GameGrid : MonoBehaviour
     public static Transform[,] grid = new Transform[width, height];
     public static int comboCount = 0;
     public static bool comboReset = true;
+    public static bool comboProtect = false;
     public static bool comboDropped = false;
     public static double lineClearMult = 1; // Multiplier from line clear amount
-    public static double lineClearPoints = 100; //Default line clear value
-    public static double fullClearBonus = 1000; //Default full clear bonus
-    public static double comboMult = 0.5; //Default combo multiplier
-    public static double itemMult = 1; //Base item multiplier
+    public static double lineClearPoints = 100; // Default line clear value
+    public static double fullClearBonus = 1000; // Default full clear bonus
+    public static double comboMult = 0.5; // Default combo multiplier
+    public static double itemMult = 1; // Base item multiplier
     public static int requiredScore = 0;
-    public static float lastLineCleared = 300; //Time last row was cleared
+    public static float lastLineCleared = 300; // Time last row was cleared
     public static int rowCleared = 0;
+    public static float lastPieceLeftness = 1; // For office politics item
 
     public static bool IsInsideGrid(Vector2 pos)
     {
@@ -30,6 +32,7 @@ public class GameGrid : MonoBehaviour
 
     public static void AddToGrid(Transform tetromino)
     {
+        lastPieceLeftness = 1;
         foreach (Transform block in tetromino)
         {
             if (block.CompareTag("GhostPiece"))
@@ -40,6 +43,11 @@ public class GameGrid : MonoBehaviour
             {
                 grid[(int)pos.x, (int)pos.y] = block;
             }
+
+            TileProperties tileProperties = block.gameObject.GetComponent<TileProperties>();
+            if (tileProperties.isGarbage == false)
+                if (Mathf.Round(block.position.x) <= 5)
+                    lastPieceLeftness += (float) 0.25;
         }
     }
 
@@ -72,21 +80,21 @@ public class GameGrid : MonoBehaviour
     }
     public static void ClearRow(int y)
     {
-    for (int x = 0; x < width; x++)
-    {
-        if (grid[x, y] != null)
+        for (int x = 0; x < width; x++)
         {
-            // Check if the block has an item
-            ItemSlot itemSlot = grid[x, y].GetComponent<ItemSlot>();
-            if (itemSlot != null)
+            if (grid[x, y] != null)
             {
-                itemSlot.ActivateItem(); // Activate item before removing block
-            }
+                // Check if the block has an item
+                TileProperties tileProperties = grid[x, y].GetComponent<TileProperties>();
+                if (tileProperties != null)
+                {
+                        tileProperties.ActivateItem(); // Activate item before removing block
+                }
 
-            Destroy(grid[x, y].gameObject); // Remove the block
-            grid[x, y] = null;
+                Destroy(grid[x, y].gameObject); // Remove the block
+                grid[x, y] = null;
+            }
         }
-    }
     }
 
 
@@ -148,8 +156,11 @@ public class GameGrid : MonoBehaviour
         }
 
         if (linesCleared > 0) // Handles incrementing and resetting line clear combo
+        {
             comboCount++;
-        else if (comboReset)
+            comboProtect = false;
+        }
+        else if (comboReset && !comboProtect)
         {
             comboCount = 0;
             comboDropped = true;
@@ -186,7 +197,7 @@ public class GameGrid : MonoBehaviour
 
     public static void UpdateLevel()
     {
-        requiredScore = 1000 + (500 * (level - 1)); // Could call GameGrid.level and do some math to increase score required per level ***************************
+        requiredScore = 500 + (500 * (level - 1)); // Could call GameGrid.level and do some math to increase score required per level ***************************
         if (!levelUpTriggered && levelScore >= requiredScore)
         {
             levelUpTriggered = true; // Prevent multiple triggers
@@ -197,6 +208,16 @@ public class GameGrid : MonoBehaviour
             Time.timeScale = 0; // Pause game immediately
             LevelManager.instance.CompleteLevel();
         }
+    }
+
+    public static void UpdateLevelForced() 
+    {
+        levelUpTriggered = true; // Prevent multiple triggers
+        var levelMan = FindFirstObjectByType<LevelManager>();
+        var inventoryMan = FindFirstObjectByType<InventoryManager>();
+        inventoryMan.PassiveEndRound();
+        Time.timeScale = 0; // Pause game immediately
+        LevelManager.instance.CompleteLevel();
     }
     
     
@@ -336,21 +357,48 @@ public class GameGrid : MonoBehaviour
                 lineClearPoints += currency / 100; // careful tuning with this one, it'll break the game easily if not
 
             if (inventoryManager.passiveItems[i].itemName == "Pocket Watch")
-                itemMult = itemMult * (lastLineCleared - levelMan.GetRemainingTime() / 10);
+                itemMult = itemMult * (lastLineCleared - levelMan.GetRemainingTime() / 15);
 
             if (inventoryManager.passiveItems[i].itemName == "Less is More")
                 if (Random.Range(0, 5) < 1)
                 {
+                    lineClearPoints += 10 * TilesInRow(rowCleared);
                     ClearRow(rowCleared); // rowCleared is now the row above what was cleared
                     MoveRowsDown(rowCleared);
                     rowCleared--;
                     if (rowCleared >= 0)
                     {
+                        lineClearPoints += 10 * TilesInRow(rowCleared);
                         ClearRow(rowCleared);
                         MoveRowsDown(rowCleared);
                     }
                 }
+
+            if (inventoryManager.passiveItems[i].itemName == "Scrap Paper")
+                itemMult = itemMult * (1 + ((float) GarbageCount() / 15));
+
+            if (inventoryManager.passiveItems[i].itemName == "Trash Bag")
+            {
+                var spawner = FindFirstObjectByType<Spawner>();
+                if (levelMan.GetRemainingTime() > lastLineCleared + 10)
+                    spawner.GarbageLine(Random.Range(0, 10), 0);
+            }
+
+            if (inventoryManager.passiveItems[i].itemName == "Office Politics")
+                itemMult = itemMult * lastPieceLeftness;
+
+            if (inventoryManager.passiveItems[i].itemName == "Robot Vaccuum")
+                if (Random.Range(0, 10) < 1)
+                {
+                    lineClearPoints += 10 * TilesInRow(0);
+                    ClearRow(0); // rowCleared is now the row above what was cleared
+                    MoveRowsDown(0);
+                }
+
+            if (InventoryManager.QuadDamActive)
+                itemMult = itemMult * 4;
         }
+
         lastLineCleared = levelMan.GetRemainingTime();
     }
 
@@ -410,6 +458,45 @@ public class GameGrid : MonoBehaviour
         return cleared;
     }
 
+
+    public static int GetColumnHeight(int x)
+    {
+        
+        for (int y = height - 1; y >= 0; y--)
+        {
+            if (grid[x, y] != null) return y;
+        }
+        return 0;
+    }
+
+    public static int TilesInRow(int y)
+    {
+        int tiles = 0;
+        for (int x = 0; x < width; x++)
+        {
+            if (grid[x, y] != null)
+                tiles++;
+        }
+        return tiles;
+    }
+
+    public static int GarbageCount()
+    {
+        int count = 0;
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                if (grid[x, y] != null)
+                {
+                    TileProperties tileProperties = grid[x, y].gameObject.GetComponent<TileProperties>();
+                    if (tileProperties.isGarbage == true)
+                        count++;
+                }
+            }
+        }
+        return count;
+    }
 
 }
 

@@ -39,7 +39,7 @@ public class Tetromino : MonoBehaviour
 
     void Start()
     {
-        AssignRandomItemSlots();
+        AssignProperties();
         AssignGhostSprites();
         CreateGhostPiece();
         Invoke("UpdateGhostPiece", 0.05f);
@@ -58,18 +58,21 @@ public class Tetromino : MonoBehaviour
     }
 
 
-    void AssignRandomItemSlots()
+    void AssignProperties()
     {
         foreach (Transform block in transform)
         {
-            ItemSlot itemSlot = block.gameObject.AddComponent<ItemSlot>();
+            TileProperties tileProperties = block.gameObject.AddComponent<TileProperties>();
+
+            if (this.pieceIndex == 7)
+                tileProperties.isGarbage = true;
 
             // 2% chance to have an item slot
-            if (Random.value < 0.2f)
-            {
-                itemSlot.hasItem = true;
-                Debug.Log("Item slot added at " + block.position);
-            }
+            //if (Random.value < 0.2f)
+            //{
+            //    tileProperties.hasItem = true;
+            //    Debug.Log("Item slot added at " + block.position);
+            //}
         }
     }
 

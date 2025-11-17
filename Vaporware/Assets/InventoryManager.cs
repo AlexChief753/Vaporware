@@ -9,6 +9,9 @@ public class InventoryManager : MonoBehaviour
     public List<Item> passiveItems = new List<Item>();
     public static float itemSpeedMod = 1;
     public static float scalingMult = 1;
+    public static bool QuadDamActive = false;
+    public static bool RecycleBinGarbage = false;
+    public static int ResetRarities = 0;
 
 
     void Awake()
@@ -86,6 +89,121 @@ public class InventoryManager : MonoBehaviour
             Debug.Log($"Shredder used: removed {cleared} bottom rows.");
         }
 
+        if (item.itemName == "Quad Damage")
+        {
+            QuadDamActive = true;
+        }
+
+        if (item.itemName == "Canned Combo Energy Drink")
+        {
+            GameGrid.comboProtect = true;
+            GameGrid.comboCount += 5;
+        }
+
+        if (item.itemName == "Olive Branch")
+        {
+            var bossMan = FindFirstObjectByType<BossManager>();
+            bossMan.BossDeactivate();
+        }
+
+        if (item.itemName == "Call Off")
+            if ((GameGrid.level % 4) != 0)
+                GameGrid.UpdateLevelForced();
+
+        if (item.itemName == "Recycling Bin")
+        {
+            GameGrid.currency += 250;
+            RecycleBinGarbage = true;
+        }
+
+        if (item.itemName == "Canned I")
+        {
+            var player = FindFirstObjectByType<Player>();
+            player.playerBag.Add(3);
+            Spawner spawner = FindFirstObjectByType<Spawner>();
+            if (spawner != null)
+            {
+                spawner.ForceSequence(3, 1);
+            }
+        }
+
+        if (item.itemName == "Canned O")
+        {
+            var player = FindFirstObjectByType<Player>();
+            player.playerBag.Add(1);
+            Spawner spawner = FindFirstObjectByType<Spawner>();
+            if (spawner != null)
+            {
+                spawner.ForceSequence(1, 1);
+            }
+        }
+
+        if (item.itemName == "Canned Z")
+        {
+            var player = FindFirstObjectByType<Player>();
+            player.playerBag.Add(6);
+            Spawner spawner = FindFirstObjectByType<Spawner>();
+            if (spawner != null)
+            {
+                spawner.ForceSequence(6, 1);
+            }
+        }
+
+        if (item.itemName == "Canned J")
+        {
+            var player = FindFirstObjectByType<Player>();
+            player.playerBag.Add(4);
+            Spawner spawner = FindFirstObjectByType<Spawner>();
+            if (spawner != null)
+            {
+                spawner.ForceSequence(4, 1);
+            }
+        }
+
+        if (item.itemName == "Canned S")
+        {
+            var player = FindFirstObjectByType<Player>();
+            player.playerBag.Add(5);
+            Spawner spawner = FindFirstObjectByType<Spawner>();
+            if (spawner != null)
+            {
+                spawner.ForceSequence(5, 1);
+            }
+        }
+
+        if (item.itemName == "Canned T")
+        {
+            var player = FindFirstObjectByType<Player>();
+            player.playerBag.Add(0);
+            Spawner spawner = FindFirstObjectByType<Spawner>();
+            if (spawner != null)
+            {
+                spawner.ForceSequence(0, 1);
+            }
+        }
+
+        if (item.itemName == "Canned L")
+        {
+            var player = FindFirstObjectByType<Player>();
+            player.playerBag.Add(2);
+            Spawner spawner = FindFirstObjectByType<Spawner>();
+            if (spawner != null)
+            {
+                spawner.ForceSequence(2, 1);
+            }
+        }
+
+        if (item.itemName == "Rabbit's Foot")
+        {
+            var itemPool = FindFirstObjectByType<ItemPoolSO>();
+            itemPool.commonWeight -= 10;
+            itemPool.uncommonWeight += 5;
+            itemPool.rareWeight += 10;
+            itemPool.epicWeight += 15;
+            itemPool.legendaryWeight += 15;
+            ResetRarities++;
+        }
+
         // Remove item from inventory
         items.RemoveAt(index);
 
@@ -109,8 +227,21 @@ public class InventoryManager : MonoBehaviour
                 GameGrid.comboReset = false;
 
         }
+
+        if (ResetRarities < 0)
+            for (int i = 0; i < ResetRarities; i++)
+            {
+                var itemPool = FindFirstObjectByType<ItemPoolSO>();
+                itemPool.commonWeight += 10;
+                itemPool.uncommonWeight -= 5;
+                itemPool.rareWeight -= 10;
+                itemPool.epicWeight -= 15;
+                itemPool.legendaryWeight -= 15;
+            }
+        ResetRarities = 0;
         return;
     }
+
     public void PassiveEndRound()
     {
         for (int i = 0; i < passiveItems.Count; i++)
@@ -120,8 +251,12 @@ public class InventoryManager : MonoBehaviour
                 var levelMan = FindFirstObjectByType<LevelManager>();
                 GameGrid.currency += (int)Mathf.Round((float)(levelMan.GetRemainingTime() * 0.5));
             }
+
             if (passiveItems[i].itemName == "Pay Raise")
                 GameGrid.currency += 50;
+
+            if (passiveItems[i].itemName == "Trash Bag")
+                GameGrid.currency += 100; // maybe 75? maybe it's fine
         }
         return;
     }

@@ -3704,6 +3704,7 @@ MonoBehaviour:
   counters:
   - 0
   - 0
+  - 0
 --- !u!4 &594271836
 Transform:
   m_ObjectHideFlags: 0

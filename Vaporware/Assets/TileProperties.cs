@@ -1,9 +1,9 @@
 using UnityEngine;
-// This is for items that spawn in tetromino blocks and are then cleared from the board and activated automatically
-// We probably won't keep this
-public class ItemSlot : MonoBehaviour
+
+public class TileProperties : MonoBehaviour
 {
-    public bool hasItem = false; // Determines if this block has an item
+    public bool isGarbage = false; // Determines if this block is a garbage tile
+    public bool hasItem = false;
 
     public void ActivateItem()
     {
@@ -14,4 +14,5 @@ public class ItemSlot : MonoBehaviour
             hasItem = false; // Remove item after activation
         }
     }
+    // maybe keep to give tiles additional properties?
 }

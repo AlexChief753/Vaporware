@@ -10,7 +10,7 @@ public class Player : MonoBehaviour
     {
         // Fill the bag with all possible tetromino indices
         playerBag.Clear();
-        for (int i = 0; i < 7; i++) //settinng to 7 initializes it with one of each piece
+        for (int i = 0; i < 7; i++) //setting to 7 initializes it with one of each piece
         {
             playerBag.Add(i);
         }

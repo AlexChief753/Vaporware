@@ -8,6 +8,7 @@ public class BossManager : MonoBehaviour
     public Boss currentBoss;
     public static float bossSpeedMod;
     public bool rage;
+    public bool BossActive = false;
 
     public float[] counters; 
     // index 0 is dedicated to a line being cleared
@@ -16,6 +17,7 @@ public class BossManager : MonoBehaviour
     // and resets conditions
     public void LoadBoss()
     {
+        BossActive = true;
         if (currentBoss.bossName == "Jammed Printer")
         {
             bossSpeedMod = 1;
@@ -26,7 +28,7 @@ public class BossManager : MonoBehaviour
 
         if (currentBoss.bossName == "Annoying Coworker")
         {
-            bossSpeedMod = (float) 0.8;
+            bossSpeedMod = (float) .7;
             rage = false;
             counters[1] = 0;
             counters[2] = 0;
@@ -65,6 +67,7 @@ public class BossManager : MonoBehaviour
         if (currentBoss.bossName == "Annoying Coworker")
         {
             bossSpeedMod = (float) .7; // maybe change/remove?
+            counters[0] = 0;
         }
 
         if (currentBoss.bossName == "Tight Deadline")
@@ -97,8 +100,12 @@ public class BossManager : MonoBehaviour
     // on piece drop like garbage spawning
     public void BossPieceDrop()
     {
+        if (BossActive == false)
+            return;
+
         var levelMan = FindFirstObjectByType<LevelManager>();
         var spawner = FindFirstObjectByType<Spawner>();
+        
         if (currentBoss.bossName == "Jammed Printer")
         {
             if ((GameGrid.requiredScore / 2) < GameGrid.levelScore)
@@ -136,18 +143,25 @@ public class BossManager : MonoBehaviour
 
             if (rage)
             {
-
+                if (counters[0] < 0)
+                {
+                    counters[1] = Random.Range(0, 10);
+                    counters[2] = GameGrid.GetColumnHeight(Mathf.RoundToInt(counters[1]));
+                    if (counters[2] < 20)
+                        if (GameGrid.TilesInRow(Mathf.RoundToInt(counters[2])) < 10)
+                            spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1]));
+                }
             }
 
             else
             {
                 if ((levelMan.GetRemainingTime()) / 15 < counters[1])
                 {
-                    spawner.GarbageLineAnnoying(Mathf.RoundToInt(counters[2]), 0);
-                    counters[2]++;
+                    spawner.GarbageLineAnnoying(Random.Range(0,2), 0);
                 }
+                counters[1] = Mathf.Floor((levelMan.GetRemainingTime()) / 15);
             }
-            counters[1] = Mathf.Floor((levelMan.GetRemainingTime()) / 10);
+            
         }
 
         if (currentBoss.bossName == "Tight Deadline")
@@ -175,6 +189,15 @@ public class BossManager : MonoBehaviour
         if (currentBoss.bossName == "The CEO")
         {
 
+        }
+    }
+
+    public void BossDeactivate()
+    {
+        if (currentBoss.bossName != "The CEO")
+        {
+            BossActive = false;
+            bossSpeedMod = 1;
         }
     }
 }

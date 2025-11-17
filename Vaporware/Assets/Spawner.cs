@@ -133,6 +133,14 @@ public class Spawner : MonoBehaviour
             bossMan.BossPieceDrop();
         }
 
+        //var inventoryManager = FindFirstObjectByType<InventoryManager>();
+        if (InventoryManager.RecycleBinGarbage == true)
+        {
+            GarbageLine(Random.Range(0, 10), 0);
+            GarbageLine(Random.Range(0, 10), 0);
+            GarbageLine(Random.Range(0, 10), 0);
+        }
+
 
         int randomIndex;
         // if the Forced Sequence (Files) item is used

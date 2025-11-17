@@ -23,7 +23,7 @@ public class LevelManager : MonoBehaviour
     public float GetLevelTimeConfigured() => levelTime;
 
     private float levelTime = 300f; // 5 minutes per level is 300f
-    private int scoreRequirement = 1000;
+    private int scoreRequirement = 500;
     private float currentTime;
     private bool levelPaused = false;
 
@@ -207,11 +207,12 @@ public class LevelManager : MonoBehaviour
         var inventoryManager = FindFirstObjectByType<InventoryManager>();
         inventoryManager.PassiveInit();
         GameGrid.lastLineCleared = 300;
+        BossManager.bossSpeedMod = 1;
 
         if (GameGrid.level % 4 == 0)
         { 
             var bossMan = FindFirstObjectByType<BossManager>();
-            bossMan.currentBoss = bossMan.bosses[(GameGrid.level / 4) % 6];
+            bossMan.currentBoss = bossMan.bosses[((GameGrid.level - 4) / 4) % 6];
             bossMan.LoadBoss();
         }
 
