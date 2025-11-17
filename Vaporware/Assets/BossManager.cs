@@ -143,7 +143,7 @@ public class BossManager : MonoBehaviour
 
             if (rage)
             {
-                if (counters[0] < 0)
+                if (counters[0] > 0)
                 {
                     counters[1] = Random.Range(0, 10);
                     counters[2] = GameGrid.GetColumnHeight(Mathf.RoundToInt(counters[1]));
@@ -166,7 +166,7 @@ public class BossManager : MonoBehaviour
 
         if (currentBoss.bossName == "Tight Deadline")
         {
-            if ((3 * GameGrid.requiredScore / 4) < GameGrid.levelScore)
+            if (((3 * GameGrid.requiredScore / 4) < GameGrid.levelScore) && !rage)
             {
                 rage = true;
                 BossRage();

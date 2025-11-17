@@ -45,9 +45,10 @@ public class GameGrid : MonoBehaviour
             }
 
             TileProperties tileProperties = block.gameObject.GetComponent<TileProperties>();
-            if (tileProperties.isGarbage == false)
-                if (Mathf.Round(block.position.x) <= 5)
-                    lastPieceLeftness += (float) 0.25;
+            if (tileProperties != null)
+                if (tileProperties.isGarbage == false)
+                    if (Mathf.Round(block.position.x) <= 5)
+                        lastPieceLeftness += (float) 0.25;
         }
     }
 
