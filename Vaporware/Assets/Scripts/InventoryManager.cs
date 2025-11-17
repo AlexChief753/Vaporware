@@ -103,11 +103,25 @@ public class InventoryManager : MonoBehaviour
         for (int i = 0; i < passiveItems.Count; i++)
         {
             if (passiveItems[i].itemName == "Ice Pack")
-                itemSpeedMod = itemSpeedMod * (float) 0.5;
+                itemSpeedMod = itemSpeedMod * (float)0.5;
 
             if (passiveItems[i].itemName == "CD Player")
                 GameGrid.comboReset = false;
 
+        }
+        return;
+    }
+    public void PassiveEndRound()
+    {
+        for (int i = 0; i < passiveItems.Count; i++)
+        {
+            if (passiveItems[i].itemName == "Time is Money")
+            {
+                var levelMan = FindFirstObjectByType<LevelManager>();
+                GameGrid.currency += (int)Mathf.Round((float)(levelMan.GetRemainingTime() * 0.5));
+            }
+            if (passiveItems[i].itemName == "Pay Raise")
+                GameGrid.currency += 50;
         }
         return;
     }
