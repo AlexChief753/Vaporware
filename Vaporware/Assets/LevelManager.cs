@@ -27,11 +27,9 @@ public class LevelManager : MonoBehaviour
     private float currentTime;
     private bool levelPaused = false;
 
-    [Header("Level Complete Menu")]
     public Button continueButton;
     public Button itemShopButton;
     public Button saveButton;
-    public Button mainMenuButton;
     public Button quitButton;
 
     [Header("Pause Menu")]

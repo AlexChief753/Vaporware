@@ -107,7 +107,7 @@ public class ShopService : MonoBehaviour
         foreach (var e in list)
         {
             int w = pool.WeightFor(e);
-            w = Mathf.RoundToInt(w * CharacterEffectsManager.GetRarityWeightMultiplier(e.rarity)); // NEW
+            w = Mathf.RoundToInt(w * CharacterEffectsManager.GetRarityWeightMultiplier(e.rarity));
             if (w <= 0) continue;
             if (roll < w) return e;
             roll -= w;
