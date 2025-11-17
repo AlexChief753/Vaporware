@@ -3644,7 +3644,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   backgroundMusicSource: {fileID: 1807901050}
   sfxSource: {fileID: 372047342}
-  background: {fileID: 8300000, guid: 1d534a660aee4064ea04b0379ce64407, type: 3}
+  levelMusic: {fileID: 8300000, guid: 1d534a660aee4064ea04b0379ce64407, type: 3}
+  bossMusic: {fileID: 8300000, guid: 45dc1bc169abfdf428aa756b056b81e8, type: 3}
+  lineClear: {fileID: 8300000, guid: 065a9823f89b89744a9350b7449d021a, type: 3}
   pieceMove: {fileID: 8300000, guid: ae9bdf16b21714741a1fdaa78abd4e16, type: 3}
   rotate: {fileID: 8300000, guid: ff4e312d9f4b69d4cbc717367f1fb47a, type: 3}
   hardDrop: {fileID: 0}
