@@ -136,7 +136,7 @@ public class Spawner : MonoBehaviour
         //var inventoryManager = FindFirstObjectByType<InventoryManager>();
         if (InventoryManager.RecycleBinGarbage == true)
         {
-            if (InventoryManager.GarbageDef > Random.Range(0, 10))
+            if (InventoryManager.GarbageDef < Random.Range(0, 10))
             {
                 GarbageLine(Random.Range(0, 10), 0);
                 GarbageLine(Random.Range(0, 10), 0);

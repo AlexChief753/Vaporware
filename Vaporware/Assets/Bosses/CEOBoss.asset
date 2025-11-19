@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: CEOBoss
   m_EditorClassIdentifier: 
   bossName: The CEO
-  scoreMultiplier: 1.5
+  scoreMultiplier: 1
   description: The head honcho of the Vaporware Corporation. He will test your skills,
-    using the skills of the previous rivals you've faced! Starts by spawning columns
-    and lines from the bottom depending on how tall your stack is.  Second phase
-    will spawn single tiles across your board, combined with lines from the bottom
-    of the grid. During the final phase, speed increases, garbage will spawn if you
-    don't clear lines often enough, and the boss will rapidly spawn dangerous lines
-    from the bottom after 30 seconds!
+    using the skills of the previous rivals you've faced! Starts by spawning  lines
+    from the bottom and columns on top depending on how tall your stack is.  Second
+    phase will spawn single tiles across your board, combined with lines from the
+    bottom of the grid. During the final phase, speed increases, garbage will spawn
+    if you don't clear lines often enough, and the boss will rapidly spawn dangerous
+    lines from the bottom after 30 seconds!
