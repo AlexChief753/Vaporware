@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PayRaise_Passive
   m_EditorClassIdentifier: 
   itemName: Pay Raise
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: -5615806585492334762, guid: 72f13d150601d7247a28e72dc7c3e425, type: 3}
   passive: 1
   price: 100
   description: Earn 50 more currency at the end of each round

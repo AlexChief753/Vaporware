@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CannedL_Item
   m_EditorClassIdentifier: 
   itemName: Canned L
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: -8099382686625813466, guid: 5587ddc6c31cb9d4087d6f65e093c56a, type: 3}
   passive: 0
   price: 100
   description: Makes your next piece an L-piece and permanently makes them more common.

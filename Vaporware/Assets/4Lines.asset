@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: 4Lines
   m_EditorClassIdentifier: 
   itemName: 4Lines
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: -6458038899897946604, guid: 26099c2969352424f90a384ef606fe18, type: 3}
   passive: 1
   price: 100
   description: More points for 4 line clears

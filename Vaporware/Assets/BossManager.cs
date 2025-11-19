@@ -32,6 +32,7 @@ public class BossManager : MonoBehaviour
             rage = false;
             counters[1] = 0;
             counters[2] = 0;
+            counters[3] = 0;
         }
 
         if (currentBoss.bossName == "Tight Deadline")
@@ -42,7 +43,10 @@ public class BossManager : MonoBehaviour
 
         if (currentBoss.bossName == "Micromanager")
         {
-
+            rage = false;
+            counters[1] = 0;
+            counters[2] = 0;
+            counters[3] = 0;
         }
 
         if (currentBoss.bossName == "General Manager")
@@ -82,7 +86,7 @@ public class BossManager : MonoBehaviour
 
         if (currentBoss.bossName == "Micromanager")
         {
-
+            bossSpeedMod = (float)1.25;
         }
 
         if (currentBoss.bossName == "General Manager")
@@ -121,12 +125,16 @@ public class BossManager : MonoBehaviour
 
                 else
                 {
+
                     if (rage)
                     {
-                        spawner.GarbageLine(Random.Range(0, 10), 0);
-                        spawner.GarbageLine(Random.Range(0, 10), 0);
+                        if (InventoryManager.GarbageDef > Random.Range(0, 10))
+                        {
+                            spawner.GarbageLine(Random.Range(0, 10), 0);
+                            spawner.GarbageLine(Random.Range(0, 10), 0);
+                        }
                     }
-                    else
+                    else if (InventoryManager.GarbageDef > Random.Range(0, 10))
                         spawner.GarbageLine(Random.Range(0, 10), 0);
                 }
             }
@@ -143,13 +151,17 @@ public class BossManager : MonoBehaviour
 
             if (rage)
             {
-                if (counters[0] > 0)
+                if (counters[3] > 5)
                 {
                     counters[1] = Random.Range(0, 10);
                     counters[2] = GameGrid.GetColumnHeight(Mathf.RoundToInt(counters[1]));
                     if (counters[2] < 20)
                         if (GameGrid.TilesInRow(Mathf.RoundToInt(counters[2])) < 10)
-                            spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1]));
+                        {
+                            if (InventoryManager.GarbageDef > Random.Range(0, 10))
+                                spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1]));
+                            counters[3] = 0;
+                        }
                 }
             }
 
@@ -157,10 +169,12 @@ public class BossManager : MonoBehaviour
             {
                 if ((levelMan.GetRemainingTime()) / 15 < counters[1])
                 {
-                    spawner.GarbageLineAnnoying(Random.Range(0,2), 0);
+                    if (InventoryManager.GarbageDef > Random.Range(0, 10))
+                        spawner.GarbageLineAnnoying(Random.Range(0,2), 0);
                 }
                 counters[1] = Mathf.Floor((levelMan.GetRemainingTime()) / 15);
             }
+            counters[3]++;
             
         }
 
@@ -173,17 +187,40 @@ public class BossManager : MonoBehaviour
             }
 
             if (levelMan.GetRemainingTime() < counters[1])
-                spawner.GarbageLine(Random.Range(0, 10), 0);
+                if (InventoryManager.GarbageDef > Random.Range(0, 10))
+                    spawner.GarbageLine(Random.Range(0, 10), 0);
         }
 
         if (currentBoss.bossName == "Micromanager")
         {
-
+            if (counters[3] > 5)
+            {
+                counters[1] = Random.Range(0, 10);
+                counters[2] = GameGrid.GetColumnHeight(Mathf.RoundToInt(counters[1]));
+                if (counters[2] < 15)
+                    if (GameGrid.TilesInRow(Mathf.RoundToInt(counters[2])) < 10)
+                    {
+                        counters[3] = 0;
+                        if (InventoryManager.GarbageDef > Random.Range(0, 10))
+                        {
+                            spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1]));
+                        }
+                    }
+            }
+            counters[3]++;
         }
 
         if (currentBoss.bossName == "General Manager")
         {
-
+            counters[1] = Random.Range(0, 10);
+            counters[2] = GameGrid.GetColumnHeight(Mathf.RoundToInt(counters[1]));
+            if (counters[2] < 15)
+                if (GameGrid.TilesInRow(Mathf.RoundToInt(counters[2])) < 10)
+                    if (InventoryManager.GarbageDef > Random.Range(0, 10))
+                    {
+                        spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1]));
+                        spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1] + 1));
+                    }
         }
 
         if (currentBoss.bossName == "The CEO")

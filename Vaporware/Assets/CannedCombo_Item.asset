@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CannedCombo_Item
   m_EditorClassIdentifier: 
   itemName: Canned Combo Energy Drink
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: 2745251247022207496, guid: 6247a1e09ad87ba41baa872b74ba3bdd, type: 3}
   passive: 0
   price: 100
   description: Increases your current combo by 5, and prevents your combo from dropping

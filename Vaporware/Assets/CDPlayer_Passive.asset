@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CDPlayer_Passive
   m_EditorClassIdentifier: 
   itemName: CD Player
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: 1647277452787118927, guid: e8eb59ce8885976498bc86d565bb4c65, type: 3}
   passive: 1
   price: 100
   description: Combo count no longer resets when failing to clear a line, but combo

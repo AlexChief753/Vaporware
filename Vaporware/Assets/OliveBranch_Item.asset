@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: OliveBranch_Item
   m_EditorClassIdentifier: 
   itemName: Olive Branch
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: -7404461403160188313, guid: cf1e759b361d9e646b30a5e6d2033ad3, type: 3}
   passive: 0
   price: 150
   description: Completely disables a boss encounter's abilities! Usually, anyway...

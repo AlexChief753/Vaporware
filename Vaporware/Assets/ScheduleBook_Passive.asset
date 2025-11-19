@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ScheduleBook_Passive
   m_EditorClassIdentifier: 
   itemName: Schedule Book
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: 5573354617261487903, guid: 4b835fbffe591884aa007cadf03c9e36, type: 3}
   passive: 1
   price: 100
   description: Clearing exactly 2 lines increases the combo count by more

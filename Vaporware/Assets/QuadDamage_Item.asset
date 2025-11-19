@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: QuadDamage_Item
   m_EditorClassIdentifier: 
   itemName: Quad Damage
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: -5977741917096692069, guid: 9c91fab5fde88214cb7ee29783172bc4, type: 3}
   passive: 0
   price: 100
-  description: Quadruples the score of the next set of lines you score.
+  description: Quadruples the score of the next set of lines you clear

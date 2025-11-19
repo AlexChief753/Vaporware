@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RobotVacuum_Passive
   m_EditorClassIdentifier: 
   itemName: Robot Vacuum
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: -2623766574260035712, guid: 064f200d51931a24c91c568aa6fea46f, type: 3}
   passive: 1
   price: 175
   description: Occasionally clears the bottom row and increases the points earned

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ScrapPaper_Passive
   m_EditorClassIdentifier: 
   itemName: Scrap Paper
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: -331116723542606928, guid: d41a1fef97c596340b69fe162c217c89, type: 3}
   passive: 1
   price: 100
   description: The more garbage tiles there are, the more points you earn

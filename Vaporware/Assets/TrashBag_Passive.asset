@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TrashBag_Passive
   m_EditorClassIdentifier: 
   itemName: Trash Bag
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: -8454860990069711676, guid: ae0805a4c4541434a9605db1f4e968b1, type: 3}
   passive: 1
   price: 150
   description: Earn additional money at the end of each round, but spawns garbage

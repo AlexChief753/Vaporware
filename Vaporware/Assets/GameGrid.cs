@@ -382,7 +382,8 @@ public class GameGrid : MonoBehaviour
             {
                 var spawner = FindFirstObjectByType<Spawner>();
                 if (levelMan.GetRemainingTime() > lastLineCleared + 10)
-                    spawner.GarbageLine(Random.Range(0, 10), 0);
+                    if (InventoryManager.GarbageDef > Random.Range(0, 10))
+                        spawner.GarbageLine(Random.Range(0, 10), 0);
             }
 
             if (inventoryManager.passiveItems[i].itemName == "Office Politics")

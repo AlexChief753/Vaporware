@@ -12,6 +12,7 @@ public class InventoryManager : MonoBehaviour
     public static bool QuadDamActive = false;
     public static bool RecycleBinGarbage = false;
     public static int ResetRarities = 0;
+    public static int GarbageDef = 0; // from bandage, helps block garbage from spawning
 
 
     void Awake()
@@ -217,6 +218,7 @@ public class InventoryManager : MonoBehaviour
     {
         itemSpeedMod = 1;               //reset any values modified to default before applying effects
         GameGrid.comboReset = true;     //in order to prevent reapplying effects
+        GarbageDef = 0;
 
         for (int i = 0; i < passiveItems.Count; i++)
         {
@@ -226,6 +228,8 @@ public class InventoryManager : MonoBehaviour
             if (passiveItems[i].itemName == "CD Player")
                 GameGrid.comboReset = false;
 
+            if (passiveItems[i].itemName == "Bandage")
+                GarbageDef++;
         }
 
         if (ResetRarities < 0)

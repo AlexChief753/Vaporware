@@ -169,6 +169,10 @@ MonoBehaviour:
     rarity: 3
     weightOverride: 0
     enabled: 1
+  - item: {fileID: 11400000, guid: 6535b663887cd234bbe1f7637a0f3628, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
   commonWeight: 45
   uncommonWeight: 25
   rareWeight: 15

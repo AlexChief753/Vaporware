@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RecyclingBin_Item
   m_EditorClassIdentifier: 
   itemName: Recycling Bin
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: 6665278514979083812, guid: 10c73c365b8fae24bbc3a913721dcd11, type: 3}
   passive: 0
   price: 100
   description: Grants a lot of money on use, but spawns garbage lines at the bottom

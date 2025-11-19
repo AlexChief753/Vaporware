@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: LessIsMore_Passive
   m_EditorClassIdentifier: 
   itemName: Less is More
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: 1573587141477162359, guid: 0364ca28606fe904a86e4c6d5d0dd6d3, type: 3}
   passive: 1
   price: 100
   description: Clearing exactly one line has a chance to destroy the line above and

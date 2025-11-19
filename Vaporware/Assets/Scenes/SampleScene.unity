@@ -3701,7 +3701,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: df10b3765af7f55409282257a11cf76a, type: 2}
   currentBoss: {fileID: 11400000, guid: eaee3c7966d966942bd292396d14f93d, type: 2}
   rage: 0
+  BossActive: 0
   counters:
+  - 0
   - 0
   - 0
   - 0

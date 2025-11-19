@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RabbitsFoot_Item
   m_EditorClassIdentifier: 
   itemName: Rabbit's Foot
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: 8679387589014930613, guid: 7d92c2d7f2606c549ad883b51aeaebac, type: 3}
   passive: 0
   price: 125
   description: Increases the chances of finding higher rarity items in your next
