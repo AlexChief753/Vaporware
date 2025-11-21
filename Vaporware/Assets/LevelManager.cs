@@ -148,7 +148,7 @@ public class LevelManager : MonoBehaviour
         levelPaused = true;
         Time.timeScale = 0; // Pause the game
         levelCompleteMenu.SetActive(true);
-        levelCompleteText.text = "Level " + GameGrid.level + " Complete!";
+        levelCompleteText.text = GameGrid.level + " Complete!";
 
         SetLevelCompleteStats();
 
@@ -457,7 +457,7 @@ public class LevelManager : MonoBehaviour
         levelPaused = true;
         levelCompleteMenu.SetActive(true);
         if (levelCompleteText != null)
-            levelCompleteText.text = "Level " + GameGrid.level + " Complete!";
+            levelCompleteText.text = + GameGrid.level + " Complete!";
         SetLevelCompleteStats();
 
         // Focus buttons
@@ -510,14 +510,14 @@ public class LevelManager : MonoBehaviour
     // Push stats into the Level Complete UI texts
     private void SetLevelCompleteStats()
     {
-        if (lcTotalScoreText) lcTotalScoreText.text = "Total Score: " + GameGrid.totalScore.ToString();
-        if (lcLevelScoreText) lcLevelScoreText.text = "Level Score: " + GameGrid.levelScore.ToString();
+        if (lcTotalScoreText) lcTotalScoreText.text = ": " + GameGrid.totalScore.ToString();
+        if (lcLevelScoreText) lcLevelScoreText.text = ": " + GameGrid.levelScore.ToString();
 
         // elapsed this level = levelTime - currentTime
         float elapsed = Mathf.Clamp(levelTime - currentTime, 0f, levelTime);
-        if (lcTimeText) lcTimeText.text = "Time: " + FormatTime(elapsed);
+        if (lcTimeText) lcTimeText.text = ": " + FormatTime(elapsed);
 
-        if (lcCurrencyText) lcCurrencyText.text = "Currency: " + GameGrid.currency.ToString();
+        if (lcCurrencyText) lcCurrencyText.text = ": " + GameGrid.currency.ToString();
     }
 
     public void RefreshLevelCompleteUI()

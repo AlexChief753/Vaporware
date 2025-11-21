@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8bb3b4b0e6cfafe4085fb237fa2f0813
+guid: a39fe36e48f486f499c2cdd50fdd5e71
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8671006461959400543
-    second: deskFail_0
+      213: 1408113500200456412
+    second: 6bossCEO_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: deskFail_0
+      name: 6bossCEO_0
       rect:
         serializedVersion: 2
-        x: 0
+        x: 19
         y: 0
-        width: 2621
-        height: 2160
+        width: 2152
+        height: 2746
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f5ce43aaf6a955870800000000000000
-      internalID: 8671006461959400543
+      spriteID: cd051e694cf9a8310800000000000000
+      internalID: 1408113500200456412
       vertices: []
       indices: 
       edges: []

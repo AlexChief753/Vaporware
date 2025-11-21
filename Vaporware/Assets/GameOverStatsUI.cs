@@ -25,14 +25,14 @@ public class GameOverStatsUI : MonoBehaviour
     public void ShowNow(float levelTimeConfigured, float currentTimeRemaining)
     {
         // Stats come straight from GameGrid
-        if (levelText) levelText.text = "Level: " + GameGrid.level.ToString();
-        if (totalScoreText) totalScoreText.text = "Total Score: " + GameGrid.totalScore.ToString();
-        if (levelScoreText) levelScoreText.text = "Level Score: " + GameGrid.levelScore.ToString();
+        if (levelText) levelText.text = ": " + GameGrid.level.ToString();
+        if (totalScoreText) totalScoreText.text = ": " + GameGrid.totalScore.ToString();
+        if (levelScoreText) levelScoreText.text = ": " + GameGrid.levelScore.ToString();
 
         float elapsed = Mathf.Clamp(levelTimeConfigured - currentTimeRemaining, 0f, levelTimeConfigured);
-        if (timeText) timeText.text = "Time: " + FormatTime(elapsed);
+        if (timeText) timeText.text = ": " + FormatTime(elapsed);
 
-        if (currencyText) currencyText.text = "Currency: " + GameGrid.currency.ToString();
+        if (currencyText) currencyText.text = ": " + GameGrid.currency.ToString();
 
         if (root) root.SetActive(true);
         else gameObject.SetActive(true);

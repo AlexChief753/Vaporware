@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TrinityCharacterDefinition
   m_EditorClassIdentifier: 
   id: 0
-  displayName: Trinity
+  displayName: Triniti
   shortDescription: Character description will go here!
   statLines:
   - She earns less points.

@@ -10,6 +10,10 @@ public class CharacterEffectsManager : MonoBehaviour
 {
     [Header("HUD")]
     public TextMeshProUGUI characterNameText;
+    public TextMeshProUGUI characterFailNameText;
+    public TextMeshProUGUI characterWinNameText;
+    public TextMeshProUGUI characterWinIDText;
+    public TextMeshProUGUI characterFailIDText;
 
     [Header("Per-Character Modifiers")]
     public List<CharacterModifier> modifiers = new()
@@ -20,14 +24,16 @@ public class CharacterEffectsManager : MonoBehaviour
             displayName = "Trinity",
             scoreMultiplier = 0.90f,
             // rarity weight multipliers (1 = normal):
-            commonMul = 1.00f, uncommonMul = 1.00f, rareMul = 1.50f, epicMul = 1.00f, legendaryMul = 1.00f
+            commonMul = 1.00f, uncommonMul = 1.00f, rareMul = 1.50f, epicMul = 1.00f, legendaryMul = 1.00f,
+            characterID = "39342"
         },
         // Placeholder: all normal
         new CharacterModifier {
             id = CharacterId.Placeholder,
             displayName = "Placeholder",
             scoreMultiplier = 1.00f,
-            commonMul = 1.00f, uncommonMul = 1.00f, rareMul = 1.00f, epicMul = 1.00f, legendaryMul = 1.00f
+            commonMul = 1.00f, uncommonMul = 1.00f, rareMul = 1.00f, epicMul = 1.00f, legendaryMul = 1.00f,
+            characterID = "17-38"
         },
     };
 
@@ -37,6 +43,7 @@ public class CharacterEffectsManager : MonoBehaviour
         public CharacterId id;
         public string displayName = "Unnamed";
         [Range(0.1f, 10f)] public float scoreMultiplier = 1f;
+        public string characterID = "0000";
 
         // per-rarity multipliers for shop weights
         [Header("Shop rarity weight multipliers (1 = normal)")]
@@ -49,6 +56,7 @@ public class CharacterEffectsManager : MonoBehaviour
 
     private static float _activeMultiplier = 1f; // used by GameGrid.ScoreAdd
     private static string _activeName = "";
+    private static string _activeID = "";
 
     // active rarity multipliers (static so ShopService can read without refs)
     private static float _mulCommon = 1f, _mulUncommon = 1f, _mulRare = 1f, _mulEpic = 1f, _mulLegendary = 1f;
@@ -69,6 +77,10 @@ public class CharacterEffectsManager : MonoBehaviour
     void Start()
     {
         if (characterNameText != null) characterNameText.text = _activeName;
+        if (characterFailNameText != null) characterFailNameText.text = _activeName;
+        if (characterWinNameText != null) characterWinNameText.text = _activeName;
+        if (characterWinIDText != null) characterWinIDText.text = _activeID;
+        if (characterFailIDText != null) characterFailIDText.text = _activeID;
     }
 
     void Update()
@@ -78,6 +90,10 @@ public class CharacterEffectsManager : MonoBehaviour
             _lastSelected = CharacterRuntime.Selected;
             RefreshActiveFromSelection(_lastSelected);
             if (characterNameText != null) characterNameText.text = _activeName;
+            if (characterFailNameText != null) characterFailNameText.text = _activeName;
+            if (characterWinNameText != null) characterWinNameText.text = _activeName;
+            if (characterWinIDText != null) characterWinIDText.text = _activeID;
+            if (characterFailIDText != null) characterFailIDText.text = _activeID;
         }
     }
 
@@ -87,6 +103,7 @@ public class CharacterEffectsManager : MonoBehaviour
         {
             _activeMultiplier = Mathf.Clamp(mod.scoreMultiplier, 0.1f, 10f);
             _activeName = mod.displayName;
+            _activeID = mod.characterID;
 
             // commit rarity multipliers for the active character
             _mulCommon = mod.commonMul;

@@ -147,10 +147,21 @@ public class GameGrid : MonoBehaviour
             }
         }
 
-        if (linesCleared > 0) // Handles incrementing and resetting line clear combo
-            comboCount++;
-        else if (comboReset)
+        //if (linesCleared > 0) // Handles incrementing and resetting line clear combo
+        //    comboCount++;
+        //else if (comboReset)
+        //{
+        //    comboCount = 0;
+        //    comboDropped = true;
+        //}
+        if (linesCleared > 0)
         {
+            comboCount++;
+            comboDropped = false;
+        }
+        else
+        {
+            // only reset when a piece finishes and didn't clear lines
             comboCount = 0;
             comboDropped = true;
         }
