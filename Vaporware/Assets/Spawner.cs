@@ -174,7 +174,7 @@ public class Spawner : MonoBehaviour
         // Update Currency UI
         if (currencyText != null)
         {
-            currencyText.text = "Currency: " + GameGrid.currency.ToString();
+            currencyText.text = "Credit: " + GameGrid.currency.ToString();
         }
 
         // Update Speed UI (now based on Level, not score)
@@ -283,10 +283,10 @@ public class Spawner : MonoBehaviour
     public void UpdateScoreUI()
     {
         if (totalScoreText != null)
-            totalScoreText.text = "Total Score: " + GameGrid.totalScore.ToString();
+            totalScoreText.text = "High Score: " + GameGrid.totalScore.ToString();
 
         if (levelScoreText != null)
-            levelScoreText.text = "Level Score: " + GameGrid.levelScore.ToString();
+            levelScoreText.text = "Score: " + GameGrid.levelScore.ToString();
     }
 
     public void ForceSequence(int pieceIndex, int times)

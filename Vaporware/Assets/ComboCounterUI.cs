@@ -28,7 +28,15 @@ public class ComboCounterUI : MonoBehaviour
 
         if (comboText != null)
         {
-            comboText.text = $"Combo: {GameGrid.comboCount}";
+            if (GameGrid.comboCount >= 2)
+            {
+                comboText.enabled = true;
+                comboText.text = $"Combo: {GameGrid.comboCount}";
+            }
+            else
+            {
+                comboText.enabled = false; // hides the text completely
+            }
         }
     }
 }

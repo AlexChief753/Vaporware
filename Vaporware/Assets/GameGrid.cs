@@ -157,7 +157,7 @@ public class GameGrid : MonoBehaviour
         if (linesCleared > 0)
         {
             comboCount++;
-            comboDropped = false; // combo is alive
+            comboDropped = false;
         }
         else
         {
