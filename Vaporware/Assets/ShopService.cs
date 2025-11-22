@@ -107,7 +107,7 @@ public class ShopService : MonoBehaviour
         foreach (var e in list)
         {
             int w = pool.WeightFor(e);
-            w = Mathf.RoundToInt(w * CharacterEffectsManager.GetRarityWeightMultiplier(e.rarity)); // NEW
+            w = Mathf.RoundToInt(w * CharacterEffectsManager.GetRarityWeightMultiplier(e.rarity));
             if (w <= 0) continue;
             if (roll < w) return e;
             roll -= w;
@@ -192,6 +192,18 @@ public class ShopService : MonoBehaviour
         if (data.shopSoldItemNames != null)
             foreach (var n in data.shopSoldItemNames)
                 if (!string.IsNullOrEmpty(n)) _soldNames.Add(n);
+    }
+
+    public void ForceSetSelection(Item[] items)
+    {
+        _selection.Clear();
+        _soldNames.Clear();
+
+        for (int i = 0; i < items.Length; i++)
+            _selection.Add(items[i]);
+
+        while (_selection.Count < itemsPerShop)
+            _selection.Add(null);
     }
 }
 

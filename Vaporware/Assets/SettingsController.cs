@@ -19,6 +19,8 @@ public class SettingsController : MonoBehaviour
     private bool _weEnabledCanvas;
     private Action _onClosed;
 
+    private bool _wasPausedBefore;
+
     public bool IsOpen => panelRoot && panelRoot.activeInHierarchy;
 
     void Awake()
@@ -31,18 +33,14 @@ public class SettingsController : MonoBehaviour
     {
         _onClosed = onClosed;
 
-        // Ensure parent canvas is active
-        if (_parentCanvas && !_parentCanvas.gameObject.activeSelf)
-        {
-            _parentCanvas.gameObject.SetActive(true);
-            _weEnabledCanvas = true;
-        }
+        _wasPausedBefore = Time.timeScale == 0f;
 
         if (panelRoot) panelRoot.SetActive(true);
 
-        // Pause gameplay only if we're in the gameplay scene
+        // Only pause if we were in gameplay AND not already paused
         bool inGame = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "SampleScene";
-        if (inGame) Time.timeScale = 0f;
+        if (inGame && !_wasPausedBefore)
+            Time.timeScale = 0f;
 
         // FIrst tab
         ShowTab("Controls");
@@ -61,17 +59,14 @@ public class SettingsController : MonoBehaviour
         if (panelRoot) panelRoot.SetActive(false);
 
         bool inGame = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "SampleScene";
-        if (inGame) Time.timeScale = 1f;
+
+        // Only unpause if WE paused it
+        if (inGame && !_wasPausedBefore)
+            Time.timeScale = 1f;
 
         SettingsService.Instance?.Save();
         _onClosed?.Invoke();
         _onClosed = null;
-
-        if (_weEnabledCanvas && _parentCanvas)
-        {
-            _parentCanvas.gameObject.SetActive(false);
-            _weEnabledCanvas = false;
-        }
     }
 
     public void ShowTab(string tab)

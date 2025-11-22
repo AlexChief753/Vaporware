@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 8bb3b4b0e6cfafe4085fb237fa2f0813
+guid: 50d679aba80cdf94d9fa595c9f97afe8
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8671006461959400543
-    second: deskFail_0
+      213: -554343165566274937
+    second: paperStack_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: deskFail_0
+      name: paperStack_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 2621
-        height: 2160
+        width: 1524
+        height: 2078
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: f5ce43aaf6a955870800000000000000
-      internalID: 8671006461959400543
+      spriteID: 782b1c4f3d39e48f0800000000000000
+      internalID: -554343165566274937
       vertices: []
       indices: 
       edges: []

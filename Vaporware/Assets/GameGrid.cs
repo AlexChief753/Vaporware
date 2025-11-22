@@ -163,6 +163,12 @@ public class GameGrid : MonoBehaviour
         }
         else if (comboReset && !comboProtect)
         {
+            comboCount++;
+            comboDropped = false;
+        }
+        else
+        {
+            // only reset when a piece finishes and didn't clear lines
             comboCount = 0;
             comboDropped = true;
         }
