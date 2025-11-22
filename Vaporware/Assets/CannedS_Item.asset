@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8293685988c69014599efc6babac304b, type: 3}
   m_Name: CannedS_Item
   m_EditorClassIdentifier: 
-  itemName: Canned S
-  itemSprite: {fileID: -8099382686625813466, guid: 5587ddc6c31cb9d4087d6f65e093c56a, type: 3}
+  itemName: 'Bag O'' Four: S'
+  itemSprite: {fileID: -7054607770612273309, guid: 2cda673251f56604493961c57188c453, type: 3}
   passive: 0
   price: 100
   description: Makes your next piece an S-piece and permanently makes them more common.

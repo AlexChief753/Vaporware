@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      1bossJammedPrinter_0: -6379827562344078625
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

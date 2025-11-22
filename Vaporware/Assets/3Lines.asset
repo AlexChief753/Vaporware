@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8293685988c69014599efc6babac304b, type: 3}
   m_Name: 3Lines
   m_EditorClassIdentifier: 
-  itemName: 3Lines
-  itemSprite: {fileID: -6458038899897946604, guid: 26099c2969352424f90a384ef606fe18, type: 3}
+  itemName: Chai
+  itemSprite: {fileID: 991246816351980847, guid: bf72a459c6ccc304889f7bca4e848fe3, type: 3}
   passive: 1
   price: 100
   description: More points for 3 line clears

@@ -208,6 +208,7 @@ public class LevelManager : MonoBehaviour
         inventoryManager.PassiveInit();
         GameGrid.lastLineCleared = 300;
         BossManager.bossSpeedMod = 1;
+        GameGrid.comboCount = 0;
 
         if (GameGrid.level % 4 == 0)
         { 

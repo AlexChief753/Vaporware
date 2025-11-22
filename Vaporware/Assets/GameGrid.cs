@@ -161,16 +161,15 @@ public class GameGrid : MonoBehaviour
             comboCount++;
             comboProtect = false;
         }
-        else if (comboReset && !comboProtect)
-        {
-            comboCount++;
-            comboDropped = false;
-        }
+
         else
         {
-            // only reset when a piece finishes and didn't clear lines
-            comboCount = 0;
-            comboDropped = true;
+            if (comboReset && !comboProtect)
+            {
+                // only reset when a piece finishes and didn't clear lines
+                comboCount = 0;
+                comboDropped = true;
+            }
         }
 
 
@@ -204,12 +203,12 @@ public class GameGrid : MonoBehaviour
 
     public static void UpdateLevel()
     {
-        requiredScore = 500 + (500 * (level - 1)); // Could call GameGrid.level and do some math to increase score required per level ***************************
+        requiredScore = 250 + (250 * level); // Could call GameGrid.level and do some math to increase score required per level ***************************
         if (!levelUpTriggered && levelScore >= requiredScore)
         {
             levelUpTriggered = true; // Prevent multiple triggers
             var levelMan = FindFirstObjectByType<LevelManager>();
-            currency += (int)Mathf.Round((float)(levelMan.GetRemainingTime() * level * 1.1) + 100); // Up currency based on remaining time
+            currency += (int)Mathf.Round((float)(levelMan.GetRemainingTime() * (1 + (level * .05)) + 100) * (float).5); // Up currency based on remaining time
             var inventoryMan = FindFirstObjectByType<InventoryManager>();
             inventoryMan.PassiveEndRound();
             Time.timeScale = 0; // Pause game immediately
@@ -304,26 +303,26 @@ public class GameGrid : MonoBehaviour
         var levelMan = FindFirstObjectByType<LevelManager>();
         for (int i = 0; i < inventoryManager.passiveItems.Count; i++)
         {
-            if (inventoryManager.passiveItems[i].itemName == "testItem")
+            if (inventoryManager.passiveItems[i].itemName == "Black Tea")
                 if (linesCleared == 1)
                     lineClearMult += 0.25;
 
-            if (inventoryManager.passiveItems[i].itemName == "2Lines")
+            if (inventoryManager.passiveItems[i].itemName == "Green Tea")
                 if (linesCleared == 2)
                     lineClearMult += 0.5;
 
-            if (inventoryManager.passiveItems[i].itemName == "3Lines")
+            if (inventoryManager.passiveItems[i].itemName == "Chai")
                 if (linesCleared == 3)
                     lineClearMult += 1;
 
-            if (inventoryManager.passiveItems[i].itemName == "4Lines")
+            if (inventoryManager.passiveItems[i].itemName == "Herbal Tea")
                 if (linesCleared >= 4)
                     lineClearMult += 1.5;
 
             if (inventoryManager.passiveItems[i].itemName == "Hot Chocolate")
                 comboMult = comboMult * 1.25;
 
-            if (inventoryManager.passiveItems[i].itemName == "Coding 4 Clowns")
+            if (inventoryManager.passiveItems[i].itemName == "Learning 4 Clowns")
                 lineClearPoints += 100;
 
             if (inventoryManager.passiveItems[i].itemName == "Expresso")
@@ -357,7 +356,7 @@ public class GameGrid : MonoBehaviour
                 if (linesCleared == 2)
                     comboCount++;
 
-            if (inventoryManager.passiveItems[i].itemName == "Feather Duster")
+            if (inventoryManager.passiveItems[i].itemName == "Broom")
                 itemMult = itemMult * (2 - (GetHighestOccupiedRow() / 20));
 
             if (inventoryManager.passiveItems[i].itemName == "Company Card")
@@ -387,7 +386,7 @@ public class GameGrid : MonoBehaviour
             if (inventoryManager.passiveItems[i].itemName == "Trash Bag")
             {
                 var spawner = FindFirstObjectByType<Spawner>();
-                if (levelMan.GetRemainingTime() > lastLineCleared + 10)
+                if (levelMan.GetRemainingTime() < lastLineCleared - 10)
                     if (InventoryManager.GarbageDef < Random.Range(0, 10))
                         spawner.GarbageLine(Random.Range(0, 10), 0);
             }

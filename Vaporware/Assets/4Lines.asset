@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8293685988c69014599efc6babac304b, type: 3}
   m_Name: 4Lines
   m_EditorClassIdentifier: 
-  itemName: 4Lines
-  itemSprite: {fileID: -6458038899897946604, guid: 26099c2969352424f90a384ef606fe18, type: 3}
+  itemName: Herbal Tea
+  itemSprite: {fileID: 6278925408585450216, guid: 19ada1db421fb2d4c83f620b3a5c0842, type: 3}
   passive: 1
   price: 100
   description: More points for 4 line clears

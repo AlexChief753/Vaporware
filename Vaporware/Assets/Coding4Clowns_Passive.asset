@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8293685988c69014599efc6babac304b, type: 3}
   m_Name: Coding4Clowns_Passive
   m_EditorClassIdentifier: 
-  itemName: Coding 4 Clowns
+  itemName: Learning 4 Clowns
   itemSprite: {fileID: -5312287169312700444, guid: 112a841cbe2300543a6ac0e8c10f7d3d, type: 3}
   passive: 1
   price: 100
-  description: Learn to make each line count! Each line cleared is worth 100 more
-    points.
+  description: Base points per line clear increased by 100

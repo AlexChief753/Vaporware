@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8293685988c69014599efc6babac304b, type: 3}
   m_Name: TestPassive
   m_EditorClassIdentifier: 
-  itemName: TestPassive
+  itemName: Black Tea
   itemSprite: {fileID: -6458038899897946604, guid: 26099c2969352424f90a384ef606fe18, type: 3}
   passive: 1
   price: 20

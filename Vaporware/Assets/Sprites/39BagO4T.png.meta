@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: faad1b479e613ad4f92a280bb286e5ec
+guid: 09697b2b88740b54ca4d649a5289b258
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 8405959407042170945
-    second: itemButtonBasePress_0
+      213: 4698852485636404117
+    second: 39BagO4T_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,30 +96,17 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
-  - serializedVersion: 4
-    buildTarget: WebGL
-    maxTextureSize: 2048
-    resizeAlgorithm: 0
-    textureFormat: -1
-    textureCompression: 1
-    compressionQuality: 50
-    crunchedCompression: 0
-    allowsAlphaSplitting: 0
-    overridden: 0
-    ignorePlatformSupport: 0
-    androidETC2FallbackOverride: 0
-    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: itemButtonBasePress_0
+      name: 39BagO4T_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 456
-        height: 173
+        x: 20
+        y: 29
+        width: 1160
+        height: 1142
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +115,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 1401a154b87f7a470800000000000000
-      internalID: 8405959407042170945
+      spriteID: 593b15aa07da53140800000000000000
+      internalID: 4698852485636404117
       vertices: []
       indices: 
       edges: []
@@ -147,8 +134,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      itemButtonBasePress_0: 8405959407042170945
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

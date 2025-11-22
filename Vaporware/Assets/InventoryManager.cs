@@ -117,7 +117,7 @@ public class InventoryManager : MonoBehaviour
             RecycleBinGarbage = true;
         }
 
-        if (item.itemName == "Canned I")
+        if (item.itemName == "Bag O' Four: I")
         {
             var player = FindFirstObjectByType<Player>();
             player.playerBag.Add(3);
@@ -128,7 +128,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        if (item.itemName == "Canned O")
+        if (item.itemName == "Bag O' Four: O")
         {
             var player = FindFirstObjectByType<Player>();
             player.playerBag.Add(1);
@@ -139,7 +139,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        if (item.itemName == "Canned Z")
+        if (item.itemName == "Bag O' Four: Z")
         {
             var player = FindFirstObjectByType<Player>();
             player.playerBag.Add(6);
@@ -150,7 +150,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        if (item.itemName == "Canned J")
+        if (item.itemName == "Bag O' Four: J")
         {
             var player = FindFirstObjectByType<Player>();
             player.playerBag.Add(4);
@@ -161,7 +161,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        if (item.itemName == "Canned S")
+        if (item.itemName == "Bag O' Four: S")
         {
             var player = FindFirstObjectByType<Player>();
             player.playerBag.Add(5);
@@ -172,7 +172,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        if (item.itemName == "Canned T")
+        if (item.itemName == "Bag O' Four: T")
         {
             var player = FindFirstObjectByType<Player>();
             player.playerBag.Add(0);
@@ -183,7 +183,7 @@ public class InventoryManager : MonoBehaviour
             }
         }
 
-        if (item.itemName == "Canned L")
+        if (item.itemName == "Bag O' Four: L")
         {
             var player = FindFirstObjectByType<Player>();
             player.playerBag.Add(2);

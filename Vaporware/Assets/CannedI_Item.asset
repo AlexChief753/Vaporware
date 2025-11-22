@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8293685988c69014599efc6babac304b, type: 3}
   m_Name: CannedI_Item
   m_EditorClassIdentifier: 
-  itemName: Canned I
-  itemSprite: {fileID: -8099382686625813466, guid: 5587ddc6c31cb9d4087d6f65e093c56a, type: 3}
+  itemName: 'Bag O'' Four: I'
+  itemSprite: {fileID: -4924459460058884548, guid: 9776d878b3527cd4eba67858d8d39e46, type: 3}
   passive: 0
   price: 125
   description: Makes your next piece an I-piece and permanently makes them more common.

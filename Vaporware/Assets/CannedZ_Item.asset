@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8293685988c69014599efc6babac304b, type: 3}
   m_Name: CannedZ_Item
   m_EditorClassIdentifier: 
-  itemName: Canned Z
-  itemSprite: {fileID: -8099382686625813466, guid: 5587ddc6c31cb9d4087d6f65e093c56a, type: 3}
+  itemName: 'Bag O'' Four: Z'
+  itemSprite: {fileID: 5815637178184076093, guid: 3326d5e96410a06418996a9a4a9df52a, type: 3}
   passive: 0
   price: 100
   description: Makes your next piece a Z-piece and permanently makes them more common.

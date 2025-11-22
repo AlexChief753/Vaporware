@@ -22,7 +22,7 @@ public class Tetromino : MonoBehaviour
     public Sprite ghostSprite4;
 
     // Input timing
-    private float moveDelay = 0.2f;
+    private float moveDelay = 0.125f;
     private float rotationDelay = 0.25f;
     private float lastMoveTime = 0f;
     private float lastRotateTime = 0f;
@@ -287,13 +287,13 @@ public class Tetromino : MonoBehaviour
 
     void AdjustFallSpeed()
     {
-        float speedIncrease = GameGrid.level * InventoryManager.itemSpeedMod * BossManager.bossSpeedMod * 0.1f;
+        float speedIncrease = GameGrid.level * InventoryManager.itemSpeedMod * BossManager.bossSpeedMod * 0.05f;
         fallTime = Mathf.Max(0.8f - speedIncrease, minFallTime);
     }
 
     public static void UpdateGlobalSpeed()
     {
-        float speedIncrease = GameGrid.level * InventoryManager.itemSpeedMod * BossManager.bossSpeedMod * 0.1f;
+        float speedIncrease = GameGrid.level * InventoryManager.itemSpeedMod * BossManager.bossSpeedMod * 0.05f;
         fallTime = Mathf.Max(baseFallTime - speedIncrease, 0.2f);
     }
 

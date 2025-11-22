@@ -142,6 +142,7 @@ public class Spawner : MonoBehaviour
                 GarbageLine(Random.Range(0, 10), 0);
                 GarbageLine(Random.Range(0, 10), 0);
                 GarbageLine(Random.Range(0, 10), 0);
+                InventoryManager.RecycleBinGarbage = false;
             }
         }
 
@@ -200,7 +201,7 @@ public class Spawner : MonoBehaviour
         if (levelText != null)
         {
             levelText.text = "Level: " + GameGrid.level.ToString();
-            displayRequiredScore.text = "Required Score: " + (1000 + (500 * (GameGrid.level - 1))).ToString();
+            displayRequiredScore.text = "Required Score: " + (250 + (250 * GameGrid.level)).ToString();
         }
 
         // Update Timer UI
@@ -282,7 +283,7 @@ public class Spawner : MonoBehaviour
         if (levelText != null)
         {
             levelText.text = "Level: " + GameGrid.level.ToString();
-            displayRequiredScore.text = "Required Score: " + (1000 + (500 * (GameGrid.level - 1))).ToString();
+            displayRequiredScore.text = "Required Score: " + (250 + (250 * GameGrid.level)).ToString();
         }
 
         if (speedText != null)
