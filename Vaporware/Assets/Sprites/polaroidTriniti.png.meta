@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 09697b2b88740b54ca4d649a5289b258
+guid: e116e6b255bd51745a10cc0d415ad643
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4698852485636404117
-    second: 39BagO4T_0
+      213: -8433371012170780435
+    second: polaroidTriniti_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -113,13 +113,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: 39BagO4T_0
+      name: polaroidTriniti_0
       rect:
         serializedVersion: 2
-        x: 20
-        y: 29
-        width: 1160
-        height: 1142
+        x: 1
+        y: 1
+        width: 885
+        height: 1026
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -128,8 +128,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 593b15aa07da53140800000000000000
-      internalID: 4698852485636404117
+      spriteID: de0fb701fb5a6fa80800000000000000
+      internalID: -8433371012170780435
       vertices: []
       indices: 
       edges: []
@@ -147,8 +147,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      39BagO4T_0: 4698852485636404117
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
