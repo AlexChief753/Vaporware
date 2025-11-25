@@ -161,15 +161,14 @@ public class LevelManager : MonoBehaviour
         }
 
         inputArmed = false;
-        EventSystem.current.SetSelectedGameObject(null);
-        EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
+        //EventSystem.current.SetSelectedGameObject(null);
+        //EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
         StartCoroutine(ArmMenuSelection());
-        // Force controller focus to the first button
+
         var es = EventSystem.current;
-        if (es != null && firstMenuButton != null)
+        if (es != null)
         {
-            es.SetSelectedGameObject(null);
-            es.SetSelectedGameObject(firstMenuButton.gameObject);
+            es.SetSelectedGameObject(null);  // start with nothing selected
         }
     }
 
@@ -182,8 +181,8 @@ public class LevelManager : MonoBehaviour
         while (Input.GetButton("Submit")) yield return null;
 
         // now pick the first button for navigation
-        if (continueButton != null)
-            EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
+        //if (continueButton != null)
+        //    EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
 
         inputArmed = true;
     }
@@ -318,10 +317,9 @@ public class LevelManager : MonoBehaviour
 
         // focus Resume button for controller/keyboard
         var es = EventSystem.current;
-        if (es != null && pauseResumeButton != null)
+        if (es != null)
         {
-            es.SetSelectedGameObject(null);
-            es.SetSelectedGameObject(pauseResumeButton.gameObject);
+            es.SetSelectedGameObject(null);  // start with nothing selected
         }
     }
 
@@ -478,8 +476,8 @@ public class LevelManager : MonoBehaviour
         // Focus buttons
         inputArmed = false;
         EventSystem.current.SetSelectedGameObject(null);
-        if (continueButton != null)
-            EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
+        //if (continueButton != null)
+        //    EventSystem.current.SetSelectedGameObject(continueButton.gameObject);
         StartCoroutine(ArmMenuSelection());
     }
 
@@ -500,10 +498,9 @@ public class LevelManager : MonoBehaviour
 
                 // Restore controller focus to Resume button
                 var es = EventSystem.current;
-                if (es && pauseResumeButton)
+                if (es != null)
                 {
-                    es.SetSelectedGameObject(null);
-                    es.SetSelectedGameObject(pauseResumeButton.gameObject);
+                    es.SetSelectedGameObject(null);  // start with nothing selected
                 }
             });
         }
