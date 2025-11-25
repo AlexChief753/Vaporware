@@ -17,3 +17,4 @@ MonoBehaviour:
   description: The general manager will spawn small columns of garbage on top of
     your stack, which can quickly overwhelm you!  However, it is possible for it
     to clear lines which can help to reduce the pressure.
+  bossPortrait: {fileID: -2795556289661158088, guid: 29b30b30a31a5464b8042d1ed3ef3d02, type: 3}
