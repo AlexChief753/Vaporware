@@ -15,7 +15,7 @@ MonoBehaviour:
   entries:
   - item: {fileID: 11400000, guid: 72baec6a96610fa458631146fb01b858, type: 2}
     rarity: 2
-    weightOverride: 0
+    weightOverride: 100
     enabled: 1
   - item: {fileID: 11400000, guid: 77b30d9d24620c04888e1eb8fb081eda, type: 2}
     rarity: 2
@@ -167,6 +167,10 @@ MonoBehaviour:
     enabled: 0
   - item: {fileID: 11400000, guid: db79833df3f03664f816c1627d98c709, type: 2}
     rarity: 3
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: f95d422965164604186c0c1ed3a104c2, type: 2}
+    rarity: 2
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: 6535b663887cd234bbe1f7637a0f3628, type: 2}

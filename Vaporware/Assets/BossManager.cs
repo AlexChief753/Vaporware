@@ -240,14 +240,14 @@ public class BossManager : MonoBehaviour
                         {
                             if (!rage)
                             {
-                                spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1]));
-                                spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1] + 1));
+                                spawner.AddGarbage(Mathf.RoundToInt(counters[1]), Mathf.RoundToInt(counters[2]));
+                                spawner.AddGarbage(Mathf.RoundToInt(counters[1]), Mathf.RoundToInt(counters[2] + 1));
                             }
                             else
                             {
-                                spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1]));
-                                spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1] + 1));
-                                spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1] + 2));
+                                spawner.AddGarbage(Mathf.RoundToInt(counters[1]), Mathf.RoundToInt(counters[2]));
+                                spawner.AddGarbage(Mathf.RoundToInt(counters[1]), Mathf.RoundToInt(counters[2] + 1));
+                                spawner.AddGarbage(Mathf.RoundToInt(counters[1]), Mathf.RoundToInt(counters[2] + 2));
                             }
                         }
                         counters[3] -= 5;
@@ -295,9 +295,9 @@ public class BossManager : MonoBehaviour
                         {
                             if (InventoryManager.GarbageDef < Random.Range(0, 10))
                             {
-                                spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1]));
-                                spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1] + 1));
-                                spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1] + 2));
+                                spawner.AddGarbage(Mathf.RoundToInt(counters[1]), Mathf.RoundToInt(counters[2]));
+                                spawner.AddGarbage(Mathf.RoundToInt(counters[1]), Mathf.RoundToInt(counters[2] + 1));
+                                spawner.AddGarbage(Mathf.RoundToInt(counters[1]), Mathf.RoundToInt(counters[2] + 2));
                             }
                             counters[3] -= 5;
                         }
@@ -325,7 +325,7 @@ public class BossManager : MonoBehaviour
                     {
                         if (InventoryManager.GarbageDef < Random.Range(0, 10))
                         {
-                            spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1]));
+                            spawner.AddGarbage(Mathf.RoundToInt(counters[1]), Mathf.RoundToInt(counters[2]));
                         }
                     }
                 }

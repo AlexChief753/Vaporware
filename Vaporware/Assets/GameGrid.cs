@@ -17,7 +17,7 @@ public class GameGrid : MonoBehaviour
     public static int requiredScore = 0;
     public static float lastLineCleared = 300; // Time last row was cleared
     public static int rowCleared = 0;
-    public static float lastPieceLeftness = 1; // For office politics item
+    public static float lastPieceLeftness = 0; // For office politics item
 
     public static bool IsInsideGrid(Vector2 pos)
     {
@@ -32,7 +32,7 @@ public class GameGrid : MonoBehaviour
 
     public static void AddToGrid(Transform tetromino)
     {
-        lastPieceLeftness = 1;
+        lastPieceLeftness = 0;
         foreach (Transform block in tetromino)
         {
             if (block.CompareTag("GhostPiece"))
@@ -284,7 +284,7 @@ public class GameGrid : MonoBehaviour
         applyItemEffects(linesCleared);
 
         int points = (int)(((linesCleared * lineClearPoints) + fullClearBonus) *
-            lineClearMult * (1 + (comboMult * (comboCount - 1))));
+            lineClearMult * itemMult * (1 + (comboMult * (comboCount - 1))));
 
         // Apply per-character score multiplier BEFORE scores are committed or level-up is checked
         points = CharacterEffectsManager.ApplyCharacterScoring(points);
@@ -327,14 +327,14 @@ public class GameGrid : MonoBehaviour
 
             if (inventoryManager.passiveItems[i].itemName == "Expresso")
                 if (levelMan.GetRemainingTime() > 270)
-                    itemMult = itemMult * ((levelMan.GetRemainingTime() - 270) / 15);
+                    itemMult = itemMult + ((levelMan.GetRemainingTime() - 270) / 30);
 
             if (inventoryManager.passiveItems[i].itemName == "Motivational Poster")
             {
                 if (GetHighestOccupiedRow() < 10)
-                    itemMult = itemMult * ((GetHighestOccupiedRow() / 10) + 1);
+                    itemMult = itemMult + (GetHighestOccupiedRow() / 10);
                 else
-                    itemMult = itemMult * 2;
+                    itemMult = itemMult + 1;
             }
 
             if (inventoryManager.passiveItems[i].itemName == "CD Player")
@@ -357,13 +357,13 @@ public class GameGrid : MonoBehaviour
                     comboCount++;
 
             if (inventoryManager.passiveItems[i].itemName == "Broom")
-                itemMult = itemMult * (2 - (GetHighestOccupiedRow() / 20));
+                itemMult = itemMult + (1 - (GetHighestOccupiedRow() / 20));
 
             if (inventoryManager.passiveItems[i].itemName == "Company Card")
                 lineClearPoints += currency / 100; // careful tuning with this one, it'll break the game easily if not
 
-            if (inventoryManager.passiveItems[i].itemName == "Pocket Watch")
-                itemMult = itemMult * (lastLineCleared - levelMan.GetRemainingTime() / 15);
+            if (inventoryManager.passiveItems[i].itemName == "Watch")
+                itemMult = itemMult + (lastLineCleared - levelMan.GetRemainingTime() / 30);
 
             if (inventoryManager.passiveItems[i].itemName == "Less is More")
                 if (Random.Range(0, 5) < 1)
@@ -381,7 +381,7 @@ public class GameGrid : MonoBehaviour
                 }
 
             if (inventoryManager.passiveItems[i].itemName == "Scrap Paper")
-                itemMult = itemMult * (1 + ((float) GarbageCount() / 15));
+                itemMult = itemMult + ((float) GarbageCount() / 15);
 
             if (inventoryManager.passiveItems[i].itemName == "Trash Bag")
             {
@@ -392,7 +392,7 @@ public class GameGrid : MonoBehaviour
             }
 
             if (inventoryManager.passiveItems[i].itemName == "Office Politics")
-                itemMult = itemMult * lastPieceLeftness;
+                itemMult = itemMult + lastPieceLeftness;
 
             if (inventoryManager.passiveItems[i].itemName == "Robot Vaccuum")
                 if (Random.Range(0, 10) < 1)
@@ -401,10 +401,9 @@ public class GameGrid : MonoBehaviour
                     ClearRow(0); // rowCleared is now the row above what was cleared
                     MoveRowsDown(0);
                 }
-
-            if (InventoryManager.QuadDamActive)
-                itemMult = itemMult * 4;
         }
+        if (InventoryManager.QuadDamActive)
+            itemMult = itemMult * 4;
 
         lastLineCleared = levelMan.GetRemainingTime();
     }

@@ -347,16 +347,19 @@ public class Spawner : MonoBehaviour
 
     public void AddGarbage(int x, int y)
     {
-        if (!GameGrid.grid[x, y] && x < GameGrid.grid.Length && x >= 0 && y >= 0)
+        if (x < GameGrid.width && x >= 0 && y < GameGrid.height && y >= 0) // check these first before looking at the array
         {
-            GameObject newTetromino = Instantiate(tetrominoes[7], new Vector3(x, y, 0), Quaternion.identity);
-            Tetromino tetrominoScript = newTetromino.GetComponent<Tetromino>();
-            if (tetrominoScript != null)
+            if (!GameGrid.grid[x, y])
             {
-                tetrominoScript.pieceIndex = 7;
-                tetrominoScript.isLanded = true;
-                GameGrid.AddToGrid(tetrominoScript.transform);
-                GameGrid.CheckAndClearLines();
+                GameObject newTetromino = Instantiate(tetrominoes[7], new Vector3(x, y, 0), Quaternion.identity);
+                Tetromino tetrominoScript = newTetromino.GetComponent<Tetromino>();
+                if (tetrominoScript != null)
+                {
+                    tetrominoScript.pieceIndex = 7;
+                    tetrominoScript.isLanded = true;
+                    GameGrid.AddToGrid(tetrominoScript.transform);
+                    GameGrid.CheckAndClearLines();
+                }
             }
         }
     }
