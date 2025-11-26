@@ -21,3 +21,4 @@ MonoBehaviour:
     bottom of the grid. During the final phase, speed increases, garbage will spawn
     if you don't clear lines often enough, and the boss will rapidly spawn dangerous
     lines from the bottom after 30 seconds!
+  bossPortrait: {fileID: 1408113500200456412, guid: a39fe36e48f486f499c2cdd50fdd5e71, type: 3}

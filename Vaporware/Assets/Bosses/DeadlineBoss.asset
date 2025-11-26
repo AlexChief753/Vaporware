@@ -17,3 +17,4 @@ MonoBehaviour:
   description: Act quickly!  After a short time, the boss will begin to spawn garbage
     rapidly from the bottom of the grid.  Fall speed is increased, but slows down
     once you're almost there.
+  bossPortrait: {fileID: -4224514721630840810, guid: 166b7927ec159c94685febd49cdc85f9, type: 3}

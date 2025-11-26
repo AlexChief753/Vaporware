@@ -10,4 +10,7 @@ public class Boss : ScriptableObject
 
     [TextArea]
     public string description;
+
+    [Header("Visuals")]
+    public Sprite bossPortrait;
 }

@@ -20,3 +20,4 @@ MonoBehaviour:
 
     Keep clearing lines, show
     no fear. Printers prey on fear.'
+  bossPortrait: {fileID: -6379827562344078625, guid: 3a6faec2fe30ccf4088860bbd2878c47, type: 3}
