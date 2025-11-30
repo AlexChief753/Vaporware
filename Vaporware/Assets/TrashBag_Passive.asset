@@ -17,4 +17,4 @@ MonoBehaviour:
   passive: 1
   price: 150
   description: Earn additional money at the end of each round, but spawns garbage
-    if lines aren't being cleared often enough.
+    if lines aren't being cleared often enough

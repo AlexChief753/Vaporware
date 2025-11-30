@@ -15,6 +15,6 @@ MonoBehaviour:
   itemName: Robot Vacuum
   itemSprite: {fileID: -2623766574260035712, guid: 064f200d51931a24c91c568aa6fea46f, type: 3}
   passive: 1
-  price: 175
-  description: Occasionally clears the bottom row and increases the points earned
-    on a line clear based on the number of blocks cleared
+  price: 150
+  description: May clear the bottom row when clearing a line, and adds tiles cleared
+    to score

@@ -170,7 +170,7 @@ public class BossManager : MonoBehaviour
                         if (GameGrid.TilesInRow(Mathf.RoundToInt(counters[2])) < 10)
                         {
                             if (InventoryManager.GarbageDef < Random.Range(0, 10))
-                                spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1]));
+                                spawner.AddGarbage(Mathf.RoundToInt(counters[1]), Mathf.RoundToInt(counters[2]));
                             counters[3] = 0;
                         }
                 }
@@ -204,7 +204,7 @@ public class BossManager : MonoBehaviour
 
         if (currentBoss.bossName == "Micromanager")
         {
-            if (counters[3] > 6)
+            if (counters[3] > 3)
             {
                 counters[1] = Random.Range(0, 10);
                 counters[2] = Random.Range(0, 16);
@@ -213,7 +213,7 @@ public class BossManager : MonoBehaviour
                     counters[3] = 0;
                     if (InventoryManager.GarbageDef < Random.Range(0, 10))
                     {
-                        spawner.AddGarbage(Mathf.RoundToInt(counters[2]), Mathf.RoundToInt(counters[1]));
+                        spawner.AddGarbage(Mathf.RoundToInt(counters[1]), Mathf.RoundToInt(counters[2]));
                     }
                 }
             }
@@ -231,11 +231,11 @@ public class BossManager : MonoBehaviour
             if (counters[0] % 2 == 0)
             {
 
-                if (Random.Range(0, 3) < 1 && counters[3] > 10)
+                if (Random.Range(0, 3) < 1 && counters[3] > 6)
                 {
                     counters[1] = Random.Range(0, 10);
                     counters[2] = GameGrid.GetColumnHeight(Mathf.RoundToInt(counters[1]));
-                    if (GameGrid.TilesInRow(Mathf.RoundToInt(counters[2])) < 10){
+                    if (GameGrid.TilesInRow(Mathf.RoundToInt(counters[2])) < 10 && counters[2] < 16){
                         if (InventoryManager.GarbageDef < Random.Range(0, 10))
                         {
                             if (!rage)
@@ -250,11 +250,11 @@ public class BossManager : MonoBehaviour
                                 spawner.AddGarbage(Mathf.RoundToInt(counters[1]), Mathf.RoundToInt(counters[2] + 2));
                             }
                         }
-                        counters[3] -= 5;
+                        counters[3] -= 4;
                     }
                 }
             }
-            else if (Random.Range(0, 3) < 1 && counters[3] > 10)
+            else if (Random.Range(0, 3) < 1 && counters[3] > 6)
             {
                 if (InventoryManager.GarbageDef < Random.Range(0, 10))
                 {
@@ -268,7 +268,7 @@ public class BossManager : MonoBehaviour
                         spawner.GarbageLine(Random.Range(0, 10), 0);
                     }
                 }
-                counters[3] -= 7;
+                counters[3] -= 6;
             }
 
             counters[3]++;
@@ -287,7 +287,7 @@ public class BossManager : MonoBehaviour
                 if (counters[0] % 2 == 0)
                 {
 
-                    if (GameGrid.GetHighestOccupiedRow() > 10 && counters[3] > 10)
+                    if (GameGrid.GetHighestOccupiedRow() > 10 && counters[3] > 5)
                     {
                         counters[1] = Random.Range(0, 10);
                         counters[2] = GameGrid.GetColumnHeight(Mathf.RoundToInt(counters[1]));
@@ -299,11 +299,11 @@ public class BossManager : MonoBehaviour
                                 spawner.AddGarbage(Mathf.RoundToInt(counters[1]), Mathf.RoundToInt(counters[2] + 1));
                                 spawner.AddGarbage(Mathf.RoundToInt(counters[1]), Mathf.RoundToInt(counters[2] + 2));
                             }
-                            counters[3] -= 5;
+                            counters[3] -= 4;
                         }
                     }
                 }
-                else if (counters[3] > 10)
+                else if (counters[3] > 5)
                 {
                     if (InventoryManager.GarbageDef < Random.Range(0, 10))
                     {
@@ -311,13 +311,13 @@ public class BossManager : MonoBehaviour
                         spawner.GarbageLine(Random.Range(0, 10), 0);
 
                     }
-                    counters[3] -= 7;
+                    counters[3] -= 5;
                 }
             }
 
             else if (!rage)
             {
-                if (counters[3] == 6)
+                if (counters[3] == 4)
                 {
                     counters[1] = Random.Range(0, 10);
                     counters[2] = Random.Range(0, 16);
@@ -329,7 +329,7 @@ public class BossManager : MonoBehaviour
                         }
                     }
                 }
-                if (counters[3] > 9)
+                if (counters[3] > 8)
                 {
                     if (InventoryManager.GarbageDef < Random.Range(0, 10))
                         spawner.GarbageLine(Random.Range(0, 10), 0);

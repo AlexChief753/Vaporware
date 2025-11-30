@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Company Card
   itemSprite: {fileID: 8503988668612584520, guid: 64ae9d358306f2b4a974adf9e376736e, type: 3}
   passive: 1
-  price: 100
+  price: 150
   description: Increases point scoring based on currency held

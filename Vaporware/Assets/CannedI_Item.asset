@@ -16,5 +16,5 @@ MonoBehaviour:
   itemSprite: {fileID: -4924459460058884548, guid: 9776d878b3527cd4eba67858d8d39e46, type: 3}
   passive: 0
   price: 125
-  description: Makes your next piece an I-piece and permanently makes them more common.
-    Somehow, these are always rarer...
+  description: Makes next piece an I-piece and permanently makes them more common,
+    consumable

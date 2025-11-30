@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Learning 4 Clowns
   itemSprite: {fileID: -5312287169312700444, guid: 112a841cbe2300543a6ac0e8c10f7d3d, type: 3}
   passive: 1
-  price: 100
+  price: 120
   description: Base points per line clear increased by 100

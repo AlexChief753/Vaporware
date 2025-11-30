@@ -12,9 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8293685988c69014599efc6babac304b, type: 3}
   m_Name: Expresso_Passive
   m_EditorClassIdentifier: 
-  itemName: Expresso
+  itemName: Express-O
   itemSprite: {fileID: 494741123871670487, guid: 89baff7cd71ef0d44949275ca55ffc11, type: 3}
   passive: 1
-  price: 100
-  description: Grants a score bonus that slowly decreases over the first 30 seconds.
-    That's Express-O!
+  price: 99
+  description: Grants a score bonus that decays over the first 30 seconds

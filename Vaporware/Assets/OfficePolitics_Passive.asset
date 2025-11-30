@@ -15,6 +15,6 @@ MonoBehaviour:
   itemName: Office Politics
   itemSprite: {fileID: 21300000, guid: 9447fb0fc944ca440a873efe42a130e5, type: 3}
   passive: 1
-  price: 100
+  price: 125
   description: Score more when clearing lines with a piece from the left side of
     the screen

@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Juggler's Guidebook
   itemSprite: {fileID: -4411668978664789366, guid: d8028a2ce05af3b4a96fb6d290e186e9, type: 3}
   passive: 1
-  price: 100
+  price: 75
   description: Point multiplier until a combo is lost for the first time in the round

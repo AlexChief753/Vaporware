@@ -15,6 +15,6 @@ MonoBehaviour:
   itemName: CD Player
   itemSprite: {fileID: 1647277452787118927, guid: e8eb59ce8885976498bc86d565bb4c65, type: 3}
   passive: 1
-  price: 100
+  price: 150
   description: Combo count no longer resets when failing to clear a line, but combo
-    bonus is worth less
+    bonus is less

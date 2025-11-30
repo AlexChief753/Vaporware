@@ -16,4 +16,5 @@ MonoBehaviour:
   itemSprite: {fileID: -7054607770612273309, guid: 2cda673251f56604493961c57188c453, type: 3}
   passive: 0
   price: 100
-  description: Makes your next piece an S-piece and permanently makes them more common.
+  description: Makes next piece an S-piece and permanently makes them more common,
+    consumable

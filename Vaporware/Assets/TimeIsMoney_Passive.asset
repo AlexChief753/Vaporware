@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Time is Money
   itemSprite: {fileID: 6748855177788662050, guid: 11615d9d5e247c94ab6047648fb12409, type: 3}
   passive: 1
-  price: 100
+  price: 125
   description: Earn more currency based on how quickly you clear a round

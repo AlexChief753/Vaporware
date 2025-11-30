@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Chai
   itemSprite: {fileID: 991246816351980847, guid: bf72a459c6ccc304889f7bca4e848fe3, type: 3}
   passive: 1
-  price: 100
+  price: 75
   description: More points for 3 line clears

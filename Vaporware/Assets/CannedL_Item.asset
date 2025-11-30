@@ -16,4 +16,5 @@ MonoBehaviour:
   itemSprite: {fileID: -8099382686625813466, guid: 5587ddc6c31cb9d4087d6f65e093c56a, type: 3}
   passive: 0
   price: 100
-  description: Makes your next piece an L-piece and permanently makes them more common.
+  description: Makes next piece an L-piece and permanently makes them more common,
+    consumable

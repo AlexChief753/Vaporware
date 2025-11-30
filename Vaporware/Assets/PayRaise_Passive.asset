@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Pay Raise
   itemSprite: {fileID: -5615806585492334762, guid: 72f13d150601d7247a28e72dc7c3e425, type: 3}
   passive: 1
-  price: 100
+  price: 125
   description: Earn 50 more currency at the end of each round

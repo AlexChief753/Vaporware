@@ -16,4 +16,5 @@ MonoBehaviour:
   itemSprite: {fileID: -2877985594671825859, guid: 00f774e04d6dad64ba3732b2269a7056, type: 3}
   passive: 0
   price: 100
-  description: Makes your next piece an O-piece and permanently makes them more common.
+  description: Makes next piece an O-piece and permanently makes them more common,
+    consumable

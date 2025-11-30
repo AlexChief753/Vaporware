@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8293685988c69014599efc6babac304b, type: 3}
   m_Name: CannedCombo_Item
   m_EditorClassIdentifier: 
-  itemName: Canned Combo Energy Drink
+  itemName: Canned Combo
   itemSprite: {fileID: 2745251247022207496, guid: 6247a1e09ad87ba41baa872b74ba3bdd, type: 3}
   passive: 0
-  price: 100
-  description: Increases your current combo by 5, and prevents your combo from dropping
-    until your next line clear.
+  price: 75
+  description: Increases combo by 5, prevents combo from dropping until next line
+    clear, consumable

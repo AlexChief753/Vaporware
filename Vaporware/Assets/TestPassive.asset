@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Black Tea
   itemSprite: {fileID: -6458038899897946604, guid: 26099c2969352424f90a384ef606fe18, type: 3}
   passive: 1
-  price: 20
-  description: Bonus for 1-line clears.
+  price: 75
+  description: More points for 1 line clears

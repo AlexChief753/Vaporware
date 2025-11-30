@@ -90,12 +90,12 @@ public class InventoryManager : MonoBehaviour
             Debug.Log($"Shredder used: removed {cleared} bottom rows.");
         }
 
-        if (item.itemName == "Quad Damage")
+        if (item.itemName == "Investment")
         {
             QuadDamActive = true;
         }
 
-        if (item.itemName == "Canned Combo Energy Drink")
+        if (item.itemName == "Canned Combo")
         {
             GameGrid.comboProtect = true;
             GameGrid.comboCount += 5;
@@ -205,6 +205,13 @@ public class InventoryManager : MonoBehaviour
             ResetRarities++;
         }
 
+        if (item.itemName == "Coffee")
+        {
+            Debug.Log($"Current value of lastLineCleared: " + GameGrid.lastLineCleared);
+            var levelMan = FindFirstObjectByType<LevelManager>();
+            Debug.Log($"Current value of currentTime: " + levelMan.GetRemainingTime());
+        }
+
         // Remove item from inventory
         items.RemoveAt(index);
 
@@ -216,9 +223,11 @@ public class InventoryManager : MonoBehaviour
     //run at level start to activate items that should be active immediately
     public void PassiveInit()
     {
+        var levelMan = FindFirstObjectByType<LevelManager>();
         itemSpeedMod = 1;               //reset any values modified to default before applying effects
         GameGrid.comboReset = true;     //in order to prevent reapplying effects
         GarbageDef = 0;
+        GameGrid.lastLineCleared = levelMan.GetRemainingTime();
 
         for (int i = 0; i < passiveItems.Count; i++)
         {
@@ -253,14 +262,14 @@ public class InventoryManager : MonoBehaviour
             if (passiveItems[i].itemName == "Time is Money")
             {
                 var levelMan = FindFirstObjectByType<LevelManager>();
-                GameGrid.currency += (int)Mathf.Round((float)(levelMan.GetRemainingTime() * 0.5));
+                GameGrid.currency += (int)Mathf.Round((float)(levelMan.GetRemainingTime() * 0.2));
             }
 
             if (passiveItems[i].itemName == "Pay Raise")
                 GameGrid.currency += 50;
 
             if (passiveItems[i].itemName == "Trash Bag")
-                GameGrid.currency += 100; // maybe 75? maybe it's fine
+                GameGrid.currency += 75;
         }
         return;
     }

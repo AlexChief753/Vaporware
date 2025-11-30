@@ -17,4 +17,4 @@ MonoBehaviour:
   passive: 0
   price: 100
   description: Grants a lot of money on use, but spawns garbage lines at the bottom
-    of the screen.
+    of the screen, consumable

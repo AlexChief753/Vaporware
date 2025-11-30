@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Scissors
   itemSprite: {fileID: -5699960085793676304, guid: 6a4e14dd45d93cb48b669bb0165e02e1, type: 3}
   passive: 0
-  price: 69
-  description: Cuts away the top 3 occupied rows.
+  price: 50
+  description: Cuts away the top 3 occupied rows, consumable

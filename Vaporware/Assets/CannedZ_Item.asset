@@ -16,4 +16,5 @@ MonoBehaviour:
   itemSprite: {fileID: 5815637178184076093, guid: 3326d5e96410a06418996a9a4a9df52a, type: 3}
   passive: 0
   price: 100
-  description: Makes your next piece a Z-piece and permanently makes them more common.
+  description: Makes next piece a Z-piece and permanently makes them more common,
+    consumable

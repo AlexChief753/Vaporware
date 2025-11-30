@@ -17,4 +17,4 @@ MonoBehaviour:
   passive: 0
   price: 125
   description: Increases the chances of finding higher rarity items in your next
-    shop when used
+    shop when used, consumable

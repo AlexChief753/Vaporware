@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Compressed Air
   itemSprite: {fileID: -3418832308859454563, guid: e8626930cb6e0134c872912710dd5c06, type: 3}
   passive: 1
-  price: 100
+  price: 50
   description: Clearing the entire board at once grants 100 currency

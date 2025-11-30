@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Play Money
   itemSprite: {fileID: -2522089768168094948, guid: f9a9982688cf36c45b4d2892197d5bce, type: 3}
   passive: 1
-  price: 100
+  price: 125
   description: Clearing exactly 3 lines at once grants 20 currency

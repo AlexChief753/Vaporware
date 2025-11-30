@@ -210,7 +210,7 @@ public class LevelManager : MonoBehaviour
 
         var inventoryManager = FindFirstObjectByType<InventoryManager>();
         inventoryManager.PassiveInit();
-        GameGrid.lastLineCleared = 300;
+        //GameGrid.lastLineCleared = 300;
         BossManager.bossSpeedMod = 1;
         GameGrid.comboCount = 0;
 

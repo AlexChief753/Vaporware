@@ -15,6 +15,6 @@ MonoBehaviour:
   itemName: Less is More
   itemSprite: {fileID: 1573587141477162359, guid: 0364ca28606fe904a86e4c6d5d0dd6d3, type: 3}
   passive: 1
-  price: 100
+  price: 150
   description: Clearing exactly one line has a chance to destroy the line above and
-    below it.
+    below it

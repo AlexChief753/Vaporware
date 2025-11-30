@@ -16,4 +16,5 @@ MonoBehaviour:
   itemSprite: {fileID: -5259573784848831874, guid: 3a1952da95fc76e4581de43a5f7013b8, type: 3}
   passive: 0
   price: 100
-  description: Makes your next piece a J-piece and permanently makes them more common.
+  description: Makes next piece a J-piece and permanently makes them more common,
+    consumable

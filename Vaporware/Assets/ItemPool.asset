@@ -15,14 +15,14 @@ MonoBehaviour:
   entries:
   - item: {fileID: 11400000, guid: 72baec6a96610fa458631146fb01b858, type: 2}
     rarity: 2
-    weightOverride: 100
+    weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: 77b30d9d24620c04888e1eb8fb081eda, type: 2}
-    rarity: 2
+    rarity: 1
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: 6631928922c0b4d44bf6fcdb8e38d1e5, type: 2}
-    rarity: 3
+    rarity: 1
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: 2be678b7128ac6c499f55c4a93b2ea60, type: 2}
@@ -82,7 +82,7 @@ MonoBehaviour:
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: 53a3e61b22da8834384a9b3c3cbf413e, type: 2}
-    rarity: 3
+    rarity: 2
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: 85fda8445f0ad0e4dbae2903f9665798, type: 2}
@@ -102,12 +102,12 @@ MonoBehaviour:
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: 201b98fabdd944641a04586e09b091e5, type: 2}
-    rarity: 0
+    rarity: 1
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: 3d881661e31b2f34ba75900b5e279492, type: 2}
-    rarity: 2
-    weightOverride: 0
+    rarity: 3
+    weightOverride: 10
     enabled: 1
   - item: {fileID: 11400000, guid: 6a784aea9f9c37f488c0913666f72181, type: 2}
     rarity: 1
@@ -142,7 +142,7 @@ MonoBehaviour:
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: 4e947a55cdc432f48980f8af503145ba, type: 2}
-    rarity: 3
+    rarity: 2
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: a6f77942097cca844adbb6251057257d, type: 2}
@@ -170,11 +170,11 @@ MonoBehaviour:
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: f95d422965164604186c0c1ed3a104c2, type: 2}
-    rarity: 2
+    rarity: 1
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: 6535b663887cd234bbe1f7637a0f3628, type: 2}
-    rarity: 1
+    rarity: 2
     weightOverride: 0
     enabled: 1
   commonWeight: 45

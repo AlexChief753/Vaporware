@@ -197,7 +197,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      enemyScreenNamePlate_0: 2617497915891735438
+      enemyScreenNamePlate_1: -6380768944317462425
+      enemyScreenNamePlate_2: 3381419518997303416
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

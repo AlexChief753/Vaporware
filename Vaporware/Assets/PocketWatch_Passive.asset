@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Watch
   itemSprite: {fileID: 5358473134446627875, guid: 51a513a3069e3304daa72f2864408861, type: 3}
   passive: 1
-  price: 100
+  price: 120
   description: The more time passes between line clears, the more points earned

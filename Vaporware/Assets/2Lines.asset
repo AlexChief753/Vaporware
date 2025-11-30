@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Green Tea
   itemSprite: {fileID: 8577927912949956694, guid: f6715d95c7a4c4f4c84bcf255200f9d5, type: 3}
   passive: 1
-  price: 50
+  price: 75
   description: More points for 2 line clears

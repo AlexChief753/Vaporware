@@ -16,5 +16,5 @@ MonoBehaviour:
   itemSprite: {fileID: 7468320839416262539, guid: 91cbed710bd0adb479a0871233bbe733, type: 3}
   passive: 0
   price: 100
-  description: Immediately ends the current stage, so long as it is not a boss stage. 
-    You forfeit your standard currency, though...
+  description: Immediately ends current non-boss stage, but forfeit standard currency,
+    consumable

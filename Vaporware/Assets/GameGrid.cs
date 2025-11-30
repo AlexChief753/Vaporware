@@ -325,7 +325,7 @@ public class GameGrid : MonoBehaviour
             if (inventoryManager.passiveItems[i].itemName == "Learning 4 Clowns")
                 lineClearPoints += 100;
 
-            if (inventoryManager.passiveItems[i].itemName == "Expresso")
+            if (inventoryManager.passiveItems[i].itemName == "Express-O")
                 if (levelMan.GetRemainingTime() > 270)
                     itemMult = itemMult + ((levelMan.GetRemainingTime() - 270) / 30);
 
@@ -363,7 +363,7 @@ public class GameGrid : MonoBehaviour
                 lineClearPoints += currency / 100; // careful tuning with this one, it'll break the game easily if not
 
             if (inventoryManager.passiveItems[i].itemName == "Watch")
-                itemMult = itemMult + (lastLineCleared - levelMan.GetRemainingTime() / 30);
+                itemMult = itemMult + ((lastLineCleared - levelMan.GetRemainingTime()) / 30);
 
             if (inventoryManager.passiveItems[i].itemName == "Less is More")
                 if (Random.Range(0, 5) < 1)
