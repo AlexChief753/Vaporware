@@ -8,6 +8,7 @@ public class AudioManager : MonoBehaviour
 
     [Header("- - - - - - - - - Audio Clips - - - - - - - - -")]
     public AudioClip background;
+    public AudioClip bossMusic;
     public AudioClip pieceMove;
     public AudioClip rotate;
     public AudioClip hardDrop;
@@ -39,9 +40,13 @@ public class AudioManager : MonoBehaviour
 
         backgroundMusicSource.volume = musicVolume;
         sfxSource.volume = sfxVolume;
+        if (GameGrid.level % 4 == 0)
+            backgroundMusicSource.clip = bossMusic;
+        else
+            backgroundMusicSource.clip = background;
 
-        backgroundMusicSource.clip = background;
         backgroundMusicSource.Play();
+
     }
 
     public void playSFX(AudioClip clip)
