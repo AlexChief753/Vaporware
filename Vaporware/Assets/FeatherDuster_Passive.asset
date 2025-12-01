@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8293685988c69014599efc6babac304b, type: 3}
   m_Name: FeatherDuster_Passive
   m_EditorClassIdentifier: 
-  itemName: Feather Duster
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemName: Broom
+  itemSprite: {fileID: 6842741990062098225, guid: 63d3efc9e84c7e14ba4cc5c9877d5f0d, type: 3}
   passive: 1
   price: 100
   description: Lower stack increases points

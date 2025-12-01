@@ -18,11 +18,11 @@ MonoBehaviour:
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: 77b30d9d24620c04888e1eb8fb081eda, type: 2}
-    rarity: 3
+    rarity: 1
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: 6631928922c0b4d44bf6fcdb8e38d1e5, type: 2}
-    rarity: 4
+    rarity: 1
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: 2be678b7128ac6c499f55c4a93b2ea60, type: 2}
@@ -82,7 +82,7 @@ MonoBehaviour:
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: 53a3e61b22da8834384a9b3c3cbf413e, type: 2}
-    rarity: 3
+    rarity: 2
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: 85fda8445f0ad0e4dbae2903f9665798, type: 2}
@@ -102,7 +102,79 @@ MonoBehaviour:
     weightOverride: 0
     enabled: 1
   - item: {fileID: 11400000, guid: 201b98fabdd944641a04586e09b091e5, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 3d881661e31b2f34ba75900b5e279492, type: 2}
+    rarity: 3
+    weightOverride: 10
+    enabled: 1
+  - item: {fileID: 11400000, guid: 6a784aea9f9c37f488c0913666f72181, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 04d5b030c033c2f409409d73f1c67083, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 717df3166eb6fa444af5ba1f94159e6f, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: a4bc50b2efdabf0498ea5265b59fe2e8, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: abb802e98dda14e409f3129733aedb35, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 5c7bc59d01700d34e82136a3b1bd2033, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: e047a850b5bb9e94ab721ebdd96e2f57, type: 2}
     rarity: 0
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 50ae9d9765fdede47bc82d03aa80e26f, type: 2}
+    rarity: 2
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 4e947a55cdc432f48980f8af503145ba, type: 2}
+    rarity: 2
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: a6f77942097cca844adbb6251057257d, type: 2}
+    rarity: 0
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: dfe81ae15657b704e8972b4d6278f807, type: 2}
+    rarity: 0
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: a9439c34753148b44adde471c57e9ac7, type: 2}
+    rarity: 4
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: fe18f664c0ffb654eb45b55977ef40fb, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 2982ad63cf80c6e4db3f4c95cbc3a0bc, type: 2}
+    rarity: 2
+    weightOverride: 0
+    enabled: 0
+  - item: {fileID: 11400000, guid: db79833df3f03664f816c1627d98c709, type: 2}
+    rarity: 3
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: f95d422965164604186c0c1ed3a104c2, type: 2}
+    rarity: 1
+    weightOverride: 0
+    enabled: 1
+  - item: {fileID: 11400000, guid: 6535b663887cd234bbe1f7637a0f3628, type: 2}
+    rarity: 2
     weightOverride: 0
     enabled: 1
   commonWeight: 45

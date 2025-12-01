@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TimeIsMoney_Passive
   m_EditorClassIdentifier: 
   itemName: Time is Money
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: 6748855177788662050, guid: 11615d9d5e247c94ab6047648fb12409, type: 3}
   passive: 1
-  price: 100
+  price: 125
   description: Earn more currency based on how quickly you clear a round

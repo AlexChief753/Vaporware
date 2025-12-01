@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: CompressedAir_Passive
   m_EditorClassIdentifier: 
   itemName: Compressed Air
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemSprite: {fileID: -3418832308859454563, guid: e8626930cb6e0134c872912710dd5c06, type: 3}
   passive: 1
-  price: 100
+  price: 50
   description: Clearing the entire board at once grants 100 currency

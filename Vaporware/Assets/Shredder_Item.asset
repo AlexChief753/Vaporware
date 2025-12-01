@@ -15,5 +15,5 @@ MonoBehaviour:
   itemName: Shredder
   itemSprite: {fileID: -4017540803627212904, guid: 1432dd793b92d1a4fbf63eaa05c74475, type: 3}
   passive: 0
-  price: 90
-  description: Shreds the bottom 3 rows.
+  price: 50
+  description: Shreds the bottom 3 rows, consumable

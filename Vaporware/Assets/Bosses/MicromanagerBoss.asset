@@ -17,3 +17,4 @@ MonoBehaviour:
   description: This low-level manager will get in your way at every turn by spawning
     single pieces of garbage across the board.  Spawns garbage more often when near
     the end!
+  bossPortrait: {fileID: 4534282361348689011, guid: 7c05db137daee9744839c82cd9fe4c20, type: 3}

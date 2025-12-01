@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: HotChocolate_Passive
   m_EditorClassIdentifier: 
   itemName: Hot Chocolate
-  itemSprite: {fileID: 6188221051300514874, guid: 49b28a128515970448a16961174a63b5, type: 3}
+  itemSprite: {fileID: -2816083834116443378, guid: e8c74198d3215d64f8e7b6dc81527f30, type: 3}
   passive: 1
   price: 100
   description: Combos grant more points

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8293685988c69014599efc6babac304b, type: 3}
+  m_Name: CannedT_Item
+  m_EditorClassIdentifier: 
+  itemName: 'Bag O'' Four: T'
+  itemSprite: {fileID: 4698852485636404117, guid: 09697b2b88740b54ca4d649a5289b258, type: 3}
+  passive: 0
+  price: 100
+  description: Makes next piece a T-piece and permanently makes them more common,
+    consumable

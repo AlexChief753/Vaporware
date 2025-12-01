@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8293685988c69014599efc6babac304b, type: 3}
+  m_Name: CannedS_Item
+  m_EditorClassIdentifier: 
+  itemName: 'Bag O'' Four: S'
+  itemSprite: {fileID: -7054607770612273309, guid: 2cda673251f56604493961c57188c453, type: 3}
+  passive: 0
+  price: 100
+  description: Makes next piece an S-piece and permanently makes them more common,
+    consumable

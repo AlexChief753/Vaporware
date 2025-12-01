@@ -18,3 +18,4 @@ MonoBehaviour:
     lines are difficult to clear without items, so plan accordingly!  After half,
     they'll begin to drop single pieces on the top of your stack, getting in your
     way!
+  bossPortrait: {fileID: -1757193647527947209, guid: 91698736c8db9d64eae8c7a97baed4ce, type: 3}

@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8293685988c69014599efc6babac304b, type: 3}
   m_Name: 2Lines
   m_EditorClassIdentifier: 
-  itemName: 2Lines
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemName: Green Tea
+  itemSprite: {fileID: 8577927912949956694, guid: f6715d95c7a4c4f4c84bcf255200f9d5, type: 3}
   passive: 1
-  price: 50
+  price: 75
   description: More points for 2 line clears

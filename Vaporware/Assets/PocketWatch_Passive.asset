@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8293685988c69014599efc6babac304b, type: 3}
   m_Name: PocketWatch_Passive
   m_EditorClassIdentifier: 
-  itemName: Pocket Watch
-  itemSprite: {fileID: -3028862738210661278, guid: 7e5c0677c3ffbcc4e85f20c4a5f8d417, type: 3}
+  itemName: Watch
+  itemSprite: {fileID: 5358473134446627875, guid: 51a513a3069e3304daa72f2864408861, type: 3}
   passive: 1
-  price: 100
+  price: 120
   description: The more time passes between line clears, the more points earned

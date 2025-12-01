@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: MotivationalPoster_Passive
   m_EditorClassIdentifier: 
   itemName: Motivational Poster
-  itemSprite: {fileID: -8424525854711357198, guid: 74ca0343c136f9244aa8cde021623cb2, type: 3}
+  itemSprite: {fileID: -129781727167083572, guid: c5b65d7ab2806ce4394393da3697fdd8, type: 3}
   passive: 1
   price: 100
   description: Multiplier increases the taller your stack is
