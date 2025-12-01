@@ -7,9 +7,8 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource sfxSource;
 
     [Header("- - - - - - - - - Audio Clips - - - - - - - - -")]
-    public AudioClip levelMusic;
+    public AudioClip background;
     public AudioClip bossMusic;
-    public AudioClip lineClear;
     public AudioClip pieceMove;
     public AudioClip rotate;
     public AudioClip hardDrop;
@@ -35,22 +34,19 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-
         // Load saved volume or use default 0.5
         float musicVolume = PlayerPrefs.GetFloat(MUSIC_VOLUME_KEY, 0.5f);
         float sfxVolume = PlayerPrefs.GetFloat(SFX_VOLUME_KEY, 0.5f);
 
         backgroundMusicSource.volume = musicVolume;
         sfxSource.volume = sfxVolume;
-
-        backgroundMusicSource.volume = musicVolume;
-        sfxSource.volume = sfxVolume;
         if (GameGrid.level % 4 == 0)
             backgroundMusicSource.clip = bossMusic;
         else
-            backgroundMusicSource.clip = levelMusic;
+            backgroundMusicSource.clip = background;
 
         backgroundMusicSource.Play();
+
     }
 
     public void playSFX(AudioClip clip)
