@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 0
   displayName: Triniti
-  shortDescription: Character description will go here!
+  shortDescription: Perpetually tired new grad, the introvert Triniti wants to make
+    it but above all else, survive the corporate world. Can she handle all of the
+    office politics and make it?
   statLines:
   - She earns less points.
   - She has a higher chance to get rare items in the shop!

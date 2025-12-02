@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 1038
   m_ShowMode: 4
-  m_Title: Game
+  m_Title: Scene
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 100}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 45
+  controlID: 101
   draggingID: 0
 --- !u!114 &3
 MonoBehaviour:
@@ -69,8 +69,8 @@ MonoBehaviour:
     y: 0
     width: 390
     height: 982
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 76}
+  m_MaxSize: {x: 4001, y: 4026}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}
@@ -326,7 +326,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Animations
+    - Assets/Sprites
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -336,16 +336,16 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Animations
+  - Assets/Sprites
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\drago\Desktop\Vaporware
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: bcca0000
-    m_LastClickedID: 51900
-    m_ExpandedIDs: 0000000030be000032be00008abe000000ca9a3b
+    m_SelectedIDs: 9ebd0000
+    m_LastClickedID: 48542
+    m_ExpandedIDs: 000000002ebd000030bd000088bd00009ebd000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -374,7 +374,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 0000000030be000032be0000
+    m_ExpandedIDs: 000000002ebd000030bd0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -428,7 +428,7 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
     m_NewAssetIndexInList: -1
-    m_ScrollPosition: {x: 0, y: 0}
+    m_ScrollPosition: {x: 0, y: 296.5}
     m_GridSize: 64
   m_SkipHiddenPackages: 0
   m_DirectoriesAreaWidth: 207
@@ -522,7 +522,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: f062ffffd663ffff7267ffff2c6fffff3e6fffff8072ffffc272ffff1293ffff2493ffff6696ffffa896ffffe0a5fffff2a5ffff04a9ffff46a9ffff4eb3ffff60b3ffffa2b6ffffe4b6ffff3ce9ffffb2f4ffffdcc9000046ca000062060100cc0601006e170100d8170100b8290100ee290100602b0100ca2b01009c43010052450100bc4501002a4d01004e4e0100d25601003c570100fc5c0100
+      m_ExpandedIDs: a6a2ffffb8a2ffffc6a5ffff04a6fffff4b2ffff06b3ffff48b6ffff8ab6ffff86b9ffffe0f9ffff9cb3000086b50000b0f90000ecf9000006fb0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1112,9 +1112,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: 12.590401, y: 13.956627, z: -2.7931879}
+    m_Target: {x: 686.5134, y: 308.62604, z: -6.3829613}
     speed: 2
-    m_Value: {x: 12.590401, y: 13.956627, z: -2.7931879}
+    m_Value: {x: 686.5134, y: 308.62604, z: -6.3829613}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1164,9 +1164,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: 0, y: 0, z: 0, w: 1}
   m_Size:
-    m_Target: 43.479
+    m_Target: 402.4563
     speed: 2
-    m_Value: 43.479
+    m_Value: 402.4563
   m_Ortho:
     m_Target: 1
     speed: 2

@@ -3172,8 +3172,8 @@ MonoBehaviour:
   gamepadButton: {fileID: 1454105754}
   mouseKbButton: {fileID: 1666810820}
   sheetImage: {fileID: 1765488907}
-  gamepadSprite: {fileID: 2206311101960609500, guid: e2fcd7455889cd449959b942eedbaf4b, type: 3}
-  mouseKbSprite: {fileID: -1109849993981760676, guid: ec38e4f6db1ab2b4a81577a5263abd7b, type: 3}
+  gamepadSprite: {fileID: -4024710785952163994, guid: a72d2651b7841ca4d9456e042bfefcb1, type: 3}
+  mouseKbSprite: {fileID: 1084870471915973256, guid: 4add915153b000f42ba9e51683caff23, type: 3}
 --- !u!114 &942959572
 MonoBehaviour:
   m_ObjectHideFlags: 0

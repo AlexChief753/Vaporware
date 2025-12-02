@@ -14,7 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   id: 1
   displayName: Placeholder
-  shortDescription: This is a placeholder character!
+  shortDescription: Big, boisterous, and proud, Stud failed to get drafted for the
+    Football League. With a sport-less future in sight, he blundered his way to receiving
+    an MBA. Will he be able to fail his way upward?
   statLines:
   - They can do this!
   - They can also maybe do this!
